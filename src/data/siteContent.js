@@ -440,7 +440,7 @@ export const contentByLanguage = {
         title: "Información",
         links: [
           { label: "Preguntas frecuentes", view: "faq" },
-          { label: "Cambios y devoluciones", view: "exchanges" },
+          { label: "Política de cambios", view: "exchanges" },
           { label: "Guía de tallas", view: "size-guide" },
         ],
       },
@@ -491,28 +491,28 @@ export const contentByLanguage = {
         ],
       },
       exchanges: {
-        title: "Cambios y devoluciones",
-        intro: "En Tenacious queremos que estés conforme con tu compra. Si algo no te queda bien, te ayudamos.",
+        title: "Política de cambios",
+        intro: "Aceptamos solicitudes de cambio dentro de los 10 días posteriores a la recepción de tu pedido.",
         sections: [
           {
-            subtitle: "Plazo para cambios",
-            text: "Tienes 10 días corridos desde que recibes tu pedido para solicitar un cambio de talla o color, siempre que la prenda esté sin uso, con etiquetas y en su empaque original.",
+            subtitle: "Requisitos para gestionar tu cambio",
+            text: "La prenda debe encontrarse sin uso, libre de manchas, aromas o señales de uso, con sus etiquetas y empaque original, y en perfectas condiciones tal como fue entregada.",
+          },
+          {
+            subtitle: "Importante",
+            text: "Por cuidado e higiene, no realizamos cambios de prendas usadas o con marcas, ya que no pueden volver a venderse.",
+          },
+          {
+            subtitle: "Disponibilidad",
+            text: "Los cambios están sujetos a disponibilidad de stock.",
+          },
+          {
+            subtitle: "Costo de envío",
+            text: "El costo de envío asociado al cambio es responsabilidad de la clienta.",
           },
           {
             subtitle: "¿Cómo solicitar un cambio?",
             text: "Escríbenos a tenaciousbuilt@gmail.com o por Instagram con tu número de pedido, el producto que deseas cambiar y la nueva talla o color. Te indicaremos los pasos a seguir.",
-          },
-          {
-            subtitle: "Costos de envío en cambios",
-            text: "El costo de envío del cambio corre por cuenta del cliente. Si el cambio es por un error nuestro (producto equivocado o defectuoso), asumimos el costo completo.",
-          },
-          {
-            subtitle: "Devoluciones",
-            text: "Aceptamos devoluciones dentro de los 10 días si la prenda presenta un defecto de fabricación. No se aceptan devoluciones por cambio de opinión. El reembolso se realiza por el mismo medio de pago original.",
-          },
-          {
-            subtitle: "Productos en promoción",
-            text: "Los productos adquiridos en promoción o liquidación solo pueden ser cambiados por otra talla del mismo producto, sujeto a disponibilidad.",
           },
         ],
       },
@@ -989,7 +989,7 @@ export const contentByLanguage = {
         title: "Information",
         links: [
           { label: "FAQ", view: "faq" },
-          { label: "Exchanges and returns", view: "exchanges" },
+          { label: "Exchange policy", view: "exchanges" },
           { label: "Size guide", view: "size-guide" },
         ],
       },
@@ -1040,28 +1040,28 @@ export const contentByLanguage = {
         ],
       },
       exchanges: {
-        title: "Exchanges and returns",
-        intro: "At Tenacious we want you to be happy with your purchase. If something doesn't fit right, we'll help.",
+        title: "Exchange policy",
+        intro: "We accept exchange requests within 10 days after receiving your order.",
         sections: [
           {
-            subtitle: "Exchange window",
-            text: "You have 10 calendar days from receiving your order to request a size or color exchange, as long as the garment is unworn, with tags and in its original packaging.",
+            subtitle: "Requirements for your exchange",
+            text: "The garment must be unworn, free of stains, odors or signs of use, with its original tags and packaging, and in perfect condition as it was delivered.",
+          },
+          {
+            subtitle: "Important",
+            text: "For hygiene and care reasons, we do not accept exchanges of worn garments or items with marks, as they cannot be resold.",
+          },
+          {
+            subtitle: "Availability",
+            text: "Exchanges are subject to stock availability.",
+          },
+          {
+            subtitle: "Shipping cost",
+            text: "The shipping cost associated with the exchange is the customer's responsibility.",
           },
           {
             subtitle: "How to request an exchange?",
             text: "Email us at tenaciousbuilt@gmail.com or message us on Instagram with your order number, the product you want to exchange and the new size or color. We'll guide you through the process.",
-          },
-          {
-            subtitle: "Shipping costs for exchanges",
-            text: "Exchange shipping costs are covered by the customer. If the exchange is due to our error (wrong product or defect), we cover the full cost.",
-          },
-          {
-            subtitle: "Returns",
-            text: "We accept returns within 10 days if the garment has a manufacturing defect. Returns for change of mind are not accepted. Refunds are processed through the original payment method.",
-          },
-          {
-            subtitle: "Sale items",
-            text: "Products purchased on sale or clearance can only be exchanged for another size of the same product, subject to availability.",
           },
         ],
       },
