@@ -34,7 +34,18 @@ function Header({
 
   return (
     <header className="site-header">
-      <div className="announcement">{content.brand.announcement}</div>
+      <div className="announcement">
+        <div>
+          <span>{content.brand.announcement}</span>
+          <span>✦</span>
+          <span>{content.brand.announcement}</span>
+          <span>✦</span>
+          <span>{content.brand.announcement}</span>
+          <span>✦</span>
+          <span>{content.brand.announcement}</span>
+          <span>✦</span>
+        </div>
+      </div>
       <div className="nav-shell">
         <a
           className="brand"
