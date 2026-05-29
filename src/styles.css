@@ -1247,6 +1247,71 @@ p {
   object-fit: cover;
 }
 
+.modal-gallery {
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-gallery img {
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  object-fit: cover;
+}
+
+.gallery-controls {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  background: rgba(12, 11, 14, 0.75);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  border: 1px solid var(--line);
+}
+
+.gallery-controls button {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--text);
+  font-size: 1.1rem;
+  transition: background 180ms var(--ease);
+}
+
+.gallery-controls button:hover {
+  background: rgba(212, 160, 185, 0.2);
+}
+
+.gallery-controls span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.gallery-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 5px 10px;
+  background: rgba(12, 11, 14, 0.75);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--rose-soft);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .modal-close {
   position: absolute;
   top: 14px;

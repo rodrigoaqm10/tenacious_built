@@ -558,16 +558,34 @@ function ProductOptionsModal({ content, product, onClose, onAddToCart }) {
   const [color, setColor] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState("");
+  const [imageIndex, setImageIndex] = useState(0);
 
   useEffect(() => {
     setSize("");
     setColor("");
     setQuantity(1);
     setError("");
+    setImageIndex(0);
   }, [product]);
 
   if (!product) {
     return null;
+  }
+
+  const images = product.images || [product.image];
+  const totalImages = product.sizeChart ? images.length + 1 : images.length;
+
+  function nextImage() {
+    setImageIndex((prev) => (prev + 1) % totalImages);
+  }
+
+  function prevImage() {
+    setImageIndex((prev) => (prev - 1 + totalImages) % totalImages);
+  }
+
+  function getCurrentImage() {
+    if (imageIndex < images.length) return images[imageIndex];
+    return product.sizeChart;
   }
 
   function addProduct() {
@@ -591,7 +609,19 @@ function ProductOptionsModal({ content, product, onClose, onAddToCart }) {
         <button className="modal-close" type="button" aria-label={content.ui.close} onClick={onClose}>
           <X size={20} />
         </button>
-        <img src={product.image} alt={product.name} />
+        <div className="modal-gallery">
+          <img src={getCurrentImage()} alt={product.name} />
+          {totalImages > 1 && (
+            <div className="gallery-controls">
+              <button type="button" onClick={prevImage} aria-label="Anterior">‹</button>
+              <span>{imageIndex + 1} / {totalImages}</span>
+              <button type="button" onClick={nextImage} aria-label="Siguiente">›</button>
+            </div>
+          )}
+          {imageIndex >= images.length && (
+            <span className="gallery-label">Guía de tallas</span>
+          )}
+        </div>
         <div className="modal-copy">
           <span className="eyebrow">{product.type}</span>
           <h2 id="product-options-title">{product.name}</h2>
