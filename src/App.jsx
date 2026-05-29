@@ -746,11 +746,11 @@ function FloatingSocial({ content }) {
   );
 }
 
-function Footer({ content }) {
+function Footer({ content, setView }) {
   return (
     <footer className="mega-footer">
       <div className="footer-brand-panel">
-        <a className="footer-logo" href="#top">
+        <a className="footer-logo" href="#top" onClick={() => setView("home")}>
           <img src={content.brand.logo} alt="Tenacious" />
           <span>{content.brand.name}</span>
         </a>
@@ -773,10 +773,21 @@ function Footer({ content }) {
             <h3>{group.title}</h3>
             {group.links.map((link) => (
               <a
-                key={link}
-                href={link.includes("@") && link.includes(".com") ? `mailto:${link}` : "#top"}
+                key={link.label}
+                href={link.href || "#top"}
+                target={link.href && link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href && link.href.startsWith("http") ? "noreferrer" : undefined}
+                onClick={(event) => {
+                  if (link.view) {
+                    event.preventDefault();
+                    setView(link.view);
+                    window.scrollTo(0, 0);
+                  } else if (!link.href) {
+                    setView("home");
+                  }
+                }}
               >
-                {link}
+                {link.label}
               </a>
             ))}
           </nav>
@@ -792,6 +803,85 @@ function Footer({ content }) {
         </div>
       </div>
     </footer>
+  );
+}
+
+function InfoPageView({ content, pageKey, setView }) {
+  const page = content.pages[pageKey];
+
+  if (!page) return null;
+
+  return (
+    <main className="info-page">
+      <section className="catalog-hero">
+        <button className="text-button" type="button" onClick={() => setView("home")}>
+          ← Home
+        </button>
+        <h1>{page.title}</h1>
+        {page.intro && <p>{page.intro}</p>}
+      </section>
+      <section className="info-content">
+        {/* FAQ format */}
+        {page.sections && page.sections[0]?.question && (
+          <div className="faq-list">
+            {page.sections.map((item) => (
+              <details key={item.question} className="faq-item">
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        )}
+
+        {/* Generic sections format */}
+        {page.sections && page.sections[0]?.subtitle && (
+          <div className="info-sections">
+            {page.sections.map((section) => (
+              <article key={section.subtitle}>
+                <h3>{section.subtitle}</h3>
+                <p>{section.text}</p>
+              </article>
+            ))}
+          </div>
+        )}
+
+        {/* Size guide table */}
+        {page.table && (
+          <div className="size-table-wrapper">
+            <table className="size-table">
+              <thead>
+                <tr>
+                  {page.table.headers.map((header) => (
+                    <th key={header}>{header}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {page.table.rows.map((row) => (
+                  <tr key={row[0]}>
+                    {row.map((cell, index) => (
+                      <td key={index}>{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Tips */}
+        {page.tips && (
+          <div className="info-tips">
+            <h3>Tips</h3>
+            <ul>
+              {page.tips.map((tip) => (
+                <li key={tip}>{tip}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </section>
+    </main>
   );
 }
 
@@ -877,7 +967,10 @@ export default function App() {
         <CatalogView content={content} openOptions={setSelectedProduct} setView={setView} />
       )}
       {view === "checkout" && <CheckoutView content={content} cart={cart} setView={setView} />}
-      <Footer content={content} />
+      {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping"].includes(view) && (
+        <InfoPageView content={content} pageKey={view} setView={setView} />
+      )}
+      <Footer content={content} setView={setView} />
       <FloatingSocial content={content} />
       <ProductOptionsModal
         content={content}
