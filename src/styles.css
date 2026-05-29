@@ -825,6 +825,7 @@ p {
   gap: 12px;
   padding: 12px;
   background: rgba(255, 255, 255, 0.025);
+  border-radius: 18px;
 }
 
 .spotlight-media img {
@@ -832,6 +833,7 @@ p {
   min-height: 560px;
   object-fit: cover;
   border-radius: 12px;
+  background: var(--panel-soft);
   transition: transform 700ms var(--ease);
 }
 

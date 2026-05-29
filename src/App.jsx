@@ -312,8 +312,8 @@ function ProductSpotlight({ content, setView }) {
         </button>
       </div>
       <div className="spotlight-media">
-        <img src={content.products[2].image} alt={content.products[2].name} />
-        <img src={content.products[1].image} alt={content.products[1].name} />
+        <img src={content.products[3].image} alt={content.products[3].name} />
+        <img src={content.products[6].image} alt={content.products[6].name} />
       </div>
     </section>
   );
