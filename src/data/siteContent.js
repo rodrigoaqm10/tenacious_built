@@ -476,8 +476,8 @@ export const contentByLanguage = {
       },
       "top-sellers": {
         title: "Top ventas",
-        comingSoon: true,
-        message: "Estamos preparando una selección curada con los productos más vendidos. Muy pronto podrás ver aquí las prendas favoritas de nuestra comunidad.",
+        isProductPage: true,
+        description: "Las prendas más elegidas por nuestra comunidad. Calce probado, telas favoritas y combinaciones que funcionan.",
       },
       "men-drop": {
         title: "Línea hombre",
@@ -945,8 +945,8 @@ export const contentByLanguage = {
       },
       "top-sellers": {
         title: "Top sellers",
-        comingSoon: true,
-        message: "We're preparing a curated selection of our best-selling products. Soon you'll be able to see our community's favorite pieces here.",
+        isProductPage: true,
+        description: "The most chosen pieces by our community. Proven fit, favorite fabrics and combinations that work.",
       },
       "men-drop": {
         title: "Men's line",

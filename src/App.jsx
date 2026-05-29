@@ -402,7 +402,7 @@ function CatalogView({ content, openOptions, setView }) {
   return (
     <main className="catalog-page">
       <section className="catalog-hero">
-        <button className="text-button" type="button" onClick={() => setView("home")}>
+        <button className="text-button back-button" type="button" onClick={() => setView("home")}>
           ← Home
         </button>
         <span className="eyebrow">{content.ui.catalog}</span>
@@ -488,7 +488,7 @@ function CheckoutView({ content, cart, setView }) {
   return (
     <main className="checkout-page">
       <section className="catalog-hero">
-        <button className="text-button" type="button" onClick={() => setView("catalog")}>
+        <button className="text-button back-button" type="button" onClick={() => setView("catalog")}>
           ← {content.ui.continueShopping}
         </button>
         <span className="eyebrow">{content.ui.checkoutTitle}</span>
@@ -806,7 +806,7 @@ function Footer({ content, setView }) {
   );
 }
 
-function InfoPageView({ content, pageKey, setView }) {
+function InfoPageView({ content, pageKey, setView, openOptions }) {
   const page = content.pages[pageKey];
 
   if (!page) return null;
@@ -814,11 +814,12 @@ function InfoPageView({ content, pageKey, setView }) {
   return (
     <main className="info-page">
       <section className="catalog-hero">
-        <button className="text-button" type="button" onClick={() => setView("home")}>
+        <button className="text-button back-button" type="button" onClick={() => setView("home")}>
           ← Home
         </button>
         <h1>{page.title}</h1>
         {page.intro && <p>{page.intro}</p>}
+        {page.description && <p>{page.description}</p>}
       </section>
 
       {/* Coming soon pages */}
@@ -835,8 +836,35 @@ function InfoPageView({ content, pageKey, setView }) {
         </section>
       )}
 
+      {/* Top sellers product grid */}
+      {page.isProductPage && (
+        <section className="info-content" style={{ maxWidth: "var(--max)" }}>
+          <div className="product-grid catalog-grid">
+            {content.products.slice(0, 4).map((product) => (
+              <article className="product-card" key={product.name}>
+                <button className="product-image" type="button" onClick={() => openOptions(product)}>
+                  <img src={product.image} alt={product.name} />
+                  <span>{product.badge}</span>
+                </button>
+                <div className="product-info">
+                  <div>
+                    <p>{product.type}</p>
+                    <h3>{product.name}</h3>
+                    <span>{product.color}</span>
+                  </div>
+                  <strong>{product.price}</strong>
+                </div>
+                <button className="option-button" type="button" onClick={() => openOptions(product)}>
+                  {content.ui.viewOptions}
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Regular info pages */}
-      {!page.comingSoon && (
+      {!page.comingSoon && !page.isProductPage && (
         <section className="info-content">
           {/* FAQ format */}
           {page.sections && page.sections[0]?.question && (
@@ -986,7 +1014,7 @@ export default function App() {
       )}
       {view === "checkout" && <CheckoutView content={content} cart={cart} setView={setView} />}
       {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
-        <InfoPageView content={content} pageKey={view} setView={setView} />
+        <InfoPageView content={content} pageKey={view} setView={setView} openOptions={setSelectedProduct} />
       )}
       <Footer content={content} setView={setView} />
       <FloatingSocial content={content} />

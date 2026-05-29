@@ -3398,6 +3398,46 @@ p {
 
 
 
+.back-button {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  margin-bottom: 20px;
+
+  padding: 8px 14px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid var(--line);
+
+  border-radius: 999px;
+
+  color: var(--rose-soft);
+
+  font-size: 0.85rem;
+
+  font-weight: 800;
+
+  transition: border-color 180ms var(--ease), transform 180ms var(--ease);
+
+}
+
+
+
+.back-button:hover {
+
+  border-color: rgba(240, 90, 157, 0.5);
+
+  transform: translateX(-3px);
+
+}
+
+
+
 .coming-soon-card {
 
   display: grid;
