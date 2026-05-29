@@ -345,9 +345,7 @@ function CategoryGrid({ content }) {
   );
 }
 
-function ProductGrid({ content, openOptions }) {
-  const [activeTab, setActiveTab] = useState(content.productSection.tabs[0]);
-
+function ProductGrid({ content, openOptions, setView }) {
   return (
     <section className="section product-section reveal" id="women">
       <div className="section-heading">
@@ -355,20 +353,8 @@ function ProductGrid({ content, openOptions }) {
         <h2>{content.productSection.title}</h2>
         <p>{content.productSection.description}</p>
       </div>
-      <div className="product-tabs" aria-label="Filtros de productos">
-        {content.productSection.tabs.map((tab) => (
-          <button
-            className={activeTab === tab ? "active" : ""}
-            type="button"
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
       <div className="product-grid">
-        {content.products.map((product) => (
+        {content.products.slice(0, 4).map((product) => (
           <article className="product-card" key={product.name}>
             <button className="product-image" type="button" onClick={() => openOptions(product)}>
               <img src={product.image} alt={product.name} />
@@ -388,20 +374,26 @@ function ProductGrid({ content, openOptions }) {
           </article>
         ))}
       </div>
+      <div className="section-cta">
+        <button className="button primary" type="button" onClick={() => setView("catalog")}>
+          {content.ui.catalog}
+          <ArrowRight size={18} />
+        </button>
+      </div>
     </section>
   );
 }
 
 function CatalogView({ content, openOptions, setView }) {
-  const [category, setCategory] = useState(content.ui.all);
+  const [category, setCategory] = useState(null);
   const [size, setSize] = useState(content.ui.all);
   const [sort, setSort] = useState(content.ui.newest);
-  const categories = [content.ui.all, ...new Set(content.products.map((product) => product.category))];
+  const categories = [...new Set(content.products.map((product) => product.category))];
   const sizes = [content.ui.all, ...new Set(content.products.flatMap((product) => product.sizes))];
 
   const products = useMemo(() => {
     return content.products
-      .filter((product) => category === content.ui.all || product.category === category)
+      .filter((product) => !category || product.category === category)
       .filter((product) => size === content.ui.all || product.sizes.includes(size))
       .sort((a, b) => {
         if (sort === content.ui.priceLow) return a.numericPrice - b.numericPrice;
@@ -410,15 +402,60 @@ function CatalogView({ content, openOptions, setView }) {
       });
   }, [category, content.products, content.ui.all, content.ui.priceHigh, content.ui.priceLow, size, sort]);
 
+  // Show category picker if no category selected
+  if (!category) {
+    return (
+      <main className="catalog-page">
+        <section className="catalog-hero">
+          <button className="text-button back-button" type="button" onClick={() => setView("home")}>
+            ← Home
+          </button>
+          <span className="eyebrow">{content.ui.catalog}</span>
+          <h1>{content.productSection.title}</h1>
+          <p>{content.productSection.description}</p>
+        </section>
+        <section className="catalog-categories">
+          <button
+            className="catalog-category-card"
+            type="button"
+            onClick={() => setCategory(content.ui.all)}
+          >
+            <img src={content.products[0].image} alt={content.ui.all} />
+            <div>
+              <h3>{content.ui.all}</h3>
+              <span>{content.products.length} productos</span>
+            </div>
+          </button>
+          {categories.map((cat) => {
+            const catProducts = content.products.filter((p) => p.category === cat);
+            return (
+              <button
+                className="catalog-category-card"
+                type="button"
+                key={cat}
+                onClick={() => setCategory(cat)}
+              >
+                <img src={catProducts[0].image} alt={cat} />
+                <div>
+                  <h3>{cat}</h3>
+                  <span>{catProducts.length} productos</span>
+                </div>
+              </button>
+            );
+          })}
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="catalog-page">
       <section className="catalog-hero">
-        <button className="text-button back-button" type="button" onClick={() => setView("home")}>
-          ← Home
+        <button className="text-button back-button" type="button" onClick={() => setCategory(null)}>
+          ← {content.ui.catalog}
         </button>
-        <span className="eyebrow">{content.ui.catalog}</span>
-        <h1>{content.productSection.title}</h1>
-        <p>{content.productSection.description}</p>
+        <span className="eyebrow">{category === content.ui.all ? content.ui.catalog : category}</span>
+        <h1>{category === content.ui.all ? content.productSection.title : category}</h1>
       </section>
       <section className="catalog-layout">
         <aside className="catalog-filters">
@@ -428,7 +465,6 @@ function CatalogView({ content, openOptions, setView }) {
               className="text-button"
               type="button"
               onClick={() => {
-                setCategory(content.ui.all);
                 setSize(content.ui.all);
                 setSort(content.ui.newest);
               }}
@@ -436,14 +472,6 @@ function CatalogView({ content, openOptions, setView }) {
               {content.ui.clearFilters}
             </button>
           </div>
-          <label>
-            <span>{content.ui.catalog}</span>
-            <select value={category} onChange={(event) => setCategory(event.target.value)}>
-              {categories.map((item) => (
-                <option key={item}>{item}</option>
-              ))}
-            </select>
-          </label>
           <label>
             <span>{content.ui.size}</span>
             <select value={size} onChange={(event) => setSize(event.target.value)}>
@@ -464,8 +492,8 @@ function CatalogView({ content, openOptions, setView }) {
         <div className="catalog-results">
           <div className="catalog-toolbar">
             <strong>{products.length} productos</strong>
-            <button className="button secondary" type="button" onClick={() => setView("home")}>
-              {content.ui.continueShopping}
+            <button className="button secondary" type="button" onClick={() => setCategory(null)}>
+              {content.ui.catalog}
             </button>
           </div>
           <div className="product-grid catalog-grid">
@@ -1043,7 +1071,7 @@ export default function App() {
           <FeatureStrip content={content} />
           <ProductSpotlight content={content} setView={setView} />
           <CategoryGrid content={content} />
-          <ProductGrid content={content} openOptions={setSelectedProduct} />
+          <ProductGrid content={content} openOptions={setSelectedProduct} setView={setView} />
           <StyleTiles content={content} />
           <MenComingSoon content={content} />
           <Benefits content={content} />
