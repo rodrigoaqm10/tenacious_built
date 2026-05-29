@@ -825,7 +825,7 @@ export default function App() {
           }
         });
       },
-      { threshold: 0.18 },
+      { threshold: 0.05, rootMargin: "0px 0px 50px 0px" },
     );
 
     revealItems.forEach((item) => observer.observe(item));

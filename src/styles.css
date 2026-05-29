@@ -234,6 +234,22 @@ body {
 
     transform 700ms var(--ease);
 
+  animation: revealFallback 0s 2.5s forwards;
+
+}
+
+
+
+@keyframes revealFallback {
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
 }
 
 
@@ -243,6 +259,8 @@ body {
   opacity: 1;
 
   transform: translateY(0);
+
+  animation: none;
 
 }
 
