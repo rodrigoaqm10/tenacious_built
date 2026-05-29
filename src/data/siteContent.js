@@ -49,7 +49,6 @@ const productImages = {
     assetPath("images/sosten-rojo-3.jpeg"),
   ],
   topAzul: [
-    assetPath("images/top-azul-1.jpeg"),
     assetPath("images/top-azul-2.jpeg"),
     assetPath("images/top-azul-3.jpeg"),
     assetPath("images/top-azul-4.jpeg"),
@@ -66,6 +65,7 @@ const productImages = {
   ],
   topDeportivoAzul: [
     assetPath("images/top-deportivo-azul.jpeg"),
+    assetPath("images/top-deportivo-azul-1.jpeg"),
     assetPath("images/top-deportivo-azul-2.jpeg"),
     assetPath("images/top-deportivo-azul-3.jpeg"),
   ],
