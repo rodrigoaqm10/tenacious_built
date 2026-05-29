@@ -1303,6 +1303,10 @@ p {
 .modal-gallery {
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel-soft);
 }
 
 .modal-gallery img {
@@ -1310,6 +1314,14 @@ p {
   height: 100%;
   min-height: 520px;
   object-fit: cover;
+}
+
+.modal-gallery img.size-chart-img {
+  object-fit: contain;
+  padding: 16px;
+  background: #fff;
+  min-height: auto;
+  max-height: 520px;
 }
 
 .gallery-controls {

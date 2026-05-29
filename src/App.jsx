@@ -638,7 +638,11 @@ function ProductOptionsModal({ content, product, onClose, onAddToCart }) {
           <X size={20} />
         </button>
         <div className="modal-gallery">
-          <img src={getCurrentImage()} alt={product.name} />
+          <img
+            src={getCurrentImage()}
+            alt={product.name}
+            className={imageIndex >= images.length ? "size-chart-img" : ""}
+          />
           {totalImages > 1 && (
             <div className="gallery-controls">
               <button type="button" onClick={prevImage} aria-label="Anterior">‹</button>
