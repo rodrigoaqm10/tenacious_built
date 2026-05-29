@@ -738,23 +738,23 @@ function MenComingSoon({ content }) {
   );
 }
 
-function StyleTiles({ content }) {
+function StyleTiles({ content, setView }) {
   return (
     <section className="style-tiles reveal" id="top-sellers">
       <article>
         <span className="eyebrow">Top seller</span>
-        <h2>Set completo, look resuelto.</h2>
-        <a className="button primary" href="#women">
+        <h2>Entrena con estilo, rinde con fuerza.</h2>
+        <button className="button primary" type="button" onClick={() => setView("catalog")}>
           {content.hero.primaryCta}
           <ArrowRight size={18} />
-        </a>
+        </button>
       </article>
       <article>
         <span className="eyebrow">New drop</span>
-        <h2>Negro técnico con acentos rosados.</h2>
-        <a className="button secondary" href="#collections">
+        <h2>Diseño que acompaña cada repetición.</h2>
+        <button className="button secondary" type="button" onClick={() => setView("catalog")}>
           {content.hero.secondaryCta}
-        </a>
+        </button>
       </article>
     </section>
   );
@@ -1076,7 +1076,7 @@ export default function App() {
           <ProductSpotlight content={content} setView={setView} />
           <CategoryGrid content={content} />
           <ProductGrid content={content} openOptions={setSelectedProduct} setView={setView} />
-          <StyleTiles content={content} />
+          <StyleTiles content={content} setView={setView} />
           <MenComingSoon content={content} />
           <Benefits content={content} />
           <SocialContact content={content} />

@@ -1494,8 +1494,8 @@ p {
 .style-tiles {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: 18px;
-  padding: 24px 0 54px;
+  gap: 16px;
+  padding: 24px 0 24px;
 }
 
 .style-tiles article {
@@ -1509,14 +1509,14 @@ p {
   border-radius: 20px;
   overflow: hidden;
   background:
-    linear-gradient(180deg, transparent, rgba(5, 5, 5, 0.9)),
+    linear-gradient(180deg, transparent 30%, rgba(5, 5, 5, 0.92)),
     url("/tenacious_built/images/product-set.png")
       center/cover;
 }
 
 .style-tiles article:nth-child(2) {
   background:
-    linear-gradient(180deg, transparent, rgba(5, 5, 5, 0.9)),
+    linear-gradient(180deg, transparent 30%, rgba(5, 5, 5, 0.92)),
     url("/tenacious_built/images/product-tee.png")
       center/cover;
 }
@@ -1532,6 +1532,7 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: 32px;
+  margin-top: 24px;
   padding: 44px;
   background:
     linear-gradient(90deg, rgba(5, 5, 5, 0.96), rgba(5, 5, 5, 0.72)),
