@@ -3398,6 +3398,46 @@ p {
 
 
 
+.coming-soon-card {
+
+  display: grid;
+
+  justify-items: start;
+
+  gap: 18px;
+
+  padding: 40px;
+
+  background:
+
+    linear-gradient(135deg, rgba(240, 90, 157, 0.1), transparent 40%),
+
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)),
+
+    var(--panel);
+
+  border: 1px solid var(--line);
+
+  border-radius: 16px;
+
+  text-align: left;
+
+}
+
+
+
+.coming-soon-card p {
+
+  max-width: 560px;
+
+  font-size: 1.1rem;
+
+  line-height: 1.7;
+
+}
+
+
+
 @media (max-width: 920px) {
 
   .desktop-nav {

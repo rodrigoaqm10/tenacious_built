@@ -288,8 +288,8 @@ export const contentByLanguage = {
         title: "Tenacious",
         links: [
           { label: "Catálogo mujer", view: "catalog" },
-          { label: "Top ventas", href: "#top-sellers" },
-          { label: "Próximo drop hombre", href: "#men" },
+          { label: "Top ventas", view: "top-sellers" },
+          { label: "Próximo drop hombre", view: "men-drop" },
         ],
       },
       info: {
@@ -473,6 +473,16 @@ export const contentByLanguage = {
             text: "Por ahora no contamos con puntos de retiro. Todos los pedidos se envían directamente a la dirección que indiques al momento de la compra.",
           },
         ],
+      },
+      "top-sellers": {
+        title: "Top ventas",
+        comingSoon: true,
+        message: "Estamos preparando una selección curada con los productos más vendidos. Muy pronto podrás ver aquí las prendas favoritas de nuestra comunidad.",
+      },
+      "men-drop": {
+        title: "Línea hombre",
+        comingSoon: true,
+        message: "La primera colección masculina de Tenacious está en desarrollo. Pensada para fuerza, volumen y movilidad. Síguenos en Instagram para enterarte del lanzamiento antes que nadie.",
       },
     },
   },
@@ -747,8 +757,8 @@ export const contentByLanguage = {
         title: "Tenacious",
         links: [
           { label: "Women's catalog", view: "catalog" },
-          { label: "Top sellers", href: "#top-sellers" },
-          { label: "Men's next drop", href: "#men" },
+          { label: "Top sellers", view: "top-sellers" },
+          { label: "Men's next drop", view: "men-drop" },
         ],
       },
       info: {
@@ -932,6 +942,16 @@ export const contentByLanguage = {
             text: "We currently don't have pickup points. All orders are shipped directly to the address you provide at checkout.",
           },
         ],
+      },
+      "top-sellers": {
+        title: "Top sellers",
+        comingSoon: true,
+        message: "We're preparing a curated selection of our best-selling products. Soon you'll be able to see our community's favorite pieces here.",
+      },
+      "men-drop": {
+        title: "Men's line",
+        comingSoon: true,
+        message: "The first men's collection from Tenacious is in development. Built for strength, volume and mobility. Follow us on Instagram to be the first to know about the launch.",
       },
     },
   },

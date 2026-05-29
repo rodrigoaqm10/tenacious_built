@@ -820,67 +820,85 @@ function InfoPageView({ content, pageKey, setView }) {
         <h1>{page.title}</h1>
         {page.intro && <p>{page.intro}</p>}
       </section>
-      <section className="info-content">
-        {/* FAQ format */}
-        {page.sections && page.sections[0]?.question && (
-          <div className="faq-list">
-            {page.sections.map((item) => (
-              <details key={item.question} className="faq-item">
-                <summary>{item.question}</summary>
-                <p>{item.answer}</p>
-              </details>
-            ))}
-          </div>
-        )}
 
-        {/* Generic sections format */}
-        {page.sections && page.sections[0]?.subtitle && (
-          <div className="info-sections">
-            {page.sections.map((section) => (
-              <article key={section.subtitle}>
-                <h3>{section.subtitle}</h3>
-                <p>{section.text}</p>
-              </article>
-            ))}
+      {/* Coming soon pages */}
+      {page.comingSoon && (
+        <section className="info-content">
+          <div className="coming-soon-card">
+            <span className="eyebrow">{content.ui.comingSoon}</span>
+            <p>{page.message}</p>
+            <a className="button primary" href={content.brand.instagram} target="_blank" rel="noreferrer">
+              <Instagram size={18} />
+              {content.ui.followInstagram}
+            </a>
           </div>
-        )}
+        </section>
+      )}
 
-        {/* Size guide table */}
-        {page.table && (
-          <div className="size-table-wrapper">
-            <table className="size-table">
-              <thead>
-                <tr>
-                  {page.table.headers.map((header) => (
-                    <th key={header}>{header}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {page.table.rows.map((row) => (
-                  <tr key={row[0]}>
-                    {row.map((cell, index) => (
-                      <td key={index}>{cell}</td>
+      {/* Regular info pages */}
+      {!page.comingSoon && (
+        <section className="info-content">
+          {/* FAQ format */}
+          {page.sections && page.sections[0]?.question && (
+            <div className="faq-list">
+              {page.sections.map((item) => (
+                <details key={item.question} className="faq-item">
+                  <summary>{item.question}</summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          )}
+
+          {/* Generic sections format */}
+          {page.sections && page.sections[0]?.subtitle && (
+            <div className="info-sections">
+              {page.sections.map((section) => (
+                <article key={section.subtitle}>
+                  <h3>{section.subtitle}</h3>
+                  <p>{section.text}</p>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {/* Size guide table */}
+          {page.table && (
+            <div className="size-table-wrapper">
+              <table className="size-table">
+                <thead>
+                  <tr>
+                    {page.table.headers.map((header) => (
+                      <th key={header}>{header}</th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {page.table.rows.map((row) => (
+                    <tr key={row[0]}>
+                      {row.map((cell, index) => (
+                        <td key={index}>{cell}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
 
-        {/* Tips */}
-        {page.tips && (
-          <div className="info-tips">
-            <h3>Tips</h3>
-            <ul>
-              {page.tips.map((tip) => (
-                <li key={tip}>{tip}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </section>
+          {/* Tips */}
+          {page.tips && (
+            <div className="info-tips">
+              <h3>Tips</h3>
+              <ul>
+                {page.tips.map((tip) => (
+                  <li key={tip}>{tip}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      )}
     </main>
   );
 }
@@ -967,7 +985,7 @@ export default function App() {
         <CatalogView content={content} openOptions={setSelectedProduct} setView={setView} />
       )}
       {view === "checkout" && <CheckoutView content={content} cart={cart} setView={setView} />}
-      {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping"].includes(view) && (
+      {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
         <InfoPageView content={content} pageKey={view} setView={setView} />
       )}
       <Footer content={content} setView={setView} />
