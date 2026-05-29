@@ -38,6 +38,16 @@
 
 
 
+#root {
+
+  overflow-x: hidden;
+
+  width: 100%;
+
+}
+
+
+
 html {
 
   scroll-behavior: smooth;
@@ -882,11 +892,13 @@ button {
 
 .hero-copy {
 
-  width: min(100%, 660px);
+  width: 100%;
+
+  max-width: 660px;
 
   align-self: center;
 
-  padding: 72px 42px 128px max(42px, calc((100vw - var(--max)) / 2));
+  padding: 72px 42px 128px 42px;
 
   z-index: 2;
 
@@ -912,7 +924,9 @@ button {
 
   display: flex;
 
-  width: max-content;
+  width: fit-content;
+
+  max-width: 100%;
 
   align-items: center;
 
@@ -942,7 +956,9 @@ button {
 
   display: flex;
 
-  width: max-content;
+  width: fit-content;
+
+  max-width: 100%;
 
 }
 
@@ -1050,11 +1066,11 @@ h2 {
 
   margin-bottom: 14px;
 
-  font-size: clamp(2rem, 4vw, 4.4rem);
+  font-size: clamp(1.8rem, 3.5vw, 3.6rem);
 
-  line-height: 0.98;
+  line-height: 1.05;
 
-  letter-spacing: 0;
+  letter-spacing: -0.01em;
 
   text-transform: uppercase;
 
@@ -1250,9 +1266,9 @@ p {
 
   position: absolute;
 
-  left: max(24px, calc((100vw - var(--max)) / 2));
+  left: 24px;
 
-  right: max(24px, calc((100vw - var(--max)) / 2));
+  right: 24px;
 
   bottom: 24px;
 
@@ -1410,9 +1426,9 @@ p {
 
   margin-bottom: 18px;
 
-  font-size: clamp(2.2rem, 4vw, 4.6rem);
+  font-size: clamp(1.8rem, 3.5vw, 3.6rem);
 
-  line-height: 1;
+  line-height: 1.08;
 
   background: linear-gradient(180deg, #fff, #b9adb5);
 
@@ -2326,7 +2342,7 @@ p {
 
   margin-bottom: 0;
 
-  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
 
 }
 
@@ -2670,7 +2686,7 @@ p {
 
   display: grid;
 
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
 
   gap: 18px;
 
@@ -3384,9 +3400,17 @@ p {
 
 
 
+  .hero-copy {
+
+    padding: 40px 16px 28px;
+
+  }
+
+
+
   .hero-media {
 
-    min-height: 390px;
+    min-height: 340px;
 
   }
 
