@@ -532,7 +532,7 @@ function CatalogView({ content, openOptions, setView }) {
   );
 }
 
-function CheckoutView({ content, cart, setView }) {
+function CheckoutView({ content, cart, removeFromCart, setView }) {
   return (
     <main className="checkout-page">
       <section className="catalog-hero">
@@ -572,17 +572,28 @@ function CheckoutView({ content, cart, setView }) {
           {cart.length === 0 ? (
             <p>{content.ui.emptyCart}</p>
           ) : (
-            cart.map((item) => (
-              <div className="cart-line" key={`${item.name}-${item.size}-${item.color}`}>
-                <img src={item.image} alt={item.name} />
-                <div>
-                  <strong>{item.name}</strong>
-                  <span>
-                    {item.size} / {item.color} x {item.quantity}
-                  </span>
+            <>
+              {cart.map((item, index) => (
+                <div className="cart-line" key={`${item.name}-${item.size}-${item.color}-${index}`}>
+                  <img src={item.image} alt={item.name} />
+                  <div>
+                    <strong>{item.name}</strong>
+                    <span>
+                      {item.size} / {item.color} x {item.quantity}
+                    </span>
+                    <span className="cart-price">{item.price}</span>
+                  </div>
+                  <button
+                    className="cart-remove"
+                    type="button"
+                    aria-label="Eliminar"
+                    onClick={() => removeFromCart(index)}
+                  >
+                    <X size={14} />
+                  </button>
                 </div>
-              </div>
-            ))
+              ))}
+            </>
           )}
         </aside>
       </section>
@@ -1099,7 +1110,7 @@ export default function App() {
       {view === "catalog" && (
         <CatalogView content={content} openOptions={setSelectedProduct} setView={setView} />
       )}
-      {view === "checkout" && <CheckoutView content={content} cart={cart} setView={setView} />}
+      {view === "checkout" && <CheckoutView content={content} cart={cart} removeFromCart={removeFromCart} setView={setView} />}
       {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
         <InfoPageView content={content} pageKey={view} setView={setView} openOptions={setSelectedProduct} />
       )}
