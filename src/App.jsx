@@ -1334,18 +1334,20 @@ function PromoPopup({ setView }) {
     <div className="promo-overlay" role="presentation" onClick={dismiss}>
       <div className="promo-popup" onClick={(e) => e.stopPropagation()}>
         <button className="promo-close" type="button" onClick={dismiss}>
-          <X size={18} />
+          <X size={16} />
         </button>
-        <h2>{promo.title}</h2>
-        <p>{cleanMessage}</p>
-        <button
-          className="button primary"
-          type="button"
-          onClick={() => { setView("catalog"); dismiss(); }}
-        >
-          Ver ofertas
-          <ArrowRight size={18} />
-        </button>
+        <div className="promo-popup-content">
+          <h2>{promo.title}</h2>
+          <p>{cleanMessage}</p>
+          <button
+            className="button primary"
+            type="button"
+            onClick={() => { setView("catalog"); dismiss(); }}
+          >
+            Ver ofertas
+            <ArrowRight size={18} />
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1757,61 +1757,91 @@ p {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   animation: riseIn 300ms var(--ease);
   overflow: hidden;
 }
 
 .promo-popup {
   position: relative;
-  width: min(440px, calc(100% - 32px));
-  padding: 48px 32px 36px;
+  width: min(420px, calc(100% - 32px));
+  padding: 0;
   background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 20px;
+  border: 1px solid rgba(212, 160, 185, 0.15);
+  border-radius: 24px;
   text-align: center;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(212, 160, 185, 0.08);
   animation: riseIn 400ms var(--ease);
+  overflow: hidden;
+}
+
+.promo-popup::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--rose), var(--accent), var(--rose));
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+.promo-popup-content {
+  padding: 48px 32px 36px;
 }
 
 .promo-popup h2 {
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  margin-bottom: 12px;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  margin-bottom: 14px;
   text-transform: none;
-  color: var(--rose-soft);
+  background: linear-gradient(135deg, var(--rose-soft), var(--accent));
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.01em;
 }
 
 .promo-popup p {
   color: var(--muted);
   font-size: 0.95rem;
-  line-height: 1.6;
-  margin-bottom: 24px;
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .promo-popup .button {
   width: 100%;
+  border-radius: 12px;
+  min-height: 52px;
+  font-size: 0.95rem;
 }
 
 .promo-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 36px;
-  height: 36px;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--line);
   border-radius: 50%;
   color: var(--muted);
-  transition: color 180ms var(--ease), border-color 180ms var(--ease);
+  transition: color 180ms var(--ease), border-color 180ms var(--ease), transform 180ms var(--ease);
 }
 
 .promo-close:hover {
   color: var(--text);
   border-color: rgba(212, 160, 185, 0.4);
+  transform: rotate(90deg);
 }
 
 .floating-social {
