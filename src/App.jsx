@@ -405,7 +405,7 @@ function CatalogView({ content, openOptions, setView }) {
 
   const products = useMemo(() => {
     return content.products
-      .filter((product) => !category || product.category === category)
+      .filter((product) => !category || category === content.ui.all || product.category === category)
       .filter((product) => size === content.ui.all || product.sizes.includes(size))
       .sort((a, b) => {
         if (sort === content.ui.priceLow) return a.numericPrice - b.numericPrice;
