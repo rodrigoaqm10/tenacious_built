@@ -2537,7 +2537,7 @@ p {
   }
 
   .site-header-spacer {
-    height: 92px;
+    height: 88px;
   }
 
   .nav-shell {
@@ -2566,8 +2566,8 @@ p {
     height: 36px;
   }
 
-  .nav-actions button[aria-label="Cuenta"],
-  .nav-actions button[aria-label="Account"] {
+  .nav-actions button[aria-label="Buscar"],
+  .nav-actions button[aria-label="Search"] {
     display: none;
   }
 

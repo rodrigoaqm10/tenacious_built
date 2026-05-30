@@ -56,9 +56,11 @@ function Header({
           className="brand"
           href="#top"
           aria-label="Tenacious inicio"
-          onClick={() => {
+          onClick={(event) => {
+            event.preventDefault();
             setView("home");
             setActivePanel(null);
+            window.scrollTo(0, 0);
           }}
         >
           <span className="brand-mark">
