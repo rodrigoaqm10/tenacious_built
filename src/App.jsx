@@ -1036,14 +1036,25 @@ export default function App() {
   const content = contentByLanguage[language];
 
   useEffect(() => {
+    let ticking = false;
+
     function handleScroll() {
-      const currentY = window.scrollY;
-      if (currentY > lastScrollY.current && currentY > 100) {
-        setHeaderHidden(true);
-      } else {
-        setHeaderHidden(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentY = window.scrollY;
+          const diff = currentY - lastScrollY.current;
+
+          if (diff > 8 && currentY > 80) {
+            setHeaderHidden(true);
+          } else if (diff < -5) {
+            setHeaderHidden(false);
+          }
+
+          lastScrollY.current = currentY;
+          ticking = false;
+        });
+        ticking = true;
       }
-      lastScrollY.current = currentY;
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -1105,6 +1116,7 @@ export default function App() {
         setView={setView}
         hidden={headerHidden}
       />
+      <div className="site-header-spacer" />
       <ActionPanel
         content={content}
         activePanel={activePanel}
