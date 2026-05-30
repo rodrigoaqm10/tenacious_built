@@ -1310,6 +1310,16 @@ function PromoPopup({ setView }) {
       .catch(() => {});
   }, []);
 
+  // Block scroll when popup is visible
+  useEffect(() => {
+    if (visible) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [visible]);
+
   if (!promo || !visible) return null;
 
   function dismiss() {

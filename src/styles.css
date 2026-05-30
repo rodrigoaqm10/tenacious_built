@@ -1757,29 +1757,35 @@ p {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   animation: riseIn 300ms var(--ease);
+  overflow: hidden;
 }
 
 .promo-popup {
   position: relative;
-  width: min(480px, 100%);
-  padding: 48px 36px;
-  border: 1px solid;
+  width: min(440px, calc(100% - 32px));
+  padding: 48px 32px 36px;
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 20px;
   text-align: center;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
   animation: riseIn 400ms var(--ease);
 }
 
 .promo-popup h2 {
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-size: clamp(1.4rem, 3vw, 2rem);
   margin-bottom: 12px;
   text-transform: none;
+  color: var(--rose-soft);
 }
 
 .promo-popup p {
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 24px;
 }
@@ -1790,8 +1796,8 @@ p {
 
 .promo-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   width: 36px;
   height: 36px;
   display: grid;
@@ -1800,6 +1806,12 @@ p {
   border: 1px solid var(--line);
   border-radius: 50%;
   color: var(--muted);
+  transition: color 180ms var(--ease), border-color 180ms var(--ease);
+}
+
+.promo-close:hover {
+  color: var(--text);
+  border-color: rgba(212, 160, 185, 0.4);
 }
 
 .floating-social {
