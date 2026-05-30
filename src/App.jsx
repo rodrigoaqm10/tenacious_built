@@ -424,8 +424,8 @@ function ProductSpotlight({ content, setView }) {
         </button>
       </div>
       <div className="spotlight-media">
-        <img src={content.products[0]?.image || ""} alt={content.products[0]?.name || ""} />
-        <img src={content.products[1]?.image || ""} alt={content.products[1]?.name || ""} />
+        {content.products[0] && <img src={content.products[0].image} alt={content.products[0].name} />}
+        {content.products[1] && <img src={content.products[1].image} alt={content.products[1].name} />}
       </div>
     </section>
   );
@@ -458,6 +458,10 @@ function CategoryGrid({ content }) {
 }
 
 function ProductGrid({ content, openOptions, setView }) {
+  if (content.products.length === 0) {
+    return null;
+  }
+
   return (
     <section className="section product-section reveal" id="women">
       <div className="section-heading">
@@ -500,6 +504,28 @@ function CatalogView({ content, openOptions, setView }) {
   const [category, setCategory] = useState(null);
   const [size, setSize] = useState(content.ui.all);
   const [sort, setSort] = useState(content.ui.newest);
+
+  if (content.products.length === 0) {
+    return (
+      <main className="catalog-page">
+        <section className="catalog-hero">
+          <button className="text-button back-button" type="button" onClick={() => setView("home")}>
+            ← Home
+          </button>
+          <span className="eyebrow">{content.ui.catalog}</span>
+          <h1>{content.productSection.title}</h1>
+          <p>{content.productSection.description}</p>
+        </section>
+        <section className="catalog-categories" style={{ textAlign: "center", padding: "60px 0" }}>
+          <div style={{ gridColumn: "1 / -1" }}>
+            <span className="eyebrow">{content.ui.comingSoon}</span>
+            <p>Próximamente</p>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   const categories = [...new Set(content.products.map((product) => product.category))];
   const sizes = [content.ui.all, ...new Set(content.products.flatMap((product) => product.sizes))];
 

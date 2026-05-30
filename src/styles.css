@@ -1624,16 +1624,17 @@ p {
   border-radius: 20px;
   overflow: hidden;
   background:
-    linear-gradient(180deg, transparent 30%, rgba(5, 5, 5, 0.92)),
-    url("/tenacious_built/images/product-set.png")
-      center/cover;
+    linear-gradient(180deg, transparent 30%, rgba(12, 11, 14, 0.95)),
+    linear-gradient(135deg, rgba(212, 160, 185, 0.08), rgba(196, 160, 212, 0.04)),
+    var(--panel);
 }
 
 .style-tiles article:nth-child(2) {
   background:
-    linear-gradient(180deg, transparent 30%, rgba(5, 5, 5, 0.92)),
-    url("/tenacious_built/images/product-tee.png")
-      center/cover;
+    linear-gradient(180deg, transparent 30%, rgba(12, 11, 14, 0.95)),
+    linear-gradient(135deg, rgba(196, 160, 212, 0.08), rgba(212, 160, 185, 0.04)),
+    var(--panel);
+  border: 1px solid var(--line);
 }
 
 .style-tiles h2 {
@@ -1650,10 +1651,9 @@ p {
   margin-top: 24px;
   padding: 44px;
   background:
-    linear-gradient(90deg, rgba(5, 5, 5, 0.96), rgba(5, 5, 5, 0.72)),
-    radial-gradient(circle at 80% 10%, rgba(212, 160, 185, 0.25), transparent 24%),
-    url("/tenacious_built/images/hero.jpeg")
-      center/cover;
+    linear-gradient(90deg, rgba(12, 11, 14, 0.96), rgba(12, 11, 14, 0.8)),
+    radial-gradient(circle at 80% 10%, rgba(212, 160, 185, 0.2), transparent 30%),
+    var(--panel);
   border: 1px solid var(--line);
   border-radius: 20px;
   overflow: hidden;
