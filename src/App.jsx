@@ -1288,11 +1288,22 @@ function PromoPopup({ setView }) {
     const dismissed = sessionStorage.getItem("promo_dismissed");
     if (dismissed) return;
 
-    fetch(`${import.meta.env.BASE_URL}promo.json`)
+    // Read promo from Shopify page with handle "promo"
+    fetch(`https://tenacious-built.myshopify.com/api/2024-10/graphql.json`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Storefront-Access-Token": "9bc850f3aa943837803ba900e1730e47",
+      },
+      body: JSON.stringify({
+        query: `{ page(handle: "promo") { title body } }`,
+      }),
+    })
       .then((r) => r.json())
       .then((data) => {
-        if (data.active) {
-          setPromo(data);
+        const page = data?.data?.page;
+        if (page && page.body) {
+          setPromo({ title: page.title, message: page.body });
           setTimeout(() => setVisible(true), 1500);
         }
       })
@@ -1306,20 +1317,23 @@ function PromoPopup({ setView }) {
     sessionStorage.setItem("promo_dismissed", "true");
   }
 
+  // Strip HTML tags from Shopify rich text
+  const cleanMessage = promo.message.replace(/<[^>]*>/g, "");
+
   return (
-    <div className="promo-overlay" role="presentation">
-      <div className="promo-popup" style={{ background: promo.backgroundColor, borderColor: promo.accentColor + "33" }}>
+    <div className="promo-overlay" role="presentation" onClick={dismiss}>
+      <div className="promo-popup" onClick={(e) => e.stopPropagation()}>
         <button className="promo-close" type="button" onClick={dismiss}>
           <X size={18} />
         </button>
-        <h2 style={{ color: promo.accentColor }}>{promo.title}</h2>
-        <p>{promo.message}</p>
+        <h2>{promo.title}</h2>
+        <p>{cleanMessage}</p>
         <button
           className="button primary"
           type="button"
-          onClick={() => { setView(promo.buttonLink); dismiss(); }}
+          onClick={() => { setView("catalog"); dismiss(); }}
         >
-          {promo.buttonText}
+          Ver ofertas
           <ArrowRight size={18} />
         </button>
       </div>
