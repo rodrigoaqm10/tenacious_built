@@ -534,6 +534,40 @@ button {
   background: rgba(255, 107, 107, 0.08);
 }
 
+.cart-edit {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--muted);
+  font-size: 0.85rem;
+  transition: color 180ms var(--ease), border-color 180ms var(--ease), background 180ms var(--ease);
+}
+
+.cart-edit:hover {
+  color: var(--rose-soft);
+  border-color: rgba(212, 160, 185, 0.4);
+  background: rgba(212, 160, 185, 0.08);
+}
+
+.checkout-item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.checkout-line {
+  grid-template-columns: 58px 1fr auto;
+}
+
+.edit-modal {
+  grid-template-columns: 1fr;
+  max-width: 480px;
+}
+
 .hero {
   position: relative;
   min-height: calc(100vh - 104px);

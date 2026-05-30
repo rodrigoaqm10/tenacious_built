@@ -535,9 +535,89 @@ function CatalogView({ content, openOptions, setView }) {
   );
 }
 
-function CheckoutView({ content, cart, removeFromCart, setView }) {
+function EditCartItemModal({ content, item, onClose, onSave }) {
+  const [size, setSize] = useState(item.size || "");
+  const [color, setColor] = useState(item.color || "");
+  const [quantity, setQuantity] = useState(item.quantity || 1);
+
+  return (
+    <div className="modal-backdrop" role="presentation">
+      <section className="product-modal edit-modal" role="dialog" aria-modal="true">
+        <button className="modal-close" type="button" aria-label={content.ui.close} onClick={onClose}>
+          <X size={20} />
+        </button>
+        <div className="modal-copy">
+          <span className="eyebrow">{item.type}</span>
+          <h2>{item.name}</h2>
+          <strong className="modal-price">{item.price}</strong>
+
+          {item.sizes && item.sizes.length > 0 && (
+            <div className="option-group">
+              <span>{content.ui.size}</span>
+              <div>
+                {item.sizes.map((s) => (
+                  <button
+                    className={size === s ? "selected" : ""}
+                    type="button"
+                    key={s}
+                    onClick={() => setSize(s)}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {item.colors && item.colors.length > 0 && (
+            <div className="option-group">
+              <span>{content.ui.color}</span>
+              <div>
+                {item.colors.map((c) => (
+                  <button
+                    className={color === c ? "selected" : ""}
+                    type="button"
+                    key={c}
+                    onClick={() => setColor(c)}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="quantity-row">
+            <span>{content.ui.quantity}</span>
+            <div>
+              <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
+                <Minus size={16} />
+              </button>
+              <strong>{quantity}</strong>
+              <button type="button" onClick={() => setQuantity(quantity + 1)}>
+                <Plus size={16} />
+              </button>
+            </div>
+          </div>
+
+          <button
+            className="button primary"
+            type="button"
+            onClick={() => onSave({ ...item, size, color, quantity })}
+          >
+            Guardar cambios
+            <ArrowRight size={18} />
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function CheckoutView({ content, cart, removeFromCart, updateCartItem, setView }) {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
+  const [editingItem, setEditingItem] = useState(null);
 
   async function handleShopifyCheckout() {
     const shopifyItems = cart.filter((item) => item.variants);
@@ -574,7 +654,7 @@ function CheckoutView({ content, cart, removeFromCart, setView }) {
           ) : (
             <>
               {cart.map((item, index) => (
-                <div className="cart-line" key={`${item.name}-${item.size}-${item.color}-${index}`}>
+                <div className="cart-line checkout-line" key={`${item.name}-${item.size}-${item.color}-${index}`}>
                   <img src={item.image} alt={item.name} />
                   <div>
                     <strong>{item.name}</strong>
@@ -583,14 +663,24 @@ function CheckoutView({ content, cart, removeFromCart, setView }) {
                     </span>
                     <span className="cart-price">{item.price}</span>
                   </div>
-                  <button
-                    className="cart-remove"
-                    type="button"
-                    aria-label="Eliminar"
-                    onClick={() => removeFromCart(index)}
-                  >
-                    <X size={14} />
-                  </button>
+                  <div className="checkout-item-actions">
+                    <button
+                      className="cart-edit"
+                      type="button"
+                      aria-label="Editar"
+                      onClick={() => setEditingItem({ ...item, cartIndex: index })}
+                    >
+                      ✎
+                    </button>
+                    <button
+                      className="cart-remove"
+                      type="button"
+                      aria-label="Eliminar"
+                      onClick={() => removeFromCart(index)}
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
                 </div>
               ))}
               {checkoutError && <p className="option-error">{checkoutError}</p>}
@@ -630,6 +720,18 @@ function CheckoutView({ content, cart, removeFromCart, setView }) {
           </button>
         </aside>
       </section>
+
+      {editingItem && (
+        <EditCartItemModal
+          content={content}
+          item={editingItem}
+          onClose={() => setEditingItem(null)}
+          onSave={(updatedItem) => {
+            updateCartItem(editingItem.cartIndex, updatedItem);
+            setEditingItem(null);
+          }}
+        />
+      )}
     </main>
   );
 }
@@ -1145,6 +1247,10 @@ export default function App() {
     setCart((currentCart) => currentCart.filter((_, i) => i !== index));
   }
 
+  function updateCartItem(index, updatedItem) {
+    setCart((currentCart) => currentCart.map((item, i) => i === index ? updatedItem : item));
+  }
+
   return (
     <>
       <Header
@@ -1182,7 +1288,7 @@ export default function App() {
       {view === "catalog" && (
         <CatalogView content={activeContent} openOptions={setSelectedProduct} setView={setView} />
       )}
-      {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} setView={setView} />}
+      {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} updateCartItem={updateCartItem} setView={setView} />}
       {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
         <InfoPageView content={activeContent} pageKey={view} setView={setView} openOptions={setSelectedProduct} />
       )}
