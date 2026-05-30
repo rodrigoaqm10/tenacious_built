@@ -1409,6 +1409,10 @@ export default function App() {
   }, [cart]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [view]);
+
+  useEffect(() => {
     let ticking = false;
 
     function handleScroll() {
