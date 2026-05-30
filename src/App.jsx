@@ -548,6 +548,23 @@ function CatalogView({ content, openOptions, setView }) {
 }
 
 function CheckoutView({ content, cart, removeFromCart, setView }) {
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
+
+  const hasShopifyProducts = cart.some((item) => item.variants);
+
+  async function handleShopifyCheckout() {
+    setCheckoutLoading(true);
+    setCheckoutError("");
+    try {
+      const checkout = await createCheckout(cart.filter((item) => item.variants));
+      window.location.href = checkout.webUrl;
+    } catch (err) {
+      setCheckoutError(err.message);
+      setCheckoutLoading(false);
+    }
+  }
+
   return (
     <main className="checkout-page">
       <section className="catalog-hero">
@@ -556,32 +573,53 @@ function CheckoutView({ content, cart, removeFromCart, setView }) {
         </button>
         <span className="eyebrow">{content.ui.checkoutTitle}</span>
         <h1>{content.ui.orderSummary}</h1>
-        <p>{content.ui.checkoutCopy}</p>
+        {hasShopifyProducts ? (
+          <p>Revisa tu pedido y procede al pago seguro con Shopify.</p>
+        ) : (
+          <p>{content.ui.checkoutCopy}</p>
+        )}
       </section>
       <section className="checkout-layout">
-        <form className="checkout-form">
-          <h2>{content.ui.customerData}</h2>
-          <label className="auth-field">
-            <span>{content.ui.fullName}</span>
-            <input type="text" />
-          </label>
-          <label className="auth-field">
-            <span>{content.ui.email}</span>
-            <input type="email" />
-          </label>
-          <label className="auth-field">
-            <span>{content.ui.address}</span>
-            <input type="text" />
-          </label>
-          <label className="auth-field">
-            <span>{content.ui.city}</span>
-            <input type="text" />
-          </label>
-          <button className="button primary" type="button">
-            {content.ui.submitOrder}
-            <ArrowRight size={18} />
-          </button>
-        </form>
+        {hasShopifyProducts ? (
+          <div className="checkout-form">
+            <h2>Pago seguro</h2>
+            <p>Al hacer clic serás redirigido al checkout seguro de Shopify donde podrás completar tu compra con tarjeta, transferencia u otros métodos de pago.</p>
+            {checkoutError && <p className="option-error">{checkoutError}</p>}
+            <button
+              className="button primary"
+              type="button"
+              onClick={handleShopifyCheckout}
+              disabled={checkoutLoading}
+            >
+              {checkoutLoading ? "Redirigiendo..." : "Pagar con Shopify"}
+              <ArrowRight size={18} />
+            </button>
+          </div>
+        ) : (
+          <form className="checkout-form">
+            <h2>{content.ui.customerData}</h2>
+            <label className="auth-field">
+              <span>{content.ui.fullName}</span>
+              <input type="text" />
+            </label>
+            <label className="auth-field">
+              <span>{content.ui.email}</span>
+              <input type="email" />
+            </label>
+            <label className="auth-field">
+              <span>{content.ui.address}</span>
+              <input type="text" />
+            </label>
+            <label className="auth-field">
+              <span>{content.ui.city}</span>
+              <input type="text" />
+            </label>
+            <button className="button primary" type="button">
+              {content.ui.submitOrder}
+              <ArrowRight size={18} />
+            </button>
+          </form>
+        )}
         <aside className="checkout-summary">
           <h2>{content.ui.orderSummary}</h2>
           {cart.length === 0 ? (
