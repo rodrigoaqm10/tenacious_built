@@ -134,37 +134,42 @@ export async function createCheckout(cartItems) {
   return { webUrl: data.cartCreate.cart.checkoutUrl };
 }
 export function transformShopifyProduct(product) {
-  const price = product.priceRange.minVariantPrice.amount;
-  const formattedPrice = `$${Math.round(Number(price)).toLocaleString("es-CL")}`;
-  
-  const colorOption = product.options.find(
-    (opt) => opt.name.toLowerCase() === "color" || opt.name.toLowerCase() === "colour"
-  );
-  const sizeOption = product.options.find(
-    (opt) => opt.name.toLowerCase() === "talla" || opt.name.toLowerCase() === "size" || opt.name.toLowerCase() === "tamaño"
-  );
+  try {
+    const price = product?.priceRange?.minVariantPrice?.amount || "0";
+    const formattedPrice = `$${Math.round(Number(price)).toLocaleString("es-CL")}`;
+    
+    const colorOption = product.options?.find(
+      (opt) => opt.name.toLowerCase() === "color" || opt.name.toLowerCase() === "colour"
+    );
+    const sizeOption = product.options?.find(
+      (opt) => opt.name.toLowerCase() === "talla" || opt.name.toLowerCase() === "size" || opt.name.toLowerCase() === "tamaño"
+    );
 
-  return {
-    id: product.id,
-    name: product.title,
-    handle: product.handle,
-    type: product.productType || "",
-    description: product.description,
-    price: formattedPrice,
-    numericPrice: Math.round(Number(price)),
-    badge: product.tags?.[0] || "Nuevo",
-    color: colorOption?.values?.[0] || "",
-    category: product.productType || "General",
-    sizes: sizeOption?.values || [],
-    colors: colorOption?.values || [],
-    image: product.featuredImage?.url || "",
-    images: product.images.nodes.map((img) => img.url),
-    variants: product.variants.nodes,
-  };
+    return {
+      id: product.id,
+      name: product.title || "Producto",
+      handle: product.handle || "",
+      type: product.productType || "",
+      description: product.description || "",
+      price: formattedPrice,
+      numericPrice: Math.round(Number(price)),
+      badge: product.tags?.[0] || "Nuevo",
+      color: colorOption?.values?.[0] || "",
+      category: product.productType || "General",
+      sizes: sizeOption?.values || [],
+      colors: colorOption?.values || [],
+      image: product.featuredImage?.url || "",
+      images: product.images?.nodes?.map((img) => img.url) || [],
+      variants: product.variants?.nodes || [],
+    };
+  } catch (err) {
+    console.warn("Error transforming product:", err);
+    return null;
+  }
 }
 
 // Obtener productos transformados
 export async function getProducts() {
   const data = await shopifyFetch(PRODUCTS_QUERY);
-  return data.products.nodes.map(transformShopifyProduct);
+  return data.products.nodes.map(transformShopifyProduct).filter(Boolean);
 }

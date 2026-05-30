@@ -324,8 +324,8 @@ function ProductSpotlight({ content, setView }) {
         </button>
       </div>
       <div className="spotlight-media">
-        <img src={activeContent.products[0]?.image || ""} alt={activeContent.products[0]?.name || ""} />
-        <img src={activeContent.products[1]?.image || ""} alt={activeContent.products[1]?.name || ""} />
+        <img src={content.products[0]?.image || ""} alt={content.products[0]?.name || ""} />
+        <img src={content.products[1]?.image || ""} alt={content.products[1]?.name || ""} />
       </div>
     </section>
   );
@@ -1070,8 +1070,8 @@ export default function App() {
 
   // Use Shopify products if available, otherwise fallback to static
   const activeContent = useMemo(() => {
-    if (isFromShopify && shopifyProducts.length > 0) {
-      return { ...content, products: shopifyProducts };
+    if (isFromShopify && shopifyProducts && shopifyProducts.length > 0) {
+      return { ...content, products: [...content.products, ...shopifyProducts] };
     }
     return content;
   }, [content, shopifyProducts, isFromShopify]);

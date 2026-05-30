@@ -17,14 +17,14 @@ export function useShopifyProducts(fallbackProducts) {
 
     getProducts()
       .then((shopifyProducts) => {
-        if (!cancelled && shopifyProducts && shopifyProducts.length > 0) {
+        if (!cancelled && shopifyProducts && Array.isArray(shopifyProducts) && shopifyProducts.length > 0) {
           setProducts(shopifyProducts);
           setIsFromShopify(true);
         }
       })
       .catch((err) => {
-        console.warn("Shopify fetch failed, using fallback products:", err.message);
-        if (!cancelled) setError(err.message);
+        console.warn("Shopify fetch failed, using fallback products:", err?.message || err);
+        if (!cancelled) setError(err?.message || "Error loading products");
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -33,5 +33,5 @@ export function useShopifyProducts(fallbackProducts) {
     return () => { cancelled = true; };
   }, []);
 
-  return { products, loading, error, isFromShopify };
+  return { products: products || fallbackProducts, loading, error, isFromShopify };
 }
