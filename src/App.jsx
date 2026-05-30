@@ -124,7 +124,7 @@ function Header({
   );
 }
 
-function ActionPanel({ content, activePanel, setActivePanel, cart, setView }) {
+function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCart, setView }) {
   const [query, setQuery] = useState("");
   const [accountMode, setAccountMode] = useState("signin");
 
@@ -213,15 +213,24 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, setView }) {
             <p>{content.ui.emptyCart}</p>
           ) : (
             <>
-              {cart.map((item) => (
-                <div className="cart-line" key={`${item.name}-${item.size}-${item.color}`}>
+              {cart.map((item, index) => (
+                <div className="cart-line" key={`${item.name}-${item.size}-${item.color}-${index}`}>
                   <img src={item.image} alt={item.name} />
                   <div>
                     <strong>{item.name}</strong>
                     <span>
                       {item.size} / {item.color} x {item.quantity}
                     </span>
+                    <span className="cart-price">{item.price}</span>
                   </div>
+                  <button
+                    className="cart-remove"
+                    type="button"
+                    aria-label="Eliminar"
+                    onClick={() => removeFromCart(index)}
+                  >
+                    <X size={14} />
+                  </button>
                 </div>
               ))}
               <button
@@ -1051,6 +1060,10 @@ export default function App() {
     setActivePanel("cart");
   }
 
+  function removeFromCart(index) {
+    setCart((currentCart) => currentCart.filter((_, i) => i !== index));
+  }
+
   return (
     <>
       <Header
@@ -1067,6 +1080,7 @@ export default function App() {
         activePanel={activePanel}
         setActivePanel={setActivePanel}
         cart={cart}
+        removeFromCart={removeFromCart}
         setView={setView}
       />
       {view === "home" && (

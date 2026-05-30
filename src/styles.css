@@ -348,23 +348,31 @@ button {
 
 .action-panel {
   position: fixed;
-  top: 104px;
-  right: max(16px, calc((100vw - var(--max)) / 2));
+  top: 0;
+  right: 0;
   z-index: 30;
-  width: min(390px, calc(100vw - 32px));
-  max-height: calc(100vh - 124px);
+  width: min(420px, 100vw);
+  height: 100vh;
   overflow: auto;
-  background: rgba(20, 19, 26, 0.96);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(18px);
-  animation: riseIn 280ms var(--ease);
+  background: rgba(20, 19, 26, 0.98);
+  border-left: 1px solid var(--line);
+  box-shadow: -16px 0 60px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(24px);
+  animation: slideInRight 320ms var(--ease);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .panel-header,
 .panel-body {
-  padding: 18px;
+  padding: 20px 24px;
 }
 
 .panel-header {
@@ -373,6 +381,7 @@ button {
   justify-content: space-between;
   gap: 16px;
   border-bottom: 1px solid var(--line);
+  padding-top: 28px;
 }
 
 .panel-header h2 {
@@ -463,13 +472,17 @@ button {
 .quick-results a,
 .cart-line {
   display: grid;
-  grid-template-columns: 58px 1fr;
+  grid-template-columns: 58px 1fr auto;
   align-items: center;
   gap: 12px;
   padding: 10px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--line);
   border-radius: 8px;
+}
+
+.quick-results a {
+  grid-template-columns: 58px 1fr;
 }
 
 .quick-results img,
@@ -484,6 +497,29 @@ button {
   margin-top: 4px;
   color: var(--muted);
   font-size: 0.82rem;
+}
+
+.cart-price {
+  color: var(--rose-soft) !important;
+  font-weight: 600;
+}
+
+.cart-remove {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--muted);
+  transition: color 180ms var(--ease), border-color 180ms var(--ease), background 180ms var(--ease);
+}
+
+.cart-remove:hover {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.4);
+  background: rgba(255, 107, 107, 0.08);
 }
 
 .hero {
@@ -2010,8 +2046,7 @@ p {
   }
 
   .action-panel {
-    top: 98px;
-    right: 16px;
+    width: 100vw;
   }
 
   .hero {
