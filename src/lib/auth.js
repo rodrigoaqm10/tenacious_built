@@ -82,8 +82,11 @@ export async function getCustomerInfo() {
   try {
     const data = await shopifyFetch(CUSTOMER_INFO, { token });
     return data.customer;
-  } catch {
-    logout();
+  } catch (err) {
+    const message = (err?.message || "").toUpperCase();
+    if (message.includes("UNAUTHORIZED") || message.includes("INVALID") || message.includes("EXPIRED")) {
+      logout();
+    }
     return null;
   }
 }

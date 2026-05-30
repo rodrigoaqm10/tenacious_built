@@ -3,7 +3,6 @@ import {
   ArrowRight,
   CreditCard,
   Globe2,
-  Heart,
   Instagram,
   Mail,
   Menu,
@@ -17,7 +16,7 @@ import {
 } from "lucide-react";
 import { contentByLanguage } from "./data/siteContent";
 import { useShopifyProducts } from "./lib/useShopifyProducts";
-import { createCheckout, isShopifyConfigured } from "./lib/shopify";
+import { createCheckout, isShopifyConfigured, shopifyFetch } from "./lib/shopify";
 import { createCustomer, loginCustomer, getCustomerInfo, logout, isLoggedIn } from "./lib/auth";
 import { subscribeNewsletter } from "./lib/newsletter";
 
@@ -987,7 +986,7 @@ function MenComingSoon({ content }) {
         <h2>{content.menComingSoon.title}</h2>
         <p>{content.menComingSoon.description}</p>
       </div>
-      <a className="button secondary" href="mailto:hola@tenacious.cl">
+      <a className="button secondary" href={content.brand.email ? `mailto:${content.brand.email}` : '#contact'}>
         {content.menComingSoon.cta}
       </a>
     </section>
@@ -1289,19 +1288,9 @@ function PromoPopup({ setView }) {
     if (dismissed) return;
 
     // Read promo from Shopify page with handle "promo"
-    fetch(`https://tenacious-built.myshopify.com/api/2024-10/graphql.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Shopify-Storefront-Access-Token": "9bc850f3aa943837803ba900e1730e47",
-      },
-      body: JSON.stringify({
-        query: `{ page(handle: "promo") { title body } }`,
-      }),
-    })
-      .then((r) => r.json())
+    shopifyFetch(`{ page(handle: "promo") { title body } }`)
       .then((data) => {
-        const page = data?.data?.page;
+        const page = data?.page;
         if (page && page.body) {
           setPromo({ title: page.title, message: page.body });
           setTimeout(() => setVisible(true), 1500);
@@ -1364,7 +1353,14 @@ export default function App() {
   const [view, setView] = useState("home");
   const [activePanel, setActivePanel] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    try {
+      const saved = localStorage.getItem("tenacious_cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [headerHidden, setHeaderHidden] = useState(false);
   const lastScrollY = useRef(0);
   const content = contentByLanguage[language];
@@ -1373,10 +1369,18 @@ export default function App() {
   // Use Shopify products if available, otherwise fallback to static
   const activeContent = useMemo(() => {
     if (isFromShopify && shopifyProducts && shopifyProducts.length > 0) {
-      return { ...content, products: [...content.products, ...shopifyProducts] };
+      return { ...content, products: shopifyProducts };
     }
     return content;
   }, [content, shopifyProducts, isFromShopify]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("tenacious_cart", JSON.stringify(cart));
+    } catch {
+      // ignore storage errors
+    }
+  }, [cart]);
 
   useEffect(() => {
     let ticking = false;
