@@ -876,7 +876,7 @@ function CheckoutView({ content, cart, removeFromCart, updateCartItem, setView }
   );
 }
 
-function ProductOptionsModal({ content, product, onClose, onAddToCart }) {
+function ProductDetailView({ content, product, onBack, onAddToCart }) {
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -896,19 +896,23 @@ function ProductOptionsModal({ content, product, onClose, onAddToCart }) {
   }
 
   const images = product.images || [product.image];
-  const totalImages = product.sizeChart ? images.length + 1 : images.length;
 
   function nextImage() {
-    setImageIndex((prev) => (prev + 1) % totalImages);
+    setImageIndex((prev) => (prev + 1) % images.length);
   }
 
   function prevImage() {
-    setImageIndex((prev) => (prev - 1 + totalImages) % totalImages);
+    setImageIndex((prev) => (prev - 1 + images.length) % images.length);
   }
 
-  function getCurrentImage() {
-    if (imageIndex < images.length) return images[imageIndex];
-    return product.sizeChart;
+  function getSizeChartImage() {
+    if (product.sizeChart) return product.sizeChart;
+    const productType = (product.type || "").toLowerCase();
+    if (productType.includes("short")) return `${import.meta.env.BASE_URL}images/medidas-short.jpeg`;
+    if (productType.includes("sostén") || productType.includes("sosten") || productType.includes("bra")) return `${import.meta.env.BASE_URL}images/medidas-sosten.jpeg`;
+    if (productType.includes("top deportivo") || productType.includes("sport")) return `${import.meta.env.BASE_URL}images/medidas-top-deportivo.jpeg`;
+    if (productType.includes("top")) return `${import.meta.env.BASE_URL}images/medidas-top.jpeg`;
+    return `${import.meta.env.BASE_URL}images/medidas-top.jpeg`;
   }
 
   function addProduct() {
@@ -923,37 +927,34 @@ function ProductOptionsModal({ content, product, onClose, onAddToCart }) {
     }
 
     onAddToCart({ ...product, size, color, quantity });
-    onClose();
   }
 
   return (
-    <div className="modal-backdrop" role="presentation">
-      <section className="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-options-title">
-        <button className="modal-close" type="button" aria-label={content.ui.close} onClick={onClose}>
-          <X size={20} />
+    <main className="product-detail-page">
+      <section className="catalog-hero">
+        <button className="text-button back-button" type="button" onClick={onBack}>
+          ← {content.ui.continueShopping}
         </button>
-        <div className="modal-gallery">
+      </section>
+      <section className="product-detail-layout">
+        <div className="product-detail-gallery">
           <img
-            src={getCurrentImage()}
+            src={images[imageIndex]}
             alt={product.name}
-            className={imageIndex >= images.length ? "size-chart-img" : ""}
           />
-          {totalImages > 1 && (
+          {images.length > 1 && (
             <div className="gallery-controls">
               <button type="button" onClick={prevImage} aria-label="Anterior">‹</button>
-              <span>{imageIndex + 1} / {totalImages}</span>
+              <span>{imageIndex + 1} / {images.length}</span>
               <button type="button" onClick={nextImage} aria-label="Siguiente">›</button>
             </div>
           )}
-          {imageIndex >= images.length && (
-            <span className="gallery-label">Guía de tallas</span>
-          )}
         </div>
-        <div className="modal-copy">
+        <div className="product-detail-info">
           <span className="eyebrow">{product.type}</span>
-          <h2 id="product-options-title">{product.name}</h2>
-          <p>{product.description}</p>
-          <strong className="modal-price">{product.price}</strong>
+          <h1>{product.name}</h1>
+          <p className="product-detail-description">{product.description}</p>
+          <strong className="product-detail-price">{product.price}</strong>
 
           <div className="option-group">
             <span>{content.ui.size}</span>
@@ -1012,9 +1013,14 @@ function ProductOptionsModal({ content, product, onClose, onAddToCart }) {
             {content.ui.addToCart}
             <ShoppingBag size={18} />
           </button>
+
+          <div className="product-detail-sizechart">
+            <h3>Guía de tallas</h3>
+            <img src={getSizeChartImage()} alt="Guía de tallas" />
+          </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
 
@@ -1518,6 +1524,11 @@ export default function App() {
     setView(newView);
   }
 
+  function openProductDetail(product) {
+    setSelectedProduct(product);
+    changeView("product");
+  }
+
   function addToCart(item) {
     setCart((currentCart) => [...currentCart, item]);
     setActivePanel("cart");
@@ -1558,7 +1569,7 @@ export default function App() {
           <FeatureStrip content={activeContent} />
           <ProductSpotlight content={activeContent} setView={changeView} />
           <CategoryGrid content={activeContent} />
-          <ProductGrid content={activeContent} openOptions={setSelectedProduct} setView={changeView} />
+          <ProductGrid content={activeContent} openOptions={openProductDetail} setView={changeView} />
           <StyleTiles content={activeContent} setView={changeView} />
           <MenComingSoon content={activeContent} setActivePanel={setActivePanel} />
           <Benefits content={activeContent} />
@@ -1566,20 +1577,25 @@ export default function App() {
         </main>
       )}
       {view === "catalog" && (
-        <CatalogView key={catalogKey} content={activeContent} openOptions={setSelectedProduct} setView={changeView} />
+        <CatalogView key={catalogKey} content={activeContent} openOptions={openProductDetail} setView={changeView} />
       )}
       {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} updateCartItem={updateCartItem} setView={changeView} />}
+      {view === "product" && selectedProduct && (
+        <ProductDetailView
+          content={activeContent}
+          product={selectedProduct}
+          onBack={() => {
+            setSelectedProduct(null);
+            changeView("catalog");
+          }}
+          onAddToCart={addToCart}
+        />
+      )}
       {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
-        <InfoPageView content={activeContent} pageKey={view} setView={changeView} openOptions={setSelectedProduct} />
+        <InfoPageView content={activeContent} pageKey={view} setView={changeView} openOptions={openProductDetail} />
       )}
       <Footer content={activeContent} setView={changeView} />
       <FloatingSocial content={activeContent} />
-      <ProductOptionsModal
-        content={activeContent}
-        product={selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-        onAddToCart={addToCart}
-      />
       <PromoPopup setView={changeView} />
     </>
   );
