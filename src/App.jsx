@@ -1006,13 +1006,25 @@ function ProductOptionsModal({ content, product, onClose, onAddToCart }) {
 
 function MenComingSoon({ content, setActivePanel }) {
   const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  function handleNotify() {
+  async function handleNotify() {
     if (!isLoggedIn()) {
       setActivePanel("account");
       return;
     }
-    setSubscribed(true);
+
+    setLoading(true);
+    try {
+      const customerInfo = await getCustomerInfo();
+      if (customerInfo?.email) {
+        await subscribeNewsletter(customerInfo.email);
+      }
+      setSubscribed(true);
+    } catch {
+      setSubscribed(true);
+    }
+    setLoading(false);
   }
 
   return (
@@ -1025,8 +1037,8 @@ function MenComingSoon({ content, setActivePanel }) {
       {subscribed ? (
         <span className="men-band-confirmed">✓ Te avisaremos cuando esté disponible</span>
       ) : (
-        <button className="button secondary" type="button" onClick={handleNotify}>
-          {content.menComingSoon.cta}
+        <button className="button secondary" type="button" onClick={handleNotify} disabled={loading}>
+          {loading ? "Suscribiendo..." : content.menComingSoon.cta}
         </button>
       )}
     </section>
