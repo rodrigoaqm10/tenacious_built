@@ -82,15 +82,15 @@ export const PRODUCTS_QUERY = `
   }
 `;
 
-// Crear checkout
-export const CREATE_CHECKOUT_MUTATION = `
-  mutation checkoutCreate($input: CheckoutCreateInput!) {
-    checkoutCreate(input: $input) {
-      checkout {
+// Crear carrito y obtener URL de checkout
+export const CREATE_CART_MUTATION = `
+  mutation cartCreate($input: CartInput!) {
+    cartCreate(input: $input) {
+      cart {
         id
-        webUrl
+        checkoutUrl
       }
-      checkoutUserErrors {
+      userErrors {
         code
         field
         message
@@ -99,7 +99,40 @@ export const CREATE_CHECKOUT_MUTATION = `
   }
 `;
 
-// Transformar producto de Shopify al formato que usa nuestra web
+// Crear checkout y obtener URL de pago
+export async function createCheckout(cartItems) {
+  const lines = cartItems.map((item) => {
+    // Buscar la variante que coincida con talla y color seleccionados
+    const variant = item.variants?.find((v) => {
+      const options = v.selectedOptions.reduce((acc, opt) => {
+        acc[opt.name.toLowerCase()] = opt.value;
+        return acc;
+      }, {});
+      const colorMatch = !item.color || options.color === item.color || options.colour === item.color;
+      const sizeMatch = !item.size || options.talla === item.size || options.size === item.size || options["tamaño"] === item.size;
+      return colorMatch && sizeMatch;
+    });
+
+    return {
+      merchandiseId: variant?.id || item.variants?.[0]?.id,
+      quantity: item.quantity,
+    };
+  }).filter((item) => item.merchandiseId);
+
+  if (lines.length === 0) {
+    throw new Error("No se encontraron variantes válidas para el checkout.");
+  }
+
+  const data = await shopifyFetch(CREATE_CART_MUTATION, {
+    input: { lines },
+  });
+
+  if (data.cartCreate.userErrors.length > 0) {
+    throw new Error(data.cartCreate.userErrors[0].message);
+  }
+
+  return { webUrl: data.cartCreate.cart.checkoutUrl };
+}
 export function transformShopifyProduct(product) {
   const price = product.priceRange.minVariantPrice.amount;
   const formattedPrice = `$${Math.round(Number(price)).toLocaleString("es-CL")}`;
@@ -134,39 +167,4 @@ export function transformShopifyProduct(product) {
 export async function getProducts() {
   const data = await shopifyFetch(PRODUCTS_QUERY);
   return data.products.nodes.map(transformShopifyProduct);
-}
-
-// Crear checkout y obtener URL de pago
-export async function createCheckout(cartItems) {
-  const lineItems = cartItems.map((item) => {
-    // Buscar la variante que coincida con talla y color seleccionados
-    const variant = item.variants?.find((v) => {
-      const options = v.selectedOptions.reduce((acc, opt) => {
-        acc[opt.name.toLowerCase()] = opt.value;
-        return acc;
-      }, {});
-      const colorMatch = options.color === item.color || options.colour === item.color;
-      const sizeMatch = options.talla === item.size || options.size === item.size || options["tamaño"] === item.size;
-      return colorMatch && sizeMatch;
-    });
-
-    return {
-      variantId: variant?.id || item.variants?.[0]?.id,
-      quantity: item.quantity,
-    };
-  }).filter((item) => item.variantId);
-
-  if (lineItems.length === 0) {
-    throw new Error("No se encontraron variantes válidas para el checkout.");
-  }
-
-  const data = await shopifyFetch(CREATE_CHECKOUT_MUTATION, {
-    input: { lineItems },
-  });
-
-  if (data.checkoutCreate.checkoutUserErrors.length > 0) {
-    throw new Error(data.checkoutCreate.checkoutUserErrors[0].message);
-  }
-
-  return data.checkoutCreate.checkout;
 }

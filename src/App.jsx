@@ -557,7 +557,13 @@ function CheckoutView({ content, cart, removeFromCart, setView }) {
     setCheckoutLoading(true);
     setCheckoutError("");
     try {
-      const checkout = await createCheckout(cart.filter((item) => item.variants));
+      const shopifyItems = cart.filter((item) => item.variants);
+      if (shopifyItems.length === 0) {
+        setCheckoutError("No hay productos disponibles para checkout.");
+        setCheckoutLoading(false);
+        return;
+      }
+      const checkout = await createCheckout(shopifyItems);
       window.location.href = checkout.webUrl;
     } catch (err) {
       setCheckoutError(err.message);
