@@ -12,22 +12,25 @@ export function useShopifyProducts(fallbackProducts) {
       return;
     }
 
+    let cancelled = false;
     setLoading(true);
 
     getProducts()
       .then((shopifyProducts) => {
-        if (shopifyProducts.length > 0) {
+        if (!cancelled && shopifyProducts && shopifyProducts.length > 0) {
           setProducts(shopifyProducts);
           setIsFromShopify(true);
         }
       })
       .catch((err) => {
         console.warn("Shopify fetch failed, using fallback products:", err.message);
-        setError(err.message);
+        if (!cancelled) setError(err.message);
       })
       .finally(() => {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       });
+
+    return () => { cancelled = true; };
   }, []);
 
   return { products, loading, error, isFromShopify };

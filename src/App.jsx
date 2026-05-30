@@ -1052,8 +1052,8 @@ export default function App() {
 
   // Use Shopify products if available, otherwise fallback to static
   const activeContent = useMemo(() => {
-    if (isFromShopify) {
-      return { ...content, products: shopifyProducts };
+    if (isFromShopify && shopifyProducts.length > 0) {
+      return { ...content, products: [...content.products, ...shopifyProducts] };
     }
     return content;
   }, [content, shopifyProducts, isFromShopify]);
