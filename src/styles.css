@@ -1663,6 +1663,17 @@ p {
   max-width: 620px;
 }
 
+.men-band-confirmed {
+  padding: 12px 20px;
+  background: rgba(100, 200, 100, 0.08);
+  border: 1px solid rgba(100, 200, 100, 0.25);
+  border-radius: 999px;
+  color: #8fd8a0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
 .benefits {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

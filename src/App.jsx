@@ -1004,7 +1004,17 @@ function ProductOptionsModal({ content, product, onClose, onAddToCart }) {
   );
 }
 
-function MenComingSoon({ content }) {
+function MenComingSoon({ content, setActivePanel }) {
+  const [subscribed, setSubscribed] = useState(false);
+
+  function handleNotify() {
+    if (!isLoggedIn()) {
+      setActivePanel("account");
+      return;
+    }
+    setSubscribed(true);
+  }
+
   return (
     <section className="men-band reveal" id="men">
       <div>
@@ -1012,9 +1022,13 @@ function MenComingSoon({ content }) {
         <h2>{content.menComingSoon.title}</h2>
         <p>{content.menComingSoon.description}</p>
       </div>
-      <a className="button secondary" href={content.brand.email ? `mailto:${content.brand.email}` : '#contact'}>
-        {content.menComingSoon.cta}
-      </a>
+      {subscribed ? (
+        <span className="men-band-confirmed">✓ Te avisaremos cuando esté disponible</span>
+      ) : (
+        <button className="button secondary" type="button" onClick={handleNotify}>
+          {content.menComingSoon.cta}
+        </button>
+      )}
     </section>
   );
 }
@@ -1514,7 +1528,7 @@ export default function App() {
           <CategoryGrid content={activeContent} />
           <ProductGrid content={activeContent} openOptions={setSelectedProduct} setView={setView} />
           <StyleTiles content={activeContent} setView={setView} />
-          <MenComingSoon content={activeContent} />
+          <MenComingSoon content={activeContent} setActivePanel={setActivePanel} />
           <Benefits content={activeContent} />
           <SocialContact content={activeContent} />
         </main>
