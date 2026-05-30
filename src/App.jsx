@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   CreditCard,
@@ -25,6 +25,7 @@ function Header({
   setActivePanel,
   cartCount,
   setView,
+  hidden,
 }) {
   const isMenuOpen = activePanel === "menu";
 
@@ -33,7 +34,7 @@ function Header({
   }
 
   return (
-    <header className="site-header">
+    <header className={`site-header${hidden ? " header-hidden" : ""}`}>
       <div className="announcement">
         <div>
           <span>{content.brand.announcement}</span>
@@ -1030,7 +1031,24 @@ export default function App() {
   const [activePanel, setActivePanel] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cart, setCart] = useState([]);
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const lastScrollY = useRef(0);
   const content = contentByLanguage[language];
+
+  useEffect(() => {
+    function handleScroll() {
+      const currentY = window.scrollY;
+      if (currentY > lastScrollY.current && currentY > 100) {
+        setHeaderHidden(true);
+      } else {
+        setHeaderHidden(false);
+      }
+      lastScrollY.current = currentY;
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const syncViewFromHash = () => {
@@ -1085,6 +1103,7 @@ export default function App() {
         setActivePanel={setActivePanel}
         cartCount={cartCount}
         setView={setView}
+        hidden={headerHidden}
       />
       <ActionPanel
         content={content}

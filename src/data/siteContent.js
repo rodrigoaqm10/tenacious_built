@@ -2,7 +2,7 @@ const assetPath = (path) => `${import.meta.env.BASE_URL}${path}`;
 
 const sharedImages = {
   logo: assetPath("images/tenacious-logo-pink.png"),
-  hero: assetPath("images/hero-tenacious.png"),
+  hero: assetPath("images/hero.jpeg"),
   categories: [
     assetPath("images/short-negro.jpeg"),
     assetPath("images/sosten-negro.jpeg"),
@@ -84,8 +84,8 @@ export const contentByLanguage = {
   es: {
     languageLabel: "Español",
     brand: {
-      name: "tenacious",
-      legalName: "tenacious_built",
+      name: "Tenacious Built",
+      legalName: "Tenacious Built",
       tagline: "Creada para cada repetición.",
       logoText: "T",
       logo: sharedImages.logo,
@@ -633,8 +633,8 @@ export const contentByLanguage = {
   en: {
     languageLabel: "English",
     brand: {
-      name: "tenacious",
-      legalName: "tenacious_built",
+      name: "Tenacious Built",
+      legalName: "Tenacious Built",
       tagline: "Built for every rep.",
       logoText: "T",
       logo: sharedImages.logo,
@@ -1180,3 +1180,4 @@ export const contentByLanguage = {
     },
   },
 };
+
