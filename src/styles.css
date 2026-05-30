@@ -1239,6 +1239,39 @@ p {
   gap: 12px;
 }
 
+.checkout-totals {
+  display: grid;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.checkout-totals > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.checkout-totals > div span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.checkout-totals > div strong {
+  font-weight: 700;
+}
+
+.checkout-total-line {
+  border-top: 1px solid var(--line);
+  padding-top: 14px !important;
+  margin-top: 4px;
+}
+
+.checkout-total-line span {
+  color: var(--text) !important;
+  font-weight: 600;
+}
+
 .product-image {
   position: relative;
   display: block;

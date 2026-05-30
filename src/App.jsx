@@ -239,21 +239,9 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
               <button
                 className="button primary"
                 type="button"
-                onClick={async () => {
-                  // If products have Shopify variants, redirect to Shopify checkout
-                  if (cart[0]?.variants) {
-                    try {
-                      const checkout = await createCheckout(cart);
-                      window.location.href = checkout.webUrl;
-                    } catch (err) {
-                      console.error("Checkout error:", err);
-                      setView("checkout");
-                      setActivePanel(null);
-                    }
-                  } else {
-                    setView("checkout");
-                    setActivePanel(null);
-                  }
+                onClick={() => {
+                  setView("checkout");
+                  setActivePanel(null);
                 }}
               >
                 {content.ui.checkout} ({cartTotal})
@@ -551,18 +539,15 @@ function CheckoutView({ content, cart, removeFromCart, setView }) {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
 
-  const hasShopifyProducts = cart.some((item) => item.variants);
-
   async function handleShopifyCheckout() {
+    const shopifyItems = cart.filter((item) => item.variants);
+    if (shopifyItems.length === 0) {
+      setCheckoutError("No hay productos disponibles para checkout.");
+      return;
+    }
     setCheckoutLoading(true);
     setCheckoutError("");
     try {
-      const shopifyItems = cart.filter((item) => item.variants);
-      if (shopifyItems.length === 0) {
-        setCheckoutError("No hay productos disponibles para checkout.");
-        setCheckoutLoading(false);
-        return;
-      }
       const checkout = await createCheckout(shopifyItems);
       window.location.href = checkout.webUrl;
     } catch (err) {
@@ -574,60 +559,16 @@ function CheckoutView({ content, cart, removeFromCart, setView }) {
   return (
     <main className="checkout-page">
       <section className="catalog-hero">
-        <button className="text-button back-button" type="button" onClick={() => setView("catalog")}>
+        <button className="text-button back-button" type="button" onClick={() => setView("home")}>
           ← {content.ui.continueShopping}
         </button>
         <span className="eyebrow">{content.ui.checkoutTitle}</span>
         <h1>{content.ui.orderSummary}</h1>
-        {hasShopifyProducts ? (
-          <p>Revisa tu pedido y procede al pago seguro con Shopify.</p>
-        ) : (
-          <p>{content.ui.checkoutCopy}</p>
-        )}
+        <p>Revisa tu pedido, modifica cantidades o elimina productos antes de proceder al pago.</p>
       </section>
       <section className="checkout-layout">
-        {hasShopifyProducts ? (
-          <div className="checkout-form">
-            <h2>Pago seguro</h2>
-            <p>Al hacer clic serás redirigido al checkout seguro de Shopify donde podrás completar tu compra con tarjeta, transferencia u otros métodos de pago.</p>
-            {checkoutError && <p className="option-error">{checkoutError}</p>}
-            <button
-              className="button primary"
-              type="button"
-              onClick={handleShopifyCheckout}
-              disabled={checkoutLoading}
-            >
-              {checkoutLoading ? "Redirigiendo..." : "Pagar con Shopify"}
-              <ArrowRight size={18} />
-            </button>
-          </div>
-        ) : (
-          <form className="checkout-form">
-            <h2>{content.ui.customerData}</h2>
-            <label className="auth-field">
-              <span>{content.ui.fullName}</span>
-              <input type="text" />
-            </label>
-            <label className="auth-field">
-              <span>{content.ui.email}</span>
-              <input type="email" />
-            </label>
-            <label className="auth-field">
-              <span>{content.ui.address}</span>
-              <input type="text" />
-            </label>
-            <label className="auth-field">
-              <span>{content.ui.city}</span>
-              <input type="text" />
-            </label>
-            <button className="button primary" type="button">
-              {content.ui.submitOrder}
-              <ArrowRight size={18} />
-            </button>
-          </form>
-        )}
-        <aside className="checkout-summary">
-          <h2>{content.ui.orderSummary}</h2>
+        <div className="checkout-form">
+          <h2>Tu pedido</h2>
           {cart.length === 0 ? (
             <p>{content.ui.emptyCart}</p>
           ) : (
@@ -652,8 +593,41 @@ function CheckoutView({ content, cart, removeFromCart, setView }) {
                   </button>
                 </div>
               ))}
+              {checkoutError && <p className="option-error">{checkoutError}</p>}
+              <button
+                className="button primary"
+                type="button"
+                onClick={handleShopifyCheckout}
+                disabled={checkoutLoading || cart.length === 0}
+              >
+                {checkoutLoading ? "Redirigiendo..." : "Proceder al pago"}
+                <ArrowRight size={18} />
+              </button>
+              <p style={{ fontSize: "0.82rem", color: "var(--muted)", marginTop: "8px" }}>
+                Serás redirigido al checkout seguro de Shopify para completar tu compra.
+              </p>
             </>
           )}
+        </div>
+        <aside className="checkout-summary">
+          <h2>Resumen</h2>
+          <div className="checkout-totals">
+            <div>
+              <span>Subtotal</span>
+              <strong>${cart.reduce((sum, item) => sum + (item.numericPrice || 0) * item.quantity, 0).toLocaleString("es-CL")}</strong>
+            </div>
+            <div>
+              <span>Envío</span>
+              <span>Calculado en checkout</span>
+            </div>
+            <div className="checkout-total-line">
+              <span>Total estimado</span>
+              <strong>${cart.reduce((sum, item) => sum + (item.numericPrice || 0) * item.quantity, 0).toLocaleString("es-CL")}</strong>
+            </div>
+          </div>
+          <button className="button secondary" type="button" onClick={() => setView("catalog")}>
+            {content.ui.continueShopping}
+          </button>
         </aside>
       </section>
     </main>
@@ -1097,7 +1071,7 @@ export default function App() {
   // Use Shopify products if available, otherwise fallback to static
   const activeContent = useMemo(() => {
     if (isFromShopify && shopifyProducts.length > 0) {
-      return { ...content, products: [...content.products, ...shopifyProducts] };
+      return { ...content, products: shopifyProducts };
     }
     return content;
   }, [content, shopifyProducts, isFromShopify]);
