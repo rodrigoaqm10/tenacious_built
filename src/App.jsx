@@ -108,6 +108,14 @@ function Header({
       </div>
       {isMenuOpen && (
         <nav className="mobile-nav" aria-label="Navegación móvil">
+          <button
+            className="mobile-search-btn"
+            type="button"
+            onClick={() => { setActivePanel("search"); }}
+          >
+            <Search size={16} />
+            <span>{content.ui.searchPlaceholder}</span>
+          </button>
           {content.nav.map((item) => (
             <a
               key={item.href || item.view}
