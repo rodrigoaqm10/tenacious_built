@@ -16,6 +16,8 @@ import {
   X,
 } from "lucide-react";
 import { contentByLanguage } from "./data/siteContent";
+import { useShopifyProducts } from "./lib/useShopifyProducts";
+import { createCheckout, isShopifyConfigured } from "./lib/shopify";
 
 function Header({
   content,
@@ -237,9 +239,21 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
               <button
                 className="button primary"
                 type="button"
-                onClick={() => {
-                  setView("checkout");
-                  setActivePanel(null);
+                onClick={async () => {
+                  // If products have Shopify variants, redirect to Shopify checkout
+                  if (cart[0]?.variants) {
+                    try {
+                      const checkout = await createCheckout(cart);
+                      window.location.href = checkout.webUrl;
+                    } catch (err) {
+                      console.error("Checkout error:", err);
+                      setView("checkout");
+                      setActivePanel(null);
+                    }
+                  } else {
+                    setView("checkout");
+                    setActivePanel(null);
+                  }
                 }}
               >
                 {content.ui.checkout} ({cartTotal})
@@ -1034,6 +1048,15 @@ export default function App() {
   const [headerHidden, setHeaderHidden] = useState(false);
   const lastScrollY = useRef(0);
   const content = contentByLanguage[language];
+  const { products: shopifyProducts, isFromShopify } = useShopifyProducts(content.products);
+
+  // Use Shopify products if available, otherwise fallback to static
+  const activeContent = useMemo(() => {
+    if (isFromShopify) {
+      return { ...content, products: shopifyProducts };
+    }
+    return content;
+  }, [content, shopifyProducts, isFromShopify]);
 
   useEffect(() => {
     let ticking = false;
@@ -1107,7 +1130,7 @@ export default function App() {
   return (
     <>
       <Header
-        content={content}
+        content={activeContent}
         language={language}
         setLanguage={setLanguage}
         activePanel={activePanel}
@@ -1118,7 +1141,7 @@ export default function App() {
       />
       <div className="site-header-spacer" />
       <ActionPanel
-        content={content}
+        content={activeContent}
         activePanel={activePanel}
         setActivePanel={setActivePanel}
         cart={cart}
@@ -1127,28 +1150,28 @@ export default function App() {
       />
       {view === "home" && (
         <main>
-          <Hero content={content} />
-          <FeatureStrip content={content} />
-          <ProductSpotlight content={content} setView={setView} />
-          <CategoryGrid content={content} />
-          <ProductGrid content={content} openOptions={setSelectedProduct} setView={setView} />
-          <StyleTiles content={content} setView={setView} />
-          <MenComingSoon content={content} />
-          <Benefits content={content} />
-          <SocialContact content={content} />
+          <Hero content={activeContent} />
+          <FeatureStrip content={activeContent} />
+          <ProductSpotlight content={activeContent} setView={setView} />
+          <CategoryGrid content={activeContent} />
+          <ProductGrid content={activeContent} openOptions={setSelectedProduct} setView={setView} />
+          <StyleTiles content={activeContent} setView={setView} />
+          <MenComingSoon content={activeContent} />
+          <Benefits content={activeContent} />
+          <SocialContact content={activeContent} />
         </main>
       )}
       {view === "catalog" && (
-        <CatalogView content={content} openOptions={setSelectedProduct} setView={setView} />
+        <CatalogView content={activeContent} openOptions={setSelectedProduct} setView={setView} />
       )}
-      {view === "checkout" && <CheckoutView content={content} cart={cart} removeFromCart={removeFromCart} setView={setView} />}
+      {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} setView={setView} />}
       {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
-        <InfoPageView content={content} pageKey={view} setView={setView} openOptions={setSelectedProduct} />
+        <InfoPageView content={activeContent} pageKey={view} setView={setView} openOptions={setSelectedProduct} />
       )}
-      <Footer content={content} setView={setView} />
-      <FloatingSocial content={content} />
+      <Footer content={activeContent} setView={setView} />
+      <FloatingSocial content={activeContent} />
       <ProductOptionsModal
-        content={content}
+        content={activeContent}
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
         onAddToCart={addToCart}
