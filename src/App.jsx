@@ -4,6 +4,7 @@ import {
   CreditCard,
   Globe2,
   Instagram,
+  Languages,
   Mail,
   Menu,
   Minus,
@@ -88,15 +89,15 @@ function Header({
           <button type="button" aria-label={content.ui.search} onClick={() => togglePanel("search")}>
             <Search size={18} />
           </button>
-          <button type="button" aria-label={content.ui.account} onClick={() => togglePanel("account")}>
-            <User size={18} />
+          <button className={`account-btn${isLoggedIn() ? " logged-in" : ""}`} type="button" aria-label={content.ui.account} onClick={() => togglePanel("account")}>
+            {isLoggedIn() ? <span className="user-initials">{(localStorage.getItem("shopify_customer_name") || "U")[0]}</span> : <User size={18} />}
           </button>
           <button className="cart-button" type="button" aria-label={content.ui.cart} onClick={() => togglePanel("cart")}>
             <ShoppingBag size={18} />
             {cartCount > 0 && <span>{cartCount}</span>}
           </button>
           <button type="button" aria-label={content.ui.language} onClick={() => setLanguage(language === "es" ? "en" : "es")}>
-            <Globe2 size={18} />
+            <Languages size={18} />
           </button>
           <button className="mobile-menu" type="button" aria-label={content.ui.menu} onClick={() => togglePanel("menu")}>
             {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -144,6 +145,7 @@ function AccountPanel({ content, setActivePanel }) {
         if (info) {
           setCustomer(info);
           setMode("profile");
+          localStorage.setItem("shopify_customer_name", info.firstName || info.email || "U");
         } else {
           setMode("signin");
         }
@@ -160,6 +162,7 @@ function AccountPanel({ content, setActivePanel }) {
       setCustomer(info);
       setMode("profile");
       setSuccess("Sesión iniciada correctamente.");
+      if (info) localStorage.setItem("shopify_customer_name", info.firstName || info.email || "U");
     } catch (err) {
       setError(err.message);
     }
@@ -186,6 +189,7 @@ function AccountPanel({ content, setActivePanel }) {
 
   function handleLogout() {
     logout();
+    localStorage.removeItem("shopify_customer_name");
     setCustomer(null);
     setMode("signin");
     setSuccess("");

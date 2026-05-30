@@ -334,6 +334,23 @@ button {
   box-shadow: 0 0 12px rgba(212, 160, 185, 0.1);
 }
 
+.account-btn.logged-in {
+  background: var(--rose);
+  border-color: var(--rose);
+  color: #2a0f1c;
+}
+
+.account-btn.logged-in:hover {
+  background: var(--rose-soft);
+  border-color: var(--rose-soft);
+}
+
+.user-initials {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 .cart-button span {
   position: absolute;
   right: -3px;
