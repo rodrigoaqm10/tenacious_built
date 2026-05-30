@@ -18,6 +18,7 @@ import {
 import { contentByLanguage } from "./data/siteContent";
 import { useShopifyProducts } from "./lib/useShopifyProducts";
 import { createCheckout, isShopifyConfigured } from "./lib/shopify";
+import { createCustomer, loginCustomer, getCustomerInfo, logout, isLoggedIn } from "./lib/auth";
 
 function Header({
   content,
@@ -127,9 +128,135 @@ function Header({
   );
 }
 
+function AccountPanel({ content, setActivePanel }) {
+  const [mode, setMode] = useState(isLoggedIn() ? "profile" : "signin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [customer, setCustomer] = useState(null);
+
+  useEffect(() => {
+    if (isLoggedIn()) {
+      getCustomerInfo().then((info) => {
+        if (info) {
+          setCustomer(info);
+          setMode("profile");
+        } else {
+          setMode("signin");
+        }
+      });
+    }
+  }, []);
+
+  async function handleSignIn() {
+    setError("");
+    setLoading(true);
+    try {
+      await loginCustomer({ email, password });
+      const info = await getCustomerInfo();
+      setCustomer(info);
+      setMode("profile");
+      setSuccess("Sesión iniciada correctamente.");
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
+  }
+
+  async function handleCreate() {
+    setError("");
+    setLoading(true);
+    try {
+      const [firstName, ...lastParts] = name.split(" ");
+      const lastName = lastParts.join(" ") || "";
+      await createCustomer({ firstName, lastName, email, password });
+      await loginCustomer({ email, password });
+      const info = await getCustomerInfo();
+      setCustomer(info);
+      setMode("profile");
+      setSuccess("Cuenta creada exitosamente.");
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
+  }
+
+  function handleLogout() {
+    logout();
+    setCustomer(null);
+    setMode("signin");
+    setSuccess("");
+  }
+
+  if (mode === "profile" && customer) {
+    return (
+      <div className="panel-body">
+        <div className="account-greeting">
+          <strong>Hola, {customer.firstName || customer.email}</strong>
+          <span>{customer.email}</span>
+        </div>
+        {customer.orders?.nodes?.length > 0 && (
+          <div className="account-orders">
+            <h3>Mis pedidos</h3>
+            {customer.orders.nodes.map((order) => (
+              <div className="order-line" key={order.id}>
+                <span>#{order.orderNumber}</span>
+                <span>${Math.round(Number(order.totalPrice.amount)).toLocaleString("es-CL")}</span>
+              </div>
+            ))}
+          </div>
+        )}
+        <button className="button secondary" type="button" onClick={handleLogout}>
+          Cerrar sesión
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="panel-body">
+      <p>{content.ui.accountCopy}</p>
+      {mode === "create" && (
+        <label className="auth-field">
+          <span>{content.ui.fullName}</span>
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="María López" />
+        </label>
+      )}
+      <label className="auth-field">
+        <span>{content.ui.email}</span>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" />
+      </label>
+      <label className="auth-field">
+        <span>{content.ui.password}</span>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
+      </label>
+      {error && <p className="option-error">{error}</p>}
+      {success && <p className="auth-success">{success}</p>}
+      <button
+        className="button primary"
+        type="button"
+        onClick={mode === "create" ? handleCreate : handleSignIn}
+        disabled={loading}
+      >
+        {loading ? "Cargando..." : mode === "create" ? content.ui.createAccountTitle : content.ui.signIn}
+        <ArrowRight size={18} />
+      </button>
+      <button
+        className="text-button"
+        type="button"
+        onClick={() => { setMode(mode === "create" ? "signin" : "create"); setError(""); }}
+      >
+        {mode === "create" ? content.ui.signIn : content.ui.createAccount}
+      </button>
+    </div>
+  );
+}
+
 function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCart, setView }) {
   const [query, setQuery] = useState("");
-  const [accountMode, setAccountMode] = useState("signin");
 
   if (!activePanel || activePanel === "menu") {
     return null;
@@ -180,34 +307,7 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
       )}
 
       {activePanel === "account" && (
-        <div className="panel-body">
-          <p>{content.ui.accountCopy}</p>
-          {accountMode === "create" && (
-            <label className="auth-field">
-              <span>{content.ui.fullName}</span>
-              <input type="text" placeholder="Tenacious Built" />
-            </label>
-          )}
-          <label className="auth-field">
-            <span>{content.ui.email}</span>
-            <input type="email" placeholder="tenacious@email.com" />
-          </label>
-          <label className="auth-field">
-            <span>{content.ui.password}</span>
-            <input type="password" placeholder="••••••••" />
-          </label>
-          <button className="button primary" type="button">
-            {accountMode === "create" ? content.ui.createAccountTitle : content.ui.signIn}
-            <ArrowRight size={18} />
-          </button>
-          <button
-            className="text-button"
-            type="button"
-            onClick={() => setAccountMode(accountMode === "create" ? "signin" : "create")}
-          >
-            {accountMode === "create" ? content.ui.signIn : content.ui.createAccount}
-          </button>
-        </div>
+        <AccountPanel content={content} setActivePanel={setActivePanel} />
       )}
 
       {activePanel === "cart" && (
