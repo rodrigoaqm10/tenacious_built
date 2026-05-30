@@ -1407,6 +1407,7 @@ function PromoPopup({ setView }) {
 export default function App() {
   const [language, setLanguage] = useState("es");
   const [view, setView] = useState("home");
+  const [catalogKey, setCatalogKey] = useState(0);
   const [activePanel, setActivePanel] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cart, setCart] = useState(() => {
@@ -1440,7 +1441,7 @@ export default function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [view]);
+  }, [view, catalogKey]);
 
   useEffect(() => {
     let ticking = false;
@@ -1502,6 +1503,11 @@ export default function App() {
     [cart],
   );
 
+  function changeView(newView) {
+    if (newView === "catalog") setCatalogKey((k) => k + 1);
+    setView(newView);
+  }
+
   function addToCart(item) {
     setCart((currentCart) => [...currentCart, item]);
     setActivePanel("cart");
@@ -1524,7 +1530,7 @@ export default function App() {
         activePanel={activePanel}
         setActivePanel={setActivePanel}
         cartCount={cartCount}
-        setView={setView}
+        setView={changeView}
         hidden={headerHidden}
       />
       <div className="site-header-spacer" />
@@ -1534,29 +1540,29 @@ export default function App() {
         setActivePanel={setActivePanel}
         cart={cart}
         removeFromCart={removeFromCart}
-        setView={setView}
+        setView={changeView}
       />
       {view === "home" && (
         <main>
           <Hero content={activeContent} />
           <FeatureStrip content={activeContent} />
-          <ProductSpotlight content={activeContent} setView={setView} />
+          <ProductSpotlight content={activeContent} setView={changeView} />
           <CategoryGrid content={activeContent} />
-          <ProductGrid content={activeContent} openOptions={setSelectedProduct} setView={setView} />
-          <StyleTiles content={activeContent} setView={setView} />
+          <ProductGrid content={activeContent} openOptions={setSelectedProduct} setView={changeView} />
+          <StyleTiles content={activeContent} setView={changeView} />
           <MenComingSoon content={activeContent} setActivePanel={setActivePanel} />
           <Benefits content={activeContent} />
           <SocialContact content={activeContent} />
         </main>
       )}
       {view === "catalog" && (
-        <CatalogView content={activeContent} openOptions={setSelectedProduct} setView={setView} />
+        <CatalogView key={catalogKey} content={activeContent} openOptions={setSelectedProduct} setView={changeView} />
       )}
-      {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} updateCartItem={updateCartItem} setView={setView} />}
+      {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} updateCartItem={updateCartItem} setView={changeView} />}
       {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
-        <InfoPageView content={activeContent} pageKey={view} setView={setView} openOptions={setSelectedProduct} />
+        <InfoPageView content={activeContent} pageKey={view} setView={changeView} openOptions={setSelectedProduct} />
       )}
-      <Footer content={activeContent} setView={setView} />
+      <Footer content={activeContent} setView={changeView} />
       <FloatingSocial content={activeContent} />
       <ProductOptionsModal
         content={activeContent}
@@ -1564,7 +1570,8 @@ export default function App() {
         onClose={() => setSelectedProduct(null)}
         onAddToCart={addToCart}
       />
-      <PromoPopup setView={setView} />
+      <PromoPopup setView={changeView} />
     </>
   );
 }
+
