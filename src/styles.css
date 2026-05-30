@@ -1742,6 +1742,66 @@ p {
   color: #2a0f1c;
 }
 
+.newsletter-status {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--rose-soft);
+  font-weight: 600;
+}
+
+.promo-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.6);
+  animation: riseIn 300ms var(--ease);
+}
+
+.promo-popup {
+  position: relative;
+  width: min(480px, 100%);
+  padding: 48px 36px;
+  border: 1px solid;
+  border-radius: 20px;
+  text-align: center;
+  animation: riseIn 400ms var(--ease);
+}
+
+.promo-popup h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  margin-bottom: 12px;
+  text-transform: none;
+}
+
+.promo-popup p {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.promo-popup .button {
+  width: 100%;
+}
+
+.promo-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--muted);
+}
+
 .floating-social {
   position: fixed;
   right: 18px;

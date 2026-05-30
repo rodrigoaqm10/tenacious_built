@@ -19,6 +19,7 @@ import { contentByLanguage } from "./data/siteContent";
 import { useShopifyProducts } from "./lib/useShopifyProducts";
 import { createCheckout, isShopifyConfigured } from "./lib/shopify";
 import { createCustomer, loginCustomer, getCustomerInfo, logout, isLoggedIn } from "./lib/auth";
+import { subscribeNewsletter } from "./lib/newsletter";
 
 function Header({
   content,
@@ -1030,6 +1031,20 @@ function Benefits({ content }) {
 }
 
 function SocialContact({ content }) {
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState("");
+
+  async function handleNewsletter() {
+    if (!newsletterEmail) return;
+    try {
+      const result = await subscribeNewsletter(newsletterEmail);
+      setNewsletterStatus(result.message);
+      setNewsletterEmail("");
+    } catch (err) {
+      setNewsletterStatus(err.message);
+    }
+  }
+
   return (
     <section className="social-contact reveal" id="contact">
       <div>
@@ -1047,15 +1062,21 @@ function SocialContact({ content }) {
           </a>
         </div>
       </div>
-      <form className="newsletter">
+      <form className="newsletter" onSubmit={(e) => { e.preventDefault(); handleNewsletter(); }}>
         <h3>{content.social.newsletterTitle}</h3>
         <p>{content.social.newsletterCopy}</p>
         <label>
-          <input type="email" placeholder={content.brand.email} />
-          <button type="button">
+          <input
+            type="email"
+            value={newsletterEmail}
+            onChange={(e) => setNewsletterEmail(e.target.value)}
+            placeholder="tu@email.com"
+          />
+          <button type="submit">
             <ArrowRight size={18} />
           </button>
         </label>
+        {newsletterStatus && <span className="newsletter-status">{newsletterStatus}</span>}
       </form>
     </section>
   );
@@ -1259,6 +1280,53 @@ function InfoPageView({ content, pageKey, setView, openOptions }) {
   );
 }
 
+function PromoPopup({ setView }) {
+  const [promo, setPromo] = useState(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem("promo_dismissed");
+    if (dismissed) return;
+
+    fetch(`${import.meta.env.BASE_URL}promo.json`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.active) {
+          setPromo(data);
+          setTimeout(() => setVisible(true), 1500);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  if (!promo || !visible) return null;
+
+  function dismiss() {
+    setVisible(false);
+    sessionStorage.setItem("promo_dismissed", "true");
+  }
+
+  return (
+    <div className="promo-overlay" role="presentation">
+      <div className="promo-popup" style={{ background: promo.backgroundColor, borderColor: promo.accentColor + "33" }}>
+        <button className="promo-close" type="button" onClick={dismiss}>
+          <X size={18} />
+        </button>
+        <h2 style={{ color: promo.accentColor }}>{promo.title}</h2>
+        <p>{promo.message}</p>
+        <button
+          className="button primary"
+          type="button"
+          onClick={() => { setView(promo.buttonLink); dismiss(); }}
+        >
+          {promo.buttonText}
+          <ArrowRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [language, setLanguage] = useState("es");
   const [view, setView] = useState("home");
@@ -1400,6 +1468,7 @@ export default function App() {
         onClose={() => setSelectedProduct(null)}
         onAddToCart={addToCart}
       />
+      <PromoPopup setView={setView} />
     </>
   );
 }
