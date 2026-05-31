@@ -226,7 +226,7 @@ function AccountPanel({ content, setActivePanel }) {
                   <span className="order-date">{new Date(order.processedAt).toLocaleDateString("es-CL")}</span>
                 </div>
                 <div>
-                  <span className="order-status">{order.fulfillmentStatus === "FULFILLED" ? "✓ Enviado" : order.fulfillmentStatus === "IN_PROGRESS" ? "◐ En preparación" : "● Confirmado"}</span>
+                  <span className="order-status">{order.fulfillmentStatus === "FULFILLED" ? "✓ Entregado" : order.fulfillmentStatus === "IN_PROGRESS" ? "◐ En camino" : order.fulfillmentStatus === "UNFULFILLED" ? "● Confirmado" : "● Confirmado"}</span>
                   <strong>${Math.round(Number(order.totalPrice.amount)).toLocaleString("es-CL")}</strong>
                 </div>
               </div>
