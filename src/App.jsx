@@ -537,7 +537,7 @@ function ProductGrid({ content, openOptions, setView }) {
   );
 }
 
-function CatalogView({ content, openOptions, setView }) {
+function CatalogView({ content, openOptions, setView, loading }) {
   const [category, setCategory] = useState(null);
   const [size, setSize] = useState(content.ui.all);
   const [sort, setSort] = useState(content.ui.newest);
@@ -555,6 +555,28 @@ function CatalogView({ content, openOptions, setView }) {
         return 0;
       });
   }, [category, content.products, content.ui.all, content.ui.priceHigh, content.ui.priceLow, size, sort]);
+
+  // Show loading state while products are being fetched
+  if (content.products.length === 0 && loading) {
+    return (
+      <main className="catalog-page">
+        <section className="catalog-hero">
+          <button className="text-button back-button" type="button" onClick={() => setView("home")}>
+            ← Home
+          </button>
+          <span className="eyebrow">{content.ui.catalog}</span>
+          <h1>{content.productSection.title}</h1>
+          <p>{content.productSection.description}</p>
+        </section>
+        <section className="catalog-categories" style={{ textAlign: "center", padding: "60px 0" }}>
+          <div style={{ gridColumn: "1 / -1" }}>
+            <div className="loading-spinner" />
+            <p style={{ color: "var(--muted)", marginTop: "16px" }}>Cargando productos...</p>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   if (content.products.length === 0) {
     return (
@@ -1558,7 +1580,7 @@ export default function App() {
   const [headerHidden, setHeaderHidden] = useState(false);
   const lastScrollY = useRef(0);
   const content = contentByLanguage[language];
-  const { products: shopifyProducts, isFromShopify } = useShopifyProducts(content.products);
+  const { products: shopifyProducts, isFromShopify, loading: productsLoading } = useShopifyProducts(content.products);
 
   // Use Shopify products if available, otherwise fallback to static
   const activeContent = useMemo(() => {
@@ -1608,15 +1630,21 @@ export default function App() {
 
   useEffect(() => {
     // Replace initial history state so popstate works from the start
-    window.history.replaceState({ view }, "");
+    const url = view === "home" ? "/" : `#${view}`;
+    window.history.replaceState({ view }, "", url);
   }, []);
 
   // Listen for browser back/forward button
   useEffect(() => {
+    // Skip the initial popstate that some browsers fire on load
+    let isInitial = true;
+    setTimeout(() => { isInitial = false; }, 100);
+
     function handlePopState(event) {
+      if (isInitial) return;
       const state = event.state;
       if (state && state.view) {
-        // Views that require state data - if we don't have it, go home
+        // Views that require state data - if we don't have it, go to catalog/home
         if (state.view === "product" && !selectedProduct) {
           setView("catalog");
           setCatalogKey((k) => k + 1);
@@ -1744,7 +1772,7 @@ export default function App() {
         </main>
       )}
       {view === "catalog" && (
-        <CatalogView key={catalogKey} content={activeContent} openOptions={openProductDetail} setView={changeView} />
+        <CatalogView key={catalogKey} content={activeContent} openOptions={openProductDetail} setView={changeView} loading={productsLoading} />
       )}
       {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} updateCartItem={updateCartItem} setView={changeView} />}
       {view === "order-detail" && selectedOrder && <OrderDetailView order={selectedOrder} onBack={() => { changeView("home"); setActivePanel("account"); }} onHome={() => changeView("home")} />}
