@@ -1422,6 +1422,39 @@ function Footer({ content, setView }) {
   );
 }
 
+function ContactView({ content, setView }) {
+  return (
+    <main className="info-page">
+      <section className="catalog-hero">
+        <button className="text-button back-button" type="button" onClick={() => setView("home")}>
+          ← Home
+        </button>
+        <span className="eyebrow">{content.social.eyebrow}</span>
+        <h1>Contacto</h1>
+        <p>Estamos para ayudarte. Escríbenos por cualquiera de estos canales.</p>
+      </section>
+      <section className="info-content">
+        <div className="contact-cards">
+          <a className="contact-card" href={content.brand.instagram} target="_blank" rel="noreferrer">
+            <Instagram size={22} />
+            <div>
+              <strong>Instagram</strong>
+              <span>@tenacious_built</span>
+            </div>
+          </a>
+          <a className="contact-card" href={`mailto:${content.brand.email}`}>
+            <Mail size={22} />
+            <div>
+              <strong>Correo</strong>
+              <span>{content.brand.email}</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 function InfoPageView({ content, pageKey, setView, openOptions }) {
   const page = content.pages[pageKey];
 
@@ -1704,7 +1737,7 @@ export default function App() {
   const [language, setLanguage] = useState("es");
   const [view, setView] = useState(() => {
     const hash = window.location.hash.replace("#", "");
-    const allViews = ["catalog", "checkout", "product", "order-detail", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
+    const allViews = ["catalog", "checkout", "product", "order-detail", "contact", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
     return allViews.includes(hash) ? hash : "home";
   });
   const [catalogKey, setCatalogKey] = useState(0);
@@ -1952,6 +1985,7 @@ export default function App() {
           onAddToCart={addToCart}
         />
       )}
+      {view === "contact" && <ContactView content={activeContent} setView={changeView} />}
       {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
         <InfoPageView content={activeContent} pageKey={view} setView={changeView} openOptions={openProductDetail} />
       )}
