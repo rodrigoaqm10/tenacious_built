@@ -1714,21 +1714,17 @@ function PromoPopup({ setView }) {
         <button className="promo-close" type="button" onClick={dismiss}>
           <X size={16} />
         </button>
-        <div className="promo-visual">
-          <img src={`${import.meta.env.BASE_URL}images/tenacious-logo-pink.png`} alt="Tenacious Built" className="promo-logo" />
-        </div>
-        <div className="promo-popup-content">
-          <h2>{promo.title}</h2>
-          <p>{cleanMessage}</p>
-          <button
-            className="button primary"
-            type="button"
-            onClick={() => { setView("catalog"); dismiss(); }}
-          >
-            Ver ofertas
-            <ArrowRight size={18} />
-          </button>
-        </div>
+        <div className="promo-badge">OFERTA EXCLUSIVA</div>
+        <h2 className="promo-title">{promo.title}</h2>
+        <p className="promo-message">{cleanMessage}</p>
+        <button
+          className="promo-cta"
+          type="button"
+          onClick={() => { setView("catalog"); dismiss(); }}
+        >
+          Comprar ahora
+          <ArrowRight size={16} />
+        </button>
       </div>
     </div>
   );

@@ -2040,26 +2040,20 @@ p {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   animation: fadeIn 300ms var(--ease);
-  overflow: hidden;
 }
 
 .promo-popup {
   position: relative;
-  width: min(440px, calc(100% - 32px));
-  padding: 0;
-  background:
-    linear-gradient(160deg, rgba(30, 25, 35, 0.98), rgba(14, 13, 18, 0.99));
-  border: 1px solid rgba(212, 160, 185, 0.12);
-  border-radius: 28px;
+  width: min(380px, calc(100% - 32px));
+  padding: 48px 36px 36px;
+  background: #0c0b0e;
+  border: 1px solid rgba(212, 160, 185, 0.2);
+  border-radius: 20px;
   text-align: center;
-  box-shadow:
-    0 40px 100px rgba(0, 0, 0, 0.6),
-    0 0 80px rgba(212, 160, 185, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
   animation: riseIn 500ms var(--ease);
   overflow: hidden;
 }
@@ -2067,89 +2061,98 @@ p {
 .promo-popup::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--rose), var(--accent), var(--rose), transparent);
-}
-
-.promo-visual {
-  position: relative;
-  padding: 48px 32px 20px;
+  inset: 0;
   background:
-    radial-gradient(ellipse at 50% 100%, rgba(212, 160, 185, 0.08), transparent 70%);
+    radial-gradient(ellipse at 50% 0%, rgba(212, 160, 185, 0.1), transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(196, 160, 212, 0.06), transparent 50%);
+  pointer-events: none;
 }
 
-.promo-logo {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto;
-  border-radius: 14px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 20px rgba(212, 160, 185, 0.3));
-}
-
-.promo-sparkles {
-  position: absolute;
-  top: 40px;
-  right: calc(50% - 48px);
+.promo-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  margin-bottom: 24px;
+  background: rgba(212, 160, 185, 0.12);
+  border: 1px solid rgba(212, 160, 185, 0.25);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   color: var(--rose-soft);
-  opacity: 0.6;
-  animation: floatInPlace 3s ease-in-out infinite;
-}
-
-.promo-popup-content {
-  padding: 8px 36px 40px;
-}
-
-.promo-popup h2 {
-  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-  margin-bottom: 12px;
   text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  color: var(--text);
 }
 
-.promo-popup p {
+.promo-title {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 16px;
+  background: linear-gradient(180deg, #fff 30%, var(--rose-soft));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.promo-message {
   color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.7;
+  font-size: 0.88rem;
+  line-height: 1.6;
   margin-bottom: 28px;
-  max-width: 320px;
+  max-width: 300px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.promo-popup .button {
+.promo-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
-  border-radius: 14px;
-  min-height: 52px;
-  font-size: 0.95rem;
+  padding: 16px 28px;
+  background: var(--rose);
+  border: none;
+  border-radius: 12px;
+  color: #1a0a12;
+  font-size: 0.92rem;
   font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 180ms var(--ease), transform 180ms var(--ease), box-shadow 180ms var(--ease);
+}
+
+.promo-cta:hover {
+  background: var(--rose-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(212, 160, 185, 0.3);
+}
+
+.promo-cta:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .promo-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   z-index: 2;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
   color: var(--muted);
-  transition: color 180ms var(--ease), border-color 180ms var(--ease), transform 180ms var(--ease);
+  cursor: pointer;
+  transition: color 180ms var(--ease), border-color 180ms var(--ease);
 }
 
 .promo-close:hover {
   color: var(--text);
-  border-color: rgba(212, 160, 185, 0.4);
-  transform: rotate(90deg);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .floating-social {
@@ -3618,20 +3621,12 @@ button.order-line {
 
   .promo-popup {
     width: calc(100% - 24px);
+    padding: 40px 24px 28px;
     border-radius: 18px;
   }
 
-  .promo-popup-content {
-    padding: 0 24px 28px;
-  }
-
-  .promo-visual {
-    padding: 28px 24px 18px;
-  }
-
-  .promo-logo {
-    width: 56px;
-    height: 56px;
+  .promo-title {
+    font-size: 2rem;
   }
 
   .back-button {
