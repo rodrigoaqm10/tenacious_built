@@ -2494,6 +2494,19 @@ p {
   display: block;
 }
 
+.size-tables {
+  display: grid;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+.size-table-block h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--rose-soft);
+  margin-bottom: 12px;
+}
+
 @media (max-width: 560px) {
   .size-images-grid {
     grid-template-columns: 1fr;

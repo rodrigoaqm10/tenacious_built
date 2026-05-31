@@ -1551,6 +1551,33 @@ function InfoPageView({ content, pageKey, setView, openOptions }) {
             </div>
           )}
 
+          {/* Size guide tables by product */}
+          {page.sizeTables && (
+            <div className="size-tables">
+              {page.sizeTables.map((table) => (
+                <div className="size-table-block" key={table.name}>
+                  <h3>{table.name}</h3>
+                  <div className="size-table-wrapper">
+                    <table className="size-table">
+                      <thead>
+                        <tr>
+                          {table.headers.map((h) => <th key={h}>{h}</th>)}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {table.rows.map((row) => (
+                          <tr key={row[0]}>
+                            {row.map((cell, i) => <td key={i}>{cell}</td>)}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* Size guide table (legacy) */}
           {page.table && (
             <div className="size-table-wrapper">

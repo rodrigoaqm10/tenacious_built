@@ -267,12 +267,44 @@ export const contentByLanguage = {
       },
       "size-guide": {
         title: "Guía de tallas",
-        intro: "Cada prenda tiene medidas específicas. Selecciona el producto para ver su tabla de tallas real.",
-        sizeImages: [
-          { name: "Short", image: assetPath("images/medidas-short.jpeg") },
-          { name: "Sostén deportivo", image: assetPath("images/medidas-sosten.jpeg") },
-          { name: "Top deportivo", image: assetPath("images/medidas-top-deportivo.jpeg") },
-          { name: "Top", image: assetPath("images/medidas-top.jpeg") },
+        intro: "Nuestras prendas tienen un calce ajustado y técnico, pensado para entrenamiento. Medidas en centímetros.",
+        sizeTables: [
+          {
+            name: "Top deportivo (sostén)",
+            headers: ["Talla", "Chile", "Largo", "Busto"],
+            rows: [
+              ["S", "36", "36.6", "64.0"],
+              ["M", "38", "37.6", "68.1"],
+              ["L", "40-42", "38.6", "71.9"],
+            ],
+          },
+          {
+            name: "Short deportivo",
+            headers: ["Talla", "Chile", "Cadera", "Largo", "Cintura"],
+            rows: [
+              ["S", "36", "69.1", "30", "56.9"],
+              ["M", "38", "72.9", "31", "61"],
+              ["L", "40-42", "77", "32", "65"],
+            ],
+          },
+          {
+            name: "Top deportivo (polera)",
+            headers: ["Talla", "Chile", "Largo", "Busto"],
+            rows: [
+              ["S", "36", "47", "65"],
+              ["M", "38", "48", "70.1"],
+              ["L", "40-42", "50", "74.9"],
+            ],
+          },
+          {
+            name: "Sostén deportivo",
+            headers: ["Talla", "Chile", "Largo", "Bajo busto", "Busto"],
+            rows: [
+              ["S", "36", "23.1", "52.1", "59.9"],
+              ["M", "38", "24.9", "55.9", "64"],
+              ["L", "40-42", "25.9", "59.9", "68.1"],
+            ],
+          },
         ],
         tips: [
           "Si estás entre dos tallas, te recomendamos la talla mayor para mayor comodidad.",
@@ -620,12 +652,44 @@ export const contentByLanguage = {
       },
       "size-guide": {
         title: "Size guide",
-        intro: "Each garment has specific measurements. Select the product to see its real size chart.",
-        sizeImages: [
-          { name: "Short", image: assetPath("images/medidas-short.jpeg") },
-          { name: "Sports bra", image: assetPath("images/medidas-sosten.jpeg") },
-          { name: "Sports top", image: assetPath("images/medidas-top-deportivo.jpeg") },
-          { name: "Top", image: assetPath("images/medidas-top.jpeg") },
+        intro: "Our garments have a fitted, technical cut designed for training. Measurements in centimeters.",
+        sizeTables: [
+          {
+            name: "Sports top (bra style)",
+            headers: ["Size", "Chile", "Length", "Bust"],
+            rows: [
+              ["S", "36", "36.6", "64.0"],
+              ["M", "38", "37.6", "68.1"],
+              ["L", "40-42", "38.6", "71.9"],
+            ],
+          },
+          {
+            name: "Sports short",
+            headers: ["Size", "Chile", "Hips", "Length", "Waist"],
+            rows: [
+              ["S", "36", "69.1", "30", "56.9"],
+              ["M", "38", "72.9", "31", "61"],
+              ["L", "40-42", "77", "32", "65"],
+            ],
+          },
+          {
+            name: "Sports top (tee)",
+            headers: ["Size", "Chile", "Length", "Bust"],
+            rows: [
+              ["S", "36", "47", "65"],
+              ["M", "38", "48", "70.1"],
+              ["L", "40-42", "50", "74.9"],
+            ],
+          },
+          {
+            name: "Sports bra",
+            headers: ["Size", "Chile", "Length", "Under bust", "Bust"],
+            rows: [
+              ["S", "36", "23.1", "52.1", "59.9"],
+              ["M", "38", "24.9", "55.9", "64"],
+              ["L", "40-42", "25.9", "59.9", "68.1"],
+            ],
+          },
         ],
         tips: [
           "If you're between two sizes, we recommend going up for more comfort.",
