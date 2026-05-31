@@ -13,7 +13,7 @@ const sharedImages = {
     assetPath("images/top-deportivo-negro.jpeg"),
   ],
   styleTiles: [
-    assetPath("images/short-negro.jpeg"),
+    assetPath("images/short-rojo1.jpeg"),
     assetPath("images/top-deportivo-azul.jpeg"),
   ],
 };
@@ -107,6 +107,7 @@ export const contentByLanguage = {
       features: ["Soporte cómodo", "Texturas suaves", "Calce seguro"],
       images: sharedImages.spotlight,
     },
+    styleTileImages: sharedImages.styleTiles,
     stats: [
       { value: "4-way", label: "elasticidad" },
       { value: "24/7", label: "comodidad" },
@@ -464,6 +465,7 @@ export const contentByLanguage = {
       features: ["Comfort support", "Soft textures", "Secure fit"],
       images: sharedImages.spotlight,
     },
+    styleTileImages: sharedImages.styleTiles,
     stats: [
       { value: "4-way", label: "stretch" },
       { value: "24/7", label: "comfort" },

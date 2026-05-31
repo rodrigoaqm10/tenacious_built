@@ -1128,7 +1128,7 @@ function MenComingSoon({ content, setActivePanel }) {
 }
 
 function StyleTiles({ content, setView }) {
-  const tileImages = content.spotlight?.images || [];
+  const tileImages = content.styleTileImages || [];
   return (
     <section className="style-tiles reveal" id="top-sellers">
       <article className="style-tile-with-bg" style={{ backgroundImage: `url(${tileImages[0] || ""})` }}>
