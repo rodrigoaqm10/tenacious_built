@@ -461,8 +461,8 @@ function ProductSpotlight({ content, setView }) {
         </button>
       </div>
       <div className="spotlight-media">
-        {content.products[0] && <img src={content.products[0].image} alt={content.products[0].name} />}
-        {content.products[1] && <img src={content.products[1].image} alt={content.products[1].name} />}
+        {content.spotlight.images?.[0] && <img src={content.spotlight.images[0]} alt="Colección" />}
+        {content.spotlight.images?.[1] && <img src={content.spotlight.images[1]} alt="Colección" />}
       </div>
     </section>
   );
@@ -1128,22 +1128,29 @@ function MenComingSoon({ content, setActivePanel }) {
 }
 
 function StyleTiles({ content, setView }) {
+  const tileImages = content.spotlight?.images || [];
   return (
     <section className="style-tiles reveal" id="top-sellers">
-      <article>
-        <span className="eyebrow">Top seller</span>
-        <h2>Entrena con estilo, rinde con fuerza.</h2>
-        <button className="button primary" type="button" onClick={() => setView("catalog")}>
-          {content.hero.primaryCta}
-          <ArrowRight size={18} />
-        </button>
+      <article className="style-tile-with-bg" style={{ backgroundImage: `url(${tileImages[0] || ""})` }}>
+        <div className="style-tile-overlay" />
+        <div className="style-tile-content">
+          <span className="eyebrow">Top seller</span>
+          <h2>Entrena con estilo, rinde con fuerza.</h2>
+          <button className="button primary" type="button" onClick={() => setView("catalog")}>
+            {content.hero.primaryCta}
+            <ArrowRight size={18} />
+          </button>
+        </div>
       </article>
-      <article>
-        <span className="eyebrow">New drop</span>
-        <h2>Diseño que acompaña cada repetición.</h2>
-        <button className="button secondary" type="button" onClick={() => setView("catalog")}>
-          {content.hero.secondaryCta}
-        </button>
+      <article className="style-tile-with-bg" style={{ backgroundImage: `url(${tileImages[1] || ""})` }}>
+        <div className="style-tile-overlay" />
+        <div className="style-tile-content">
+          <span className="eyebrow">New drop</span>
+          <h2>Diseño que acompaña cada repetición.</h2>
+          <button className="button secondary" type="button" onClick={() => setView("catalog")}>
+            {content.hero.secondaryCta}
+          </button>
+        </div>
       </article>
     </section>
   );

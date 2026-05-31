@@ -4,9 +4,17 @@ const sharedImages = {
   logo: assetPath("images/tenacious-logo-pink.png"),
   hero: assetPath("images/hero.jpeg"),
   categories: [
-    assetPath("images/hero.jpeg"),
-    assetPath("images/hero.jpeg"),
-    assetPath("images/hero.jpeg"),
+    assetPath("images/short-negro-1.jpeg"),
+    assetPath("images/sosten-negro-2.jpeg"),
+    assetPath("images/top-negro-3.jpeg"),
+  ],
+  spotlight: [
+    assetPath("images/sosten-azul-2.jpeg"),
+    assetPath("images/top-rojo-2.jpeg"),
+  ],
+  styleTiles: [
+    assetPath("images/short-rojo1.jpeg"),
+    assetPath("images/top-azul-3.jpeg"),
   ],
 };
 
@@ -97,6 +105,7 @@ export const contentByLanguage = {
       description:
         "Una selección pensada para calce seguro, telas suaves y combinaciones que funcionan en entrenamiento, descanso y rutina diaria.",
       features: ["Soporte cómodo", "Texturas suaves", "Calce seguro"],
+      images: sharedImages.spotlight,
     },
     stats: [
       { value: "4-way", label: "elasticidad" },
@@ -453,6 +462,7 @@ export const contentByLanguage = {
       description:
         "A curated selection built around secure fit, soft textures and combinations that work for training, recovery and daily routines.",
       features: ["Comfort support", "Soft textures", "Secure fit"],
+      images: sharedImages.spotlight,
     },
     stats: [
       { value: "4-way", label: "stretch" },

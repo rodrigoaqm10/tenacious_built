@@ -940,8 +940,8 @@ p {
 .spotlight-copy h2 {
   max-width: 640px;
   margin-bottom: 18px;
-  font-size: clamp(1.8rem, 3.5vw, 3.6rem);
-  line-height: 1.1;
+  font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+  line-height: 1.15;
   letter-spacing: -0.02em;
   font-weight: 700;
   background: linear-gradient(180deg, #fff, #b9adb5);
@@ -1695,22 +1695,42 @@ p {
   border: 1px solid var(--line);
   border-radius: 20px;
   overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(12, 11, 14, 0.3) 0%, rgba(12, 11, 14, 0.92) 70%),
-    url("/images/hero.jpeg")
-      top center/cover;
+  background: var(--panel);
+}
+
+.style-tile-with-bg {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.style-tile-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 11, 14, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.style-tile-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: end;
+  justify-items: start;
+  gap: 18px;
+  height: 100%;
 }
 
 .style-tiles article:nth-child(2) {
-  background:
-    linear-gradient(180deg, rgba(12, 11, 14, 0.3) 0%, rgba(12, 11, 14, 0.92) 70%),
-    radial-gradient(ellipse at 60% 40%, rgba(212, 160, 185, 0.15), transparent 60%),
-    var(--panel);
+  background-size: cover;
+  background-position: center;
 }
 
 .style-tiles h2 {
   max-width: 620px;
   margin-bottom: 0;
+  font-size: 1.6rem;
 }
 
 .men-band {
