@@ -145,6 +145,38 @@ export async function createCheckout(cartItems) {
 
   return { webUrl: data.cartCreate.cart.checkoutUrl };
 }
+// Inferir categoría del nombre del producto cuando productType está vacío
+function inferCategory(product) {
+  // Si tiene productType definido y no es genérico, usarlo
+  if (product.productType && product.productType.toLowerCase() !== "general") {
+    return product.productType;
+  }
+
+  // Inferir del título del producto
+  const title = (product.title || "").toLowerCase();
+  const handle = (product.handle || "").toLowerCase();
+  const combined = `${title} ${handle}`;
+
+  // Mapeo de palabras clave a categorías
+  const categoryMap = [
+    { keywords: ["short", "shorts", "calza", "legging", "pantalon", "pantalón"], category: "Shorts" },
+    { keywords: ["top", "crop", "polera", "remera", "camiseta", "tee", "t-shirt"], category: "Tops" },
+    { keywords: ["sosten", "sostén", "bra", "sports bra", "sujetador", "bralette"], category: "Sostenes" },
+    { keywords: ["set", "conjunto", "combo", "pack"], category: "Sets" },
+    { keywords: ["hoodie", "buzo", "chaqueta", "jacket", "sweater"], category: "Buzos" },
+    { keywords: ["accesorio", "bolso", "gorra", "banda", "muñequera"], category: "Accesorios" },
+  ];
+
+  for (const { keywords, category } of categoryMap) {
+    if (keywords.some((kw) => combined.includes(kw))) {
+      return category;
+    }
+  }
+
+  // Si no se puede inferir, usar productType o el tipo genérico
+  return product.productType || "Otros";
+}
+
 export function transformShopifyProduct(product) {
   try {
     const price = product?.priceRange?.minVariantPrice?.amount || "0";
@@ -167,7 +199,7 @@ export function transformShopifyProduct(product) {
       numericPrice: Math.round(Number(price)),
       badge: product.tags?.[0] || "Nuevo",
       color: colorOption?.values?.[0] || "",
-      category: product.productType || "General",
+      category: inferCategory(product),
       sizes: sizeOption?.values || [],
       colors: colorOption?.values || [],
       image: product.featuredImage?.url || "",
