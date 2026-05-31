@@ -162,9 +162,10 @@ function inferCategory(product) {
 
   // Mapeo de palabras clave a categorías
   const categoryMap = [
-    { keywords: ["short", "shorts", "calza", "legging", "pantalon", "pantalón"], category: "Shorts" },
-    { keywords: ["top", "crop", "polera", "remera", "camiseta", "tee", "t-shirt"], category: "Tops" },
-    { keywords: ["sosten", "sostén", "bra", "sports bra", "sujetador", "bralette"], category: "Sostenes" },
+    { keywords: ["short", "shorts", "calza", "legging", "pantalon", "pantalón", "pantalones cortos"], category: "Shorts" },
+    { keywords: ["t-shirt", "tshirt", "camiseta", "polera", "remera", "tee", "manga corta"], category: "T-Shirts" },
+    { keywords: ["top", "crop"], category: "Tops" },
+    { keywords: ["breastplate", "sosten", "sostén", "bra", "sports bra", "sujetador", "bralette", "sujetadores"], category: "Breastplates" },
     { keywords: ["set", "conjunto", "combo", "pack"], category: "Sets" },
     { keywords: ["hoodie", "buzo", "chaqueta", "jacket", "sweater"], category: "Buzos" },
     { keywords: ["accesorio", "bolso", "gorra", "banda", "muñequera"], category: "Accesorios" },
