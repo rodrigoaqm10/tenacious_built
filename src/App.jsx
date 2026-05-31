@@ -542,6 +542,20 @@ function CatalogView({ content, openOptions, setView }) {
   const [size, setSize] = useState(content.ui.all);
   const [sort, setSort] = useState(content.ui.newest);
 
+  const categories = [...new Set(content.products.map((product) => product.category))];
+  const sizes = [content.ui.all, ...new Set(content.products.flatMap((product) => product.sizes))];
+
+  const products = useMemo(() => {
+    return content.products
+      .filter((product) => !category || category === content.ui.all || product.category === category)
+      .filter((product) => size === content.ui.all || product.sizes.includes(size))
+      .sort((a, b) => {
+        if (sort === content.ui.priceLow) return a.numericPrice - b.numericPrice;
+        if (sort === content.ui.priceHigh) return b.numericPrice - a.numericPrice;
+        return 0;
+      });
+  }, [category, content.products, content.ui.all, content.ui.priceHigh, content.ui.priceLow, size, sort]);
+
   if (content.products.length === 0) {
     return (
       <main className="catalog-page">
@@ -562,20 +576,6 @@ function CatalogView({ content, openOptions, setView }) {
       </main>
     );
   }
-
-  const categories = [...new Set(content.products.map((product) => product.category))];
-  const sizes = [content.ui.all, ...new Set(content.products.flatMap((product) => product.sizes))];
-
-  const products = useMemo(() => {
-    return content.products
-      .filter((product) => !category || category === content.ui.all || product.category === category)
-      .filter((product) => size === content.ui.all || product.sizes.includes(size))
-      .sort((a, b) => {
-        if (sort === content.ui.priceLow) return a.numericPrice - b.numericPrice;
-        if (sort === content.ui.priceHigh) return b.numericPrice - a.numericPrice;
-        return 0;
-      });
-  }, [category, content.products, content.ui.all, content.ui.priceHigh, content.ui.priceLow, size, sort]);
 
   // Show category picker if no category selected
   if (!category) {
