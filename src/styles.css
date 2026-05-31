@@ -2311,6 +2311,25 @@ p {
   color: rgba(255, 255, 255, 0.35);
 }
 
+.footer-dev {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+}
+
+.footer-dev a {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  transition: color 180ms var(--ease);
+}
+
+.footer-dev a:hover {
+  color: var(--rose-soft);
+}
+
 .info-page {
   min-height: calc(100vh - 104px);
   animation: riseIn 360ms var(--ease);

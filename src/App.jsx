@@ -1413,6 +1413,11 @@ function Footer({ content, setView }) {
         <span>© 2026 {content.brand.legalName}</span>
         <span className="footer-payment">Pago seguro con tarjeta de crédito y débito</span>
       </div>
+      <div className="footer-dev">
+        <a href="https://portafolioraqm.netlify.app" target="_blank" rel="noreferrer">
+          Sitio desarrollado por RAQM · ¿Necesitas una web? Agenda aquí
+        </a>
+      </div>
     </footer>
   );
 }
