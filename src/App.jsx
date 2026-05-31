@@ -1946,7 +1946,6 @@ export default function App() {
           <ProductGrid content={activeContent} openOptions={openProductDetail} setView={changeView} />
           <StyleTiles content={activeContent} setView={changeView} />
           <MenComingSoon content={activeContent} setActivePanel={setActivePanel} />
-          <Benefits content={activeContent} />
           <SocialContact content={activeContent} />
         </main>
       )}
