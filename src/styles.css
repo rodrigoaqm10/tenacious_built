@@ -3046,7 +3046,7 @@ button.order-line {
   }
 
   .spotlight-media img {
-    min-height: 320px;
+    min-height: 240px;
     border-radius: 10px;
   }
 
@@ -3365,15 +3365,15 @@ button.order-line {
   }
 
   .spotlight-media {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
     padding: 6px;
   }
 
   .spotlight-media img,
   .spotlight-media img:nth-child(2) {
-    min-height: 240px;
-    height: auto;
+    min-height: 180px;
+    height: 200px;
     border-radius: 8px;
   }
 

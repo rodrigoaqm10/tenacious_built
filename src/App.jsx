@@ -1372,6 +1372,17 @@ function Footer({ content, setView }) {
         </a>
         <p>{content.brand.tagline}</p>
       </div>
+      <div className="footer-social">
+        <span>{content.social.title}</span>
+        <div>
+          <a href={content.brand.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
+            <Instagram size={18} />
+          </a>
+          <a href={`mailto:${content.brand.email}`} aria-label="Correo">
+            <Mail size={18} />
+          </a>
+        </div>
+      </div>
       <div className="footer-columns">
         {Object.values(content.footerLinks).map((group) => (
           <nav key={group.title}>
