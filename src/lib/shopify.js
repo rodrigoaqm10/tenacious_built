@@ -89,6 +89,10 @@ export const CREATE_CART_MUTATION = `
       cart {
         id
         checkoutUrl
+        attributes {
+          key
+          value
+        }
       }
       userErrors {
         code
@@ -123,8 +127,16 @@ export async function createCheckout(cartItems) {
     throw new Error("No se encontraron variantes válidas para el checkout.");
   }
 
+  // Get the current site URL for return redirect
+  const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
+
   const data = await shopifyFetch(CREATE_CART_MUTATION, {
-    input: { lines },
+    input: {
+      lines,
+      attributes: [
+        { key: "return_to", value: siteUrl },
+      ],
+    },
   });
 
   if (data.cartCreate.userErrors.length > 0) {

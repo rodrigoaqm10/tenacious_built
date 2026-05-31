@@ -210,6 +210,12 @@ function AccountPanel({ content, setActivePanel }) {
   }
 
   if (mode === "profile" && customer) {
+    function viewOrderDetail(order) {
+      window.__selectedOrder = order;
+      window.dispatchEvent(new Event("viewOrder"));
+      setActivePanel(null);
+    }
+
     return (
       <div className="panel-body">
         <div className="account-greeting">
@@ -220,7 +226,7 @@ function AccountPanel({ content, setActivePanel }) {
           <div className="account-orders">
             <h3>Mis pedidos</h3>
             {customer.orders.nodes.map((order) => (
-              <a className="order-line" key={order.id} href={order.statusUrl || "#"} target="_blank" rel="noreferrer">
+              <button className="order-line" key={order.id} type="button" onClick={() => viewOrderDetail(order)}>
                 <div>
                   <strong>#{order.orderNumber}</strong>
                   <span className="order-date">{new Date(order.processedAt).toLocaleDateString("es-CL")}</span>
@@ -232,7 +238,7 @@ function AccountPanel({ content, setActivePanel }) {
                   <strong>${Math.round(Number(order.totalPrice.amount)).toLocaleString("es-CL")}</strong>
                 </div>
                 <span className="order-arrow">Ver detalle →</span>
-              </a>
+              </button>
             ))}
           </div>
         ) : (
@@ -1405,7 +1411,7 @@ function OrderDetailView({ order, onBack }) {
                 {item.variant?.image?.url && <img src={item.variant.image.url} alt={item.title} />}
                 <div>
                   <strong>{item.title}</strong>
-                  <span>{item.variant?.title} x {item.quantity}</span>
+                  <span>{item.variant?.title !== "Default Title" ? item.variant?.title : ""} x {item.quantity}</span>
                   <span>${Math.round(Number(item.variant?.price?.amount || 0)).toLocaleString("es-CL")}</span>
                 </div>
               </div>
@@ -1417,9 +1423,20 @@ function OrderDetailView({ order, onBack }) {
               <h3>Dirección de envío</h3>
               <p style={{ margin: 0 }}>
                 {order.shippingAddress.address1}<br />
-                {order.shippingAddress.city}, {order.shippingAddress.province}<br />
+                {order.shippingAddress.city}{order.shippingAddress.province ? `, ${order.shippingAddress.province}` : ""}<br />
                 {order.shippingAddress.country}
               </p>
+            </article>
+          )}
+
+          {order.successfulFulfillments?.length > 0 && order.successfulFulfillments[0].trackingInfo?.length > 0 && (
+            <article>
+              <h3>Seguimiento de envío</h3>
+              {order.successfulFulfillments[0].trackingInfo.map((track, idx) => (
+                <a key={idx} href={track.url} target="_blank" rel="noreferrer" className="tracking-link">
+                  N° seguimiento: {track.number} →
+                </a>
+              ))}
             </article>
           )}
 
@@ -1432,6 +1449,18 @@ function OrderDetailView({ order, onBack }) {
               <div className="order-total"><span>Total</span><strong>${Math.round(Number(order.totalPrice.amount)).toLocaleString("es-CL")}</strong></div>
             </div>
           </article>
+        </div>
+
+        <div style={{ display: "flex", gap: "12px", marginTop: "24px", flexWrap: "wrap" }}>
+          <button className="button primary" type="button" onClick={onBack}>
+            Volver a mi cuenta
+          </button>
+          <button className="button secondary" type="button" onClick={() => {
+            window.location.hash = "#catalog";
+          }}>
+            Seguir comprando
+            <ArrowRight size={18} />
+          </button>
         </div>
       </section>
     </main>
