@@ -613,6 +613,29 @@ button {
   padding: 20px 0;
 }
 
+.search-view-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 4px;
+  background: rgba(212, 160, 185, 0.08);
+  border: 1px solid rgba(212, 160, 185, 0.2);
+  border-radius: 10px;
+  color: var(--rose-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 150ms var(--ease);
+}
+
+.search-view-all:hover {
+  background: rgba(212, 160, 185, 0.15);
+}
+
 .quick-results img,
 .cart-line img {
   aspect-ratio: 1;

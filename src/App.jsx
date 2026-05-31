@@ -322,18 +322,8 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
               onChange={(event) => setQuery(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && query.trim()) {
-                  const results = content.products.filter((product) =>
-                    `${product.name} ${product.type} ${product.color} ${product.category}`
-                      .toLowerCase()
-                      .includes(query.toLowerCase())
-                  );
-                  if (results.length === 1) {
-                    openOptions(results[0]);
-                    setActivePanel(null);
-                  } else if (results.length > 0) {
-                    openOptions(results[0]);
-                    setActivePanel(null);
-                  }
+                  setActivePanel(null);
+                  setView("catalog");
                 }
               }}
               placeholder={content.ui.searchPlaceholder}
@@ -347,7 +337,7 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
                   .toLowerCase()
                   .includes(query.toLowerCase()),
               )
-              .slice(0, 6)
+              .slice(0, 4)
               .map((product) => (
                 <button key={product.name} type="button" className="search-result" onClick={() => { openOptions(product); setActivePanel(null); }}>
                   <img src={product.image} alt={product.name} loading="lazy" />
@@ -361,6 +351,14 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
               `${p.name} ${p.type} ${p.color} ${p.category}`.toLowerCase().includes(query.toLowerCase())
             ).length === 0 && (
               <p className="search-no-results">No se encontraron productos para "{query}"</p>
+            )}
+            {query && content.products.filter((p) =>
+              `${p.name} ${p.type} ${p.color} ${p.category}`.toLowerCase().includes(query.toLowerCase())
+            ).length > 0 && (
+              <button className="search-view-all" type="button" onClick={() => { setActivePanel(null); setView("catalog"); }}>
+                Ver todo en catálogo
+                <ArrowRight size={16} />
+              </button>
             )}
           </div>
           {!query && <p>{content.ui.searchEmpty}</p>}
