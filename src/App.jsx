@@ -1716,9 +1716,6 @@ function PromoPopup({ setView }) {
         </button>
         <div className="promo-visual">
           <img src={`${import.meta.env.BASE_URL}images/tenacious-logo-pink.png`} alt="Tenacious Built" className="promo-logo" />
-          <div className="promo-sparkles">
-            <Sparkles size={20} />
-          </div>
         </div>
         <div className="promo-popup-content">
           <h2>{promo.title}</h2>

@@ -2040,25 +2040,27 @@ p {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  animation: riseIn 300ms var(--ease);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: fadeIn 300ms var(--ease);
   overflow: hidden;
 }
 
 .promo-popup {
   position: relative;
-  width: min(420px, calc(100% - 32px));
+  width: min(440px, calc(100% - 32px));
   padding: 0;
-  background: var(--panel);
-  border: 1px solid rgba(212, 160, 185, 0.15);
-  border-radius: 24px;
+  background:
+    linear-gradient(160deg, rgba(30, 25, 35, 0.98), rgba(14, 13, 18, 0.99));
+  border: 1px solid rgba(212, 160, 185, 0.12);
+  border-radius: 28px;
   text-align: center;
   box-shadow:
-    0 32px 80px rgba(0, 0, 0, 0.5),
-    0 0 60px rgba(212, 160, 185, 0.08);
-  animation: riseIn 400ms var(--ease);
+    0 40px 100px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(212, 160, 185, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: riseIn 500ms var(--ease);
   overflow: hidden;
 }
 
@@ -2068,55 +2070,51 @@ p {
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--rose), var(--accent), var(--rose));
-  background-size: 200% 100%;
-  animation: shimmer 3s linear infinite;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--rose), var(--accent), var(--rose), transparent);
 }
 
 .promo-visual {
   position: relative;
-  padding: 36px 32px 24px;
+  padding: 48px 32px 20px;
   background:
-    radial-gradient(ellipse at 50% 80%, rgba(212, 160, 185, 0.12), transparent 60%),
-    radial-gradient(ellipse at 30% 20%, rgba(196, 160, 212, 0.08), transparent 50%);
+    radial-gradient(ellipse at 50% 100%, rgba(212, 160, 185, 0.08), transparent 70%);
 }
 
 .promo-logo {
-  width: 72px;
-  height: 72px;
+  width: 56px;
+  height: 56px;
   margin: 0 auto;
-  border-radius: 16px;
+  border-radius: 14px;
   object-fit: contain;
-  animation: floatInPlace 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 20px rgba(212, 160, 185, 0.3));
 }
 
 .promo-sparkles {
   position: absolute;
-  top: 28px;
-  right: calc(50% - 56px);
+  top: 40px;
+  right: calc(50% - 48px);
   color: var(--rose-soft);
-  animation: floatInPlace 2.5s ease-in-out infinite;
-  animation-delay: 0.5s;
+  opacity: 0.6;
+  animation: floatInPlace 3s ease-in-out infinite;
 }
 
 .promo-popup-content {
-  padding: 0 32px 36px;
+  padding: 8px 36px 40px;
 }
 
 .promo-popup h2 {
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  margin-bottom: 14px;
-  text-transform: none;
-  background: linear-gradient(135deg, var(--rose-soft), var(--accent));
-  background-clip: text;
-  color: transparent;
-  letter-spacing: -0.01em;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--text);
 }
 
 .promo-popup p {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.7;
   margin-bottom: 28px;
   max-width: 320px;
@@ -2126,9 +2124,10 @@ p {
 
 .promo-popup .button {
   width: 100%;
-  border-radius: 12px;
+  border-radius: 14px;
   min-height: 52px;
   font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .promo-close {
@@ -2140,8 +2139,8 @@ p {
   height: 34px;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
   color: var(--muted);
   transition: color 180ms var(--ease), border-color 180ms var(--ease), transform 180ms var(--ease);
