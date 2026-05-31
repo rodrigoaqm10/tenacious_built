@@ -226,7 +226,7 @@ function AccountPanel({ content, setActivePanel }) {
                   <span className="order-date">{new Date(order.processedAt).toLocaleDateString("es-CL")}</span>
                 </div>
                 <div>
-                  <span className="order-status">{order.fulfillmentStatus === "FULFILLED" ? "Enviado" : order.fulfillmentStatus === "IN_PROGRESS" ? "En preparación" : "Confirmado"}</span>
+                  <span className="order-status">{order.fulfillmentStatus === "FULFILLED" ? "✓ Enviado" : order.fulfillmentStatus === "IN_PROGRESS" ? "◐ En preparación" : "● Confirmado"}</span>
                   <strong>${Math.round(Number(order.totalPrice.amount)).toLocaleString("es-CL")}</strong>
                 </div>
               </div>
@@ -911,12 +911,23 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
   }
 
   const images = product.images || [product.image];
+  const [imgLoaded, setImgLoaded] = useState(true);
+
+  // Preload all images
+  useEffect(() => {
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [product]);
 
   function nextImage() {
+    setImgLoaded(false);
     setImageIndex((prev) => (prev + 1) % images.length);
   }
 
   function prevImage() {
+    setImgLoaded(false);
     setImageIndex((prev) => (prev - 1 + images.length) % images.length);
   }
 
@@ -955,6 +966,8 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
           <img
             src={images[imageIndex]}
             alt={product.name}
+            style={{ opacity: imgLoaded ? 1 : 0.6 }}
+            onLoad={() => setImgLoaded(true)}
           />
           {images.length > 1 && (
             <div className="gallery-controls">

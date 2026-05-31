@@ -2361,6 +2361,7 @@ p {
   object-fit: cover;
   user-select: none;
   -webkit-user-drag: none;
+  transition: opacity 200ms ease;
 }
 
 .product-detail-gallery .gallery-controls {
