@@ -29,9 +29,37 @@ const CUSTOMER_INFO = `
         nodes {
           id
           orderNumber
+          name
           totalPrice { amount currencyCode }
+          subtotalPrice { amount currencyCode }
+          totalShippingPrice { amount currencyCode }
+          totalTax { amount currencyCode }
           processedAt
           fulfillmentStatus
+          statusUrl
+          successfulFulfillments {
+            trackingInfo {
+              number
+              url
+            }
+          }
+          shippingAddress {
+            address1
+            city
+            province
+            country
+          }
+          lineItems(first: 20) {
+            nodes {
+              title
+              quantity
+              variant {
+                title
+                price { amount currencyCode }
+                image { url }
+              }
+            }
+          }
         }
       }
     }

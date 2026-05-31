@@ -220,16 +220,19 @@ function AccountPanel({ content, setActivePanel }) {
           <div className="account-orders">
             <h3>Mis pedidos</h3>
             {customer.orders.nodes.map((order) => (
-              <div className="order-line" key={order.id}>
+              <a className="order-line" key={order.id} href={order.statusUrl || "#"} target="_blank" rel="noreferrer">
                 <div>
                   <strong>#{order.orderNumber}</strong>
                   <span className="order-date">{new Date(order.processedAt).toLocaleDateString("es-CL")}</span>
                 </div>
                 <div>
-                  <span className="order-status">{order.fulfillmentStatus === "FULFILLED" ? "✓ Enviado" : "● En preparación"}</span>
+                  <span className="order-status">
+                    {order.fulfillmentStatus === "FULFILLED" ? "✓ Despachado" : "● En preparación"}
+                  </span>
                   <strong>${Math.round(Number(order.totalPrice.amount)).toLocaleString("es-CL")}</strong>
                 </div>
-              </div>
+                <span className="order-arrow">Ver detalle →</span>
+              </a>
             ))}
           </div>
         ) : (
@@ -1372,6 +1375,69 @@ function InfoPageView({ content, pageKey, setView, openOptions }) {
   );
 }
 
+function OrderDetailView({ order, onBack }) {
+  if (!order) return null;
+
+  const status = order.fulfillmentStatus === "FULFILLED" ? "✓ Enviado" 
+    : order.fulfillmentStatus === "IN_PROGRESS" ? "◐ En camino"
+    : order.fulfillmentStatus === "DELIVERED" ? "✓ Entregado"
+    : "● En preparación";
+
+  return (
+    <main className="info-page">
+      <section className="catalog-hero">
+        <button className="text-button back-button" type="button" onClick={onBack}>
+          ← Volver a mi cuenta
+        </button>
+        <h1>Pedido #{order.orderNumber}</h1>
+        <p>Realizado el {new Date(order.processedAt).toLocaleDateString("es-CL", { year: "numeric", month: "long", day: "numeric" })}</p>
+      </section>
+      <section className="info-content">
+        <div className="order-detail-status">
+          <span className="order-status">{status}</span>
+        </div>
+
+        <div className="info-sections">
+          <article>
+            <h3>Productos</h3>
+            {order.lineItems?.nodes?.map((item, i) => (
+              <div className="order-item" key={i}>
+                {item.variant?.image?.url && <img src={item.variant.image.url} alt={item.title} />}
+                <div>
+                  <strong>{item.title}</strong>
+                  <span>{item.variant?.title} x {item.quantity}</span>
+                  <span>${Math.round(Number(item.variant?.price?.amount || 0)).toLocaleString("es-CL")}</span>
+                </div>
+              </div>
+            ))}
+          </article>
+
+          {order.shippingAddress && (
+            <article>
+              <h3>Dirección de envío</h3>
+              <p style={{ margin: 0 }}>
+                {order.shippingAddress.address1}<br />
+                {order.shippingAddress.city}, {order.shippingAddress.province}<br />
+                {order.shippingAddress.country}
+              </p>
+            </article>
+          )}
+
+          <article>
+            <h3>Resumen</h3>
+            <div className="order-summary-lines">
+              <div><span>Subtotal</span><strong>${Math.round(Number(order.subtotalPrice?.amount || 0)).toLocaleString("es-CL")}</strong></div>
+              <div><span>Envío</span><strong>${Math.round(Number(order.totalShippingPrice?.amount || 0)).toLocaleString("es-CL")}</strong></div>
+              <div><span>Impuestos</span><strong>${Math.round(Number(order.totalTax?.amount || 0)).toLocaleString("es-CL")}</strong></div>
+              <div className="order-total"><span>Total</span><strong>${Math.round(Number(order.totalPrice.amount)).toLocaleString("es-CL")}</strong></div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 function PromoPopup({ setView }) {
   const [promo, setPromo] = useState(null);
   const [visible, setVisible] = useState(false);
@@ -1447,6 +1513,7 @@ export default function App() {
   const [catalogKey, setCatalogKey] = useState(0);
   const [activePanel, setActivePanel] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const [cart, setCart] = useState(() => {
     try {
       const saved = localStorage.getItem("tenacious_cart");
@@ -1515,6 +1582,15 @@ export default function App() {
     syncViewFromHash();
     window.addEventListener("hashchange", syncViewFromHash);
     return () => window.removeEventListener("hashchange", syncViewFromHash);
+  }, []);
+
+  useEffect(() => {
+    function handleViewOrder() {
+      setSelectedOrder(window.__selectedOrder);
+      setView("order-detail");
+    }
+    window.addEventListener("viewOrder", handleViewOrder);
+    return () => window.removeEventListener("viewOrder", handleViewOrder);
   }, []);
 
   useEffect(() => {
@@ -1601,6 +1677,7 @@ export default function App() {
         <CatalogView key={catalogKey} content={activeContent} openOptions={openProductDetail} setView={changeView} />
       )}
       {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} updateCartItem={updateCartItem} setView={changeView} />}
+      {view === "order-detail" && <OrderDetailView order={selectedOrder} onBack={() => { changeView("home"); setActivePanel("account"); }} />}
       {view === "product" && selectedProduct && (
         <ProductDetailView
           content={activeContent}
