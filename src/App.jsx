@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   Bell,
@@ -10,13 +10,12 @@ import {
   Plus,
   Search,
   ShoppingBag,
-  Sparkles,
   User,
   X,
 } from "lucide-react";
 import { contentByLanguage } from "./data/siteContent";
 import { useShopifyProducts } from "./lib/useShopifyProducts";
-import { createCheckout, isShopifyConfigured, shopifyFetch } from "./lib/shopify";
+import { createCheckout, shopifyFetch } from "./lib/shopify";
 import { createCustomer, loginCustomer, getCustomerInfo, logout, isLoggedIn } from "./lib/auth";
 import { subscribeNewsletter } from "./lib/newsletter";
 
@@ -1269,20 +1268,6 @@ function StyleTiles({ content, setView }) {
           </button>
         </div>
       </article>
-    </section>
-  );
-}
-
-function Benefits({ content }) {
-  return (
-    <section className="benefits reveal">
-      {content.benefits.map((benefit) => (
-        <article key={benefit.title}>
-          <Sparkles size={18} />
-          <h3>{benefit.title}</h3>
-          <p>{benefit.description}</p>
-        </article>
-      ))}
     </section>
   );
 }
