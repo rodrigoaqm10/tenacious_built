@@ -57,6 +57,9 @@ export const PRODUCTS_QUERY = `
             id
             title
             availableForSale
+            image {
+              url
+            }
             price {
               amount
               currencyCode

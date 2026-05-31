@@ -1124,6 +1124,27 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
                   onClick={() => {
                     setColor(item);
                     setError("");
+                    // Find variant image for this color and switch to it
+                    if (product.variants) {
+                      const variant = product.variants.find((v) => {
+                        const opts = v.selectedOptions?.reduce((acc, opt) => {
+                          acc[opt.name.toLowerCase()] = opt.value;
+                          return acc;
+                        }, {});
+                        return opts?.color === item || opts?.colour === item;
+                      });
+                      if (variant?.image?.url) {
+                        const idx = images.indexOf(variant.image.url);
+                        if (idx >= 0) {
+                          setImageIndex(idx);
+                        } else {
+                          // Image might not be in the images array by exact match, find closest
+                          const colorLower = item.toLowerCase();
+                          const matchIdx = images.findIndex((img) => img.toLowerCase().includes(colorLower));
+                          if (matchIdx >= 0) setImageIndex(matchIdx);
+                        }
+                      }
+                    }
                   }}
                 >
                   {item}
