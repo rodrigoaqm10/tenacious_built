@@ -289,7 +289,7 @@ function AccountPanel({ content, setActivePanel }) {
   );
 }
 
-function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCart, setView }) {
+function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCart, setView, openOptions }) {
   const [query, setQuery] = useState("");
 
   if (!activePanel || activePanel === "menu") {
@@ -320,23 +320,48 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && query.trim()) {
+                  const results = content.products.filter((product) =>
+                    `${product.name} ${product.type} ${product.color} ${product.category}`
+                      .toLowerCase()
+                      .includes(query.toLowerCase())
+                  );
+                  if (results.length === 1) {
+                    openOptions(results[0]);
+                    setActivePanel(null);
+                  } else if (results.length > 0) {
+                    openOptions(results[0]);
+                    setActivePanel(null);
+                  }
+                }
+              }}
               placeholder={content.ui.searchPlaceholder}
+              autoFocus
             />
           </label>
           <div className="quick-results">
-            {content.products
+            {query && content.products
               .filter((product) =>
-                `${product.name} ${product.type} ${product.color}`
+                `${product.name} ${product.type} ${product.color} ${product.category}`
                   .toLowerCase()
                   .includes(query.toLowerCase()),
               )
-              .slice(0, 4)
+              .slice(0, 6)
               .map((product) => (
-                <a key={product.name} href="#women" onClick={() => setActivePanel(null)}>
+                <button key={product.name} type="button" className="search-result" onClick={() => { openOptions(product); setActivePanel(null); }}>
                   <img src={product.image} alt={product.name} loading="lazy" />
-                  <span>{product.name}</span>
-                </a>
+                  <div>
+                    <span className="search-result-name">{product.name}</span>
+                    <span className="search-result-meta">{product.category} · {product.price}</span>
+                  </div>
+                </button>
               ))}
+            {query && content.products.filter((p) =>
+              `${p.name} ${p.type} ${p.color} ${p.category}`.toLowerCase().includes(query.toLowerCase())
+            ).length === 0 && (
+              <p className="search-no-results">No se encontraron productos para "{query}"</p>
+            )}
           </div>
           {!query && <p>{content.ui.searchEmpty}</p>}
         </div>
@@ -1792,6 +1817,7 @@ export default function App() {
         cart={cart}
         removeFromCart={removeFromCart}
         setView={changeView}
+        openOptions={openProductDetail}
       />
       {view === "home" && (
         <main>

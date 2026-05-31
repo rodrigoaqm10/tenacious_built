@@ -542,7 +542,7 @@ button {
 
 .quick-results {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .quick-results a,
@@ -559,6 +559,58 @@ button {
 
 .quick-results a {
   grid-template-columns: 58px 1fr;
+}
+
+.search-result {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  transition: background 150ms var(--ease), border-color 150ms var(--ease);
+}
+
+.search-result:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(212, 160, 185, 0.3);
+}
+
+.search-result img {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.search-result div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.search-result-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.search-result-meta {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.search-no-results {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 20px 0;
 }
 
 .quick-results img,
