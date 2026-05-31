@@ -1538,7 +1538,11 @@ function PromoPopup({ setView }) {
 
 export default function App() {
   const [language, setLanguage] = useState("es");
-  const [view, setView] = useState("home");
+  const [view, setView] = useState(() => {
+    const hash = window.location.hash.replace("#", "");
+    const validViews = ["catalog", "checkout", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
+    return validViews.includes(hash) ? hash : "home";
+  });
   const [catalogKey, setCatalogKey] = useState(0);
   const [activePanel, setActivePanel] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -1603,23 +1607,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Sync initial view from URL hash on page load/refresh
-    const hash = window.location.hash.replace("#", "");
-    const validViews = ["catalog", "checkout", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
-    
-    if (validViews.includes(hash)) {
-      setView(hash);
-      if (hash === "catalog") setCatalogKey((k) => k + 1);
-    } else {
-      // For views that need state (product, order-detail) or unknown hashes, go to home
-      setView("home");
-      if (window.location.hash) {
-        window.history.replaceState({ view: "home" }, "", "/");
-      }
-    }
-
-    // Replace initial state so popstate works from the start
-    window.history.replaceState({ view: hash && validViews.includes(hash) ? hash : "home" }, "");
+    // Replace initial history state so popstate works from the start
+    window.history.replaceState({ view }, "");
   }, []);
 
   // Listen for browser back/forward button
