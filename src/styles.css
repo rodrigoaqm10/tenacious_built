@@ -1810,7 +1810,7 @@ p {
   justify-items: start;
   gap: 18px;
   padding: 34px;
-  border: 1px solid var(--line);
+  border: none;
   border-radius: 20px;
   overflow: hidden;
   background: var(--panel);
