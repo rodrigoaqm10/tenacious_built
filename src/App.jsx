@@ -289,8 +289,31 @@ function AccountPanel({ content, setActivePanel }) {
   );
 }
 
-function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCart, setView, openOptions }) {
+function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCart, setView, openOptions, setCatalogFilter }) {
   const [query, setQuery] = useState("");
+  const [recentSearches, setRecentSearches] = useState(() => {
+    try {
+      if (!isLoggedIn()) return [];
+      const saved = localStorage.getItem("tenacious_recent_searches");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  function saveSearch(term) {
+    if (!isLoggedIn() || !term.trim()) return;
+    const updated = [term, ...recentSearches.filter((s) => s !== term)].slice(0, 5);
+    setRecentSearches(updated);
+    localStorage.setItem("tenacious_recent_searches", JSON.stringify(updated));
+  }
+
+  function getMatchedCategory(q) {
+    if (!q) return null;
+    const lower = q.toLowerCase();
+    const categories = [...new Set(content.products.map((p) => p.category))];
+    return categories.find((cat) => cat.toLowerCase().includes(lower) || lower.includes(cat.toLowerCase()));
+  }
 
   if (!activePanel || activePanel === "menu") {
     return null;
@@ -322,8 +345,12 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
               onChange={(event) => setQuery(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === "Enter" && query.trim()) {
+                  saveSearch(query.trim());
+                  const matchedCat = getMatchedCategory(query);
+                  setCatalogFilter(matchedCat || content.ui.all);
                   setActivePanel(null);
                   setView("catalog");
+                  setQuery("");
                 }
               }}
               placeholder={content.ui.searchPlaceholder}
@@ -339,7 +366,12 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
               )
               .slice(0, 4)
               .map((product) => (
-                <button key={product.name} type="button" className="search-result" onClick={() => { openOptions(product); setActivePanel(null); }}>
+                <button key={product.name} type="button" className="search-result" onClick={() => {
+                  saveSearch(query.trim());
+                  openOptions(product);
+                  setActivePanel(null);
+                  setQuery("");
+                }}>
                   <img src={product.image} alt={product.name} loading="lazy" />
                   <div>
                     <span className="search-result-name">{product.name}</span>
@@ -355,13 +387,31 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
             {query && content.products.filter((p) =>
               `${p.name} ${p.type} ${p.color} ${p.category}`.toLowerCase().includes(query.toLowerCase())
             ).length > 0 && (
-              <button className="search-view-all" type="button" onClick={() => { setActivePanel(null); setView("catalog"); }}>
-                Ver todo en catálogo
+              <button className="search-view-all" type="button" onClick={() => {
+                saveSearch(query.trim());
+                const matchedCat = getMatchedCategory(query);
+                setCatalogFilter(matchedCat || content.ui.all);
+                setActivePanel(null);
+                setView("catalog");
+                setQuery("");
+              }}>
+                {getMatchedCategory(query) ? `Ver todo en ${getMatchedCategory(query)}` : "Ver todo en catálogo"}
                 <ArrowRight size={16} />
               </button>
             )}
           </div>
-          {!query && <p>{content.ui.searchEmpty}</p>}
+          {!query && isLoggedIn() && recentSearches.length > 0 && (
+            <div className="recent-searches">
+              <span className="recent-searches-title">Buscado recientemente</span>
+              {recentSearches.map((term) => (
+                <button key={term} type="button" className="recent-search-item" onClick={() => setQuery(term)}>
+                  <Search size={14} />
+                  {term}
+                </button>
+              ))}
+            </div>
+          )}
+          {!query && (!isLoggedIn() || recentSearches.length === 0) && <p>{content.ui.searchEmpty}</p>}
         </div>
       )}
 
@@ -560,8 +610,8 @@ function ProductGrid({ content, openOptions, setView }) {
   );
 }
 
-function CatalogView({ content, openOptions, setView, loading }) {
-  const [category, setCategory] = useState(null);
+function CatalogView({ content, openOptions, setView, loading, initialCategory }) {
+  const [category, setCategory] = useState(initialCategory || null);
   const [size, setSize] = useState(content.ui.all);
   const [sort, setSort] = useState(content.ui.newest);
 
@@ -1614,6 +1664,7 @@ export default function App() {
     }
   });
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [catalogFilter, setCatalogFilter] = useState(null);
   const [cart, setCart] = useState(() => {
     try {
       const saved = localStorage.getItem("tenacious_cart");
@@ -1758,6 +1809,7 @@ export default function App() {
 
   function changeView(newView) {
     if (newView === "catalog") setCatalogKey((k) => k + 1);
+    if (newView !== "catalog") setCatalogFilter(null);
     setView(newView);
     // Push to browser history so back button works
     const url = newView === "home" ? "/" : `#${newView}`;
@@ -1816,6 +1868,7 @@ export default function App() {
         removeFromCart={removeFromCart}
         setView={changeView}
         openOptions={openProductDetail}
+        setCatalogFilter={setCatalogFilter}
       />
       {view === "home" && (
         <main>
@@ -1831,7 +1884,7 @@ export default function App() {
         </main>
       )}
       {view === "catalog" && (
-        <CatalogView key={catalogKey} content={activeContent} openOptions={openProductDetail} setView={changeView} loading={productsLoading} />
+        <CatalogView key={catalogKey} content={activeContent} openOptions={openProductDetail} setView={changeView} loading={productsLoading} initialCategory={catalogFilter} />
       )}
       {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} updateCartItem={updateCartItem} setView={changeView} />}
       {view === "order-detail" && selectedOrder && <OrderDetailView order={selectedOrder} onBack={() => { changeView("home"); setActivePanel("account"); }} onHome={() => changeView("home")} />}
