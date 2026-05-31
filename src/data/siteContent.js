@@ -130,12 +130,12 @@ export const contentByLanguage = {
         image: sharedImages.categories[0],
       },
       {
-        title: "Sostenes",
+        title: "Breastplates",
         description: "Soporte medio para entrenamientos intensos.",
         image: sharedImages.categories[1],
       },
       {
-        title: "Tops",
+        title: "T-Shirts",
         description: "Comodidad y estilo para entrenar y salir.",
         image: sharedImages.categories[2],
       },
