@@ -1796,6 +1796,18 @@ p {
   margin: 0 auto;
 }
 
+.men-band {
+  margin-bottom: 48px;
+}
+
+.style-tiles {
+  margin-bottom: 48px;
+}
+
+.social-contact {
+  margin-bottom: 64px;
+}
+
 .style-tiles {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
