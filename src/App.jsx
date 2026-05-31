@@ -1124,8 +1124,8 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
                   onClick={() => {
                     setColor(item);
                     setError("");
-                    // Find variant image for this color and switch to it
-                    if (product.variants) {
+                    // Find the image for this color variant
+                    if (product.variants && images.length > 1) {
                       const variant = product.variants.find((v) => {
                         const opts = v.selectedOptions?.reduce((acc, opt) => {
                           acc[opt.name.toLowerCase()] = opt.value;
@@ -1133,16 +1133,32 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
                         }, {});
                         return opts?.color === item || opts?.colour === item;
                       });
+
+                      let foundIdx = -1;
+
+                      // Strategy 1: Match variant image URL against product images
                       if (variant?.image?.url) {
-                        const idx = images.indexOf(variant.image.url);
-                        if (idx >= 0) {
-                          setImageIndex(idx);
-                        } else {
-                          // Image might not be in the images array by exact match, find closest
-                          const colorLower = item.toLowerCase();
-                          const matchIdx = images.findIndex((img) => img.toLowerCase().includes(colorLower));
-                          if (matchIdx >= 0) setImageIndex(matchIdx);
+                        const varUrl = variant.image.url.split("?")[0];
+                        foundIdx = images.findIndex((img) => img.split("?")[0] === varUrl);
+                        // Try matching just the file ID part of Shopify CDN URLs
+                        if (foundIdx < 0) {
+                          const varParts = varUrl.split("/");
+                          const varFile = varParts[varParts.length - 1];
+                          foundIdx = images.findIndex((img) => img.includes(varFile));
                         }
+                      }
+
+                      // Strategy 2: Match by image altText containing the color name
+                      if (foundIdx < 0 && product.imagesData) {
+                        const colorLower = item.toLowerCase();
+                        const altIdx = product.imagesData.findIndex((img) =>
+                          img.altText && img.altText.toLowerCase().includes(colorLower)
+                        );
+                        if (altIdx >= 0) foundIdx = altIdx;
+                      }
+
+                      if (foundIdx >= 0) {
+                        setImageIndex(foundIdx);
                       }
                     }
                   }}

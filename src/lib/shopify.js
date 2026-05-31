@@ -207,6 +207,7 @@ export function transformShopifyProduct(product) {
       colors: colorOption?.values || [],
       image: product.featuredImage?.url || "",
       images: product.images?.nodes?.map((img) => img.url) || [],
+      imagesData: product.images?.nodes || [],
       variants: product.variants?.nodes || [],
     };
   } catch (err) {
