@@ -9,12 +9,12 @@ const sharedImages = {
     assetPath("images/top-negro-3.jpeg"),
   ],
   spotlight: [
-    assetPath("images/sosten-azul-2.jpeg"),
-    assetPath("images/top-rojo-2.jpeg"),
+    assetPath("images/sosten-azul.jpeg"),
+    assetPath("images/top-deportivo-negro.jpeg"),
   ],
   styleTiles: [
-    assetPath("images/short-rojo1.jpeg"),
-    assetPath("images/top-azul-3.jpeg"),
+    assetPath("images/short-negro.jpeg"),
+    assetPath("images/top-deportivo-azul.jpeg"),
   ],
 };
 
@@ -101,7 +101,7 @@ export const contentByLanguage = {
     },
     spotlight: {
       eyebrow: "Nueva silueta",
-      title: "Performance que se siente limpia, firme y lista para moverse.",
+      title: "Diseñada para moverte con confianza, dentro y fuera del gym.",
       description:
         "Una selección pensada para calce seguro, telas suaves y combinaciones que funcionan en entrenamiento, descanso y rutina diaria.",
       features: ["Soporte cómodo", "Texturas suaves", "Calce seguro"],
@@ -458,7 +458,7 @@ export const contentByLanguage = {
     },
     spotlight: {
       eyebrow: "New silhouette",
-      title: "Performance that feels clean, secure and ready to move.",
+      title: "Designed to move with confidence, in and out of the gym.",
       description:
         "A curated selection built around secure fit, soft textures and combinations that work for training, recovery and daily routines.",
       features: ["Comfort support", "Soft textures", "Secure fit"],

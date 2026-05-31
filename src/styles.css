@@ -985,6 +985,7 @@ p {
   height: 100%;
   min-height: 560px;
   object-fit: cover;
+  object-position: center top;
   border-radius: 12px;
   background: var(--panel-soft);
   transition: transform 700ms var(--ease);
@@ -993,6 +994,7 @@ p {
 .spotlight-media img:nth-child(2) {
   align-self: end;
   height: 82%;
+  object-position: center;
 }
 
 .spotlight-media:hover img {
@@ -1701,15 +1703,13 @@ p {
 .style-tile-with-bg {
   position: relative;
   background-size: cover;
-  background-position: center;
+  background-position: center top;
 }
 
 .style-tile-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(12, 11, 14, 0.7);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: linear-gradient(180deg, rgba(12, 11, 14, 0.3) 0%, rgba(12, 11, 14, 0.85) 60%);
 }
 
 .style-tile-content {
