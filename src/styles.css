@@ -1819,13 +1819,25 @@ p {
 .style-tile-with-bg {
   position: relative;
   background-size: cover;
-  background-position: center top;
+  background-position: center;
 }
 
 .style-tile-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(12, 11, 14, 0.15) 0%, rgba(12, 11, 14, 0.82) 55%);
+  background: linear-gradient(
+    160deg,
+    rgba(12, 11, 14, 0.92) 35%,
+    rgba(12, 11, 14, 0.4) 100%
+  );
+}
+
+.style-tiles article:nth-child(2) .style-tile-overlay {
+  background: linear-gradient(
+    200deg,
+    rgba(12, 11, 14, 0.92) 35%,
+    rgba(12, 11, 14, 0.4) 100%
+  );
 }
 
 .style-tile-content {

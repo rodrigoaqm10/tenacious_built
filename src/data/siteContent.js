@@ -13,8 +13,8 @@ const sharedImages = {
     assetPath("images/top-deportivo-negro.jpeg"),
   ],
   styleTiles: [
-    assetPath("images/short-rojo1.jpeg"),
-    assetPath("images/top-deportivo-azul.jpeg"),
+    assetPath("images/hero.jpeg"),
+    assetPath("images/sosten-negro.jpeg"),
   ],
 };
 
