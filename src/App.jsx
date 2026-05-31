@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   ArrowRight,
+  Bell,
   CreditCard,
   Instagram,
   Languages,
@@ -1283,6 +1284,8 @@ function Benefits({ content }) {
 function SocialContact({ content }) {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterStatus, setNewsletterStatus] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleNewsletter() {
     if (!newsletterEmail) return;
@@ -1293,6 +1296,20 @@ function SocialContact({ content }) {
     } catch (err) {
       setNewsletterStatus(err.message);
     }
+  }
+
+  async function handleQuickSubscribe() {
+    setLoading(true);
+    try {
+      const customerInfo = await getCustomerInfo();
+      if (customerInfo?.email) {
+        await subscribeNewsletter(customerInfo.email);
+      }
+      setSubscribed(true);
+    } catch {
+      setSubscribed(true);
+    }
+    setLoading(false);
   }
 
   return (
@@ -1312,22 +1329,35 @@ function SocialContact({ content }) {
           </a>
         </div>
       </div>
-      <form className="newsletter" onSubmit={(e) => { e.preventDefault(); handleNewsletter(); }}>
+      <div className="newsletter">
         <h3>{content.social.newsletterTitle}</h3>
         <p>{content.social.newsletterCopy}</p>
-        <label>
-          <input
-            type="email"
-            value={newsletterEmail}
-            onChange={(e) => setNewsletterEmail(e.target.value)}
-            placeholder="tu@email.com"
-          />
-          <button type="submit">
-            <ArrowRight size={18} />
-          </button>
-        </label>
-        {newsletterStatus && <span className="newsletter-status">{newsletterStatus}</span>}
-      </form>
+        {isLoggedIn() ? (
+          subscribed ? (
+            <span className="newsletter-subscribed">✓ Te notificaremos con novedades</span>
+          ) : (
+            <button className="newsletter-bell-btn" type="button" onClick={handleQuickSubscribe} disabled={loading}>
+              <Bell size={18} />
+              {loading ? "Suscribiendo..." : "Notificarme de nuevos drops"}
+            </button>
+          )
+        ) : (
+          <form onSubmit={(e) => { e.preventDefault(); handleNewsletter(); }}>
+            <label>
+              <input
+                type="email"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                placeholder="tu@email.com"
+              />
+              <button type="submit">
+                <ArrowRight size={18} />
+              </button>
+            </label>
+            {newsletterStatus && <span className="newsletter-status">{newsletterStatus}</span>}
+          </form>
+        )}
+      </div>
     </section>
   );
 }
