@@ -140,7 +140,7 @@ function Header({
 }
 
 function AccountPanel({ content, setActivePanel }) {
-  const [mode, setMode] = useState(isLoggedIn() ? "profile" : "signin");
+  const [mode, setMode] = useState(isLoggedIn() ? "loading" : "signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -205,23 +205,35 @@ function AccountPanel({ content, setActivePanel }) {
     setSuccess("");
   }
 
+  if (mode === "loading") {
+    return <div className="panel-body"><p style={{ textAlign: "center", color: "var(--muted)" }}>Cargando...</p></div>;
+  }
+
   if (mode === "profile" && customer) {
     return (
       <div className="panel-body">
         <div className="account-greeting">
-          <strong>Hola, {customer.firstName || customer.email}</strong>
+          <strong>Hola, {customer.firstName || "Cliente"}</strong>
           <span>{customer.email}</span>
         </div>
-        {customer.orders?.nodes?.length > 0 && (
+        {customer.orders?.nodes?.length > 0 ? (
           <div className="account-orders">
             <h3>Mis pedidos</h3>
             {customer.orders.nodes.map((order) => (
               <div className="order-line" key={order.id}>
-                <span>#{order.orderNumber}</span>
-                <span>${Math.round(Number(order.totalPrice.amount)).toLocaleString("es-CL")}</span>
+                <div>
+                  <strong>#{order.orderNumber}</strong>
+                  <span className="order-date">{new Date(order.processedAt).toLocaleDateString("es-CL")}</span>
+                </div>
+                <div>
+                  <span className="order-status">{order.fulfillmentStatus === "FULFILLED" ? "Enviado" : order.fulfillmentStatus === "IN_PROGRESS" ? "En preparación" : "Confirmado"}</span>
+                  <strong>${Math.round(Number(order.totalPrice.amount)).toLocaleString("es-CL")}</strong>
+                </div>
               </div>
             ))}
           </div>
+        ) : (
+          <p style={{ color: "var(--muted)" }}>Aún no tienes pedidos.</p>
         )}
         <button className="button secondary" type="button" onClick={handleLogout}>
           Cerrar sesión
@@ -769,6 +781,7 @@ function CheckoutView({ content, cart, removeFromCart, updateCartItem, setView }
     setCheckoutError("");
     try {
       const checkout = await createCheckout(shopifyItems);
+      localStorage.removeItem("tenacious_cart");
       window.location.href = checkout.webUrl;
     } catch (err) {
       setCheckoutError(err.message);
