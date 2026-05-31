@@ -2694,6 +2694,39 @@ button.order-line {
   font-weight: 600;
 }
 
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12, 11, 14, 0.6);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--text);
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: background 180ms var(--ease), transform 180ms var(--ease);
+  z-index: 2;
+}
+
+.gallery-arrow:hover {
+  background: rgba(212, 160, 185, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.gallery-arrow-left {
+  left: 12px;
+}
+
+.gallery-arrow-right {
+  right: 12px;
+}
+
 .product-detail-info {
   display: flex;
   flex-direction: column;
@@ -2844,17 +2877,18 @@ button.order-line {
   }
 
   .catalog-categories {
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     margin-bottom: 60px;
   }
 
   .catalog-category-card {
-    min-height: 220px;
+    min-height: 180px;
     border-radius: 14px;
   }
 
   .catalog-category-card img {
-    height: 160px;
+    height: 120px;
   }
 
   .men-band,
@@ -3138,13 +3172,17 @@ button.order-line {
   }
 
   .catalog-categories {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
   .catalog-category-card {
-    min-height: 180px;
+    min-height: 140px;
     border-radius: 12px;
+  }
+
+  .catalog-category-card img {
+    height: 100px;
   }
 
   .men-band {

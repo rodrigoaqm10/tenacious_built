@@ -1002,9 +1002,17 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
             onLoad={() => setImgLoaded(true)}
           />
           {images.length > 1 && (
-            <div className="gallery-dots">
-              <span>{imageIndex + 1} / {images.length}</span>
-            </div>
+            <>
+              <button className="gallery-arrow gallery-arrow-left" type="button" onClick={prevImage} aria-label="Imagen anterior">
+                ‹
+              </button>
+              <button className="gallery-arrow gallery-arrow-right" type="button" onClick={nextImage} aria-label="Imagen siguiente">
+                ›
+              </button>
+              <div className="gallery-dots">
+                <span>{imageIndex + 1} / {images.length}</span>
+              </div>
+            </>
           )}
         </div>
         <div className="product-detail-info">
