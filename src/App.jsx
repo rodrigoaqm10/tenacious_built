@@ -1672,16 +1672,20 @@ function PromoPopup({ setView }) {
     const dismissed = sessionStorage.getItem("promo_dismissed");
     if (dismissed) return;
 
-    // Read promo from Shopify page with handle "promo"
-    shopifyFetch(`{ page(handle: "promo") { title body } }`)
-      .then((data) => {
-        const page = data?.page;
-        if (page && page.body) {
-          setPromo({ title: page.title, message: page.body });
-          setTimeout(() => setVisible(true), 1500);
-        }
-      })
-      .catch(() => {});
+    // Read promo from Shopify pages - tries "promo" first, then "cyber"
+    async function loadPromo() {
+      for (const handle of ["promo", "cyber"]) {
+        try {
+          const data = await shopifyFetch(`{ page(handle: "${handle}") { title body } }`);
+          if (data?.page?.body) {
+            setPromo({ title: data.page.title, message: data.page.body });
+            setTimeout(() => setVisible(true), 1500);
+            return;
+          }
+        } catch {}
+      }
+    }
+    loadPromo();
   }, []);
 
   // Block scroll when popup is visible
