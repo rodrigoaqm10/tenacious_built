@@ -966,14 +966,11 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
           <img
             src={images[imageIndex]}
             alt={product.name}
-            style={{ opacity: imgLoaded ? 1 : 0.6 }}
             onLoad={() => setImgLoaded(true)}
           />
           {images.length > 1 && (
-            <div className="gallery-controls">
-              <button type="button" onClick={prevImage} aria-label="Anterior">‹</button>
+            <div className="gallery-dots">
               <span>{imageIndex + 1} / {images.length}</span>
-              <button type="button" onClick={nextImage} aria-label="Siguiente">›</button>
             </div>
           )}
         </div>

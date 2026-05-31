@@ -2371,6 +2371,20 @@ p {
   transform: translateX(-50%);
 }
 
+.gallery-dots {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 5px 12px;
+  background: rgba(12, 11, 14, 0.7);
+  backdrop-filter: blur(6px);
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
 .product-detail-info {
   display: flex;
   flex-direction: column;
