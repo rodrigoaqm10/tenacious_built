@@ -1539,7 +1539,19 @@ function InfoPageView({ content, pageKey, setView, openOptions }) {
             </div>
           )}
 
-          {/* Size guide table */}
+          {/* Size guide images by product */}
+          {page.sizeImages && (
+            <div className="size-images-grid">
+              {page.sizeImages.map((item) => (
+                <div className="size-image-card" key={item.name}>
+                  <h3>{item.name}</h3>
+                  <img src={item.image} alt={`Medidas ${item.name}`} loading="lazy" />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Size guide table (legacy) */}
           {page.table && (
             <div className="size-table-wrapper">
               <table className="size-table">

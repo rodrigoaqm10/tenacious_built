@@ -267,21 +267,16 @@ export const contentByLanguage = {
       },
       "size-guide": {
         title: "Guía de tallas",
-        intro: "Nuestras prendas tienen un calce ajustado y técnico, pensado para entrenamiento. Te recomendamos medir tu cuerpo y comparar con la tabla.",
-        table: {
-          headers: ["Talla", "Pecho (cm)", "Cintura (cm)", "Cadera (cm)"],
-          rows: [
-            ["XS", "78-82", "58-62", "84-88"],
-            ["S", "82-86", "62-66", "88-92"],
-            ["M", "86-90", "66-70", "92-96"],
-            ["L", "90-94", "70-74", "96-100"],
-            ["XL", "94-98", "74-78", "100-104"],
-          ],
-        },
+        intro: "Cada prenda tiene medidas específicas. Selecciona el producto para ver su tabla de tallas real.",
+        sizeImages: [
+          { name: "Short", image: assetPath("images/medidas-short.jpeg") },
+          { name: "Sostén deportivo", image: assetPath("images/medidas-sosten.jpeg") },
+          { name: "Top deportivo", image: assetPath("images/medidas-top-deportivo.jpeg") },
+          { name: "Top", image: assetPath("images/medidas-top.jpeg") },
+        ],
         tips: [
           "Si estás entre dos tallas, te recomendamos la talla mayor para mayor comodidad.",
-          "Para leggings, prioriza la medida de cadera.",
-          "Para tops y bras, prioriza la medida de pecho.",
+          "Mide sobre tu cuerpo sin ropa o con ropa ajustada.",
           "Si tienes dudas, escríbenos con tus medidas y te ayudamos a elegir.",
         ],
       },
@@ -625,21 +620,16 @@ export const contentByLanguage = {
       },
       "size-guide": {
         title: "Size guide",
-        intro: "Our garments have a fitted, technical cut designed for training. We recommend measuring your body and comparing with the chart.",
-        table: {
-          headers: ["Size", "Chest (cm)", "Waist (cm)", "Hips (cm)"],
-          rows: [
-            ["XS", "78-82", "58-62", "84-88"],
-            ["S", "82-86", "62-66", "88-92"],
-            ["M", "86-90", "66-70", "92-96"],
-            ["L", "90-94", "70-74", "96-100"],
-            ["XL", "94-98", "74-78", "100-104"],
-          ],
-        },
+        intro: "Each garment has specific measurements. Select the product to see its real size chart.",
+        sizeImages: [
+          { name: "Short", image: assetPath("images/medidas-short.jpeg") },
+          { name: "Sports bra", image: assetPath("images/medidas-sosten.jpeg") },
+          { name: "Sports top", image: assetPath("images/medidas-top-deportivo.jpeg") },
+          { name: "Top", image: assetPath("images/medidas-top.jpeg") },
+        ],
         tips: [
           "If you're between two sizes, we recommend going up for more comfort.",
-          "For leggings, prioritize hip measurement.",
-          "For tops and bras, prioritize chest measurement.",
+          "Measure over your body without clothes or with fitted clothing.",
           "If in doubt, send us your measurements and we'll help you choose.",
         ],
       },
