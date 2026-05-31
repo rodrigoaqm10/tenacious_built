@@ -2306,19 +2306,9 @@ p {
   font-size: 0.86rem;
 }
 
-.footer-bottom div {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer-bottom div span {
-  padding: 6px 9px;
-  background: rgba(255, 255, 255, 0.88);
-  border-radius: 4px;
-  color: #070707;
-  font-size: 0.75rem;
-  font-weight: 700;
+.footer-payment {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .info-page {

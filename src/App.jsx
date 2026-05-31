@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   ArrowRight,
   Bell,
-  CreditCard,
   Instagram,
   Languages,
   Mail,
@@ -891,8 +890,15 @@ function CheckoutView({ content, cart, removeFromCart, updateCartItem, setView }
       localStorage.removeItem("tenacious_cart");
       window.location.href = checkout.webUrl;
     } catch (err) {
-      setCheckoutError(err.message);
-      setCheckoutLoading(false);
+      // Retry once on error
+      try {
+        const checkout = await createCheckout(shopifyItems);
+        localStorage.removeItem("tenacious_cart");
+        window.location.href = checkout.webUrl;
+      } catch (retryErr) {
+        setCheckoutError("Error al procesar. Intenta de nuevo.");
+        setCheckoutLoading(false);
+      }
     }
   }
 
@@ -1318,16 +1324,10 @@ function SocialContact({ content }) {
         <span className="eyebrow">{content.social.eyebrow}</span>
         <h2>{content.social.title}</h2>
         <p>{content.social.description}</p>
-        <div className="contact-actions">
-          <a className="button primary" href={content.brand.instagram} target="_blank" rel="noreferrer">
-            <Instagram size={18} />
-            {content.ui.followInstagram}
-          </a>
-          <a className="button secondary" href={`mailto:${content.brand.email}`}>
-            <Mail size={18} />
-            {content.ui.contactEmail}
-          </a>
-        </div>
+        <a className="button primary" href={content.brand.instagram} target="_blank" rel="noreferrer">
+          <Instagram size={18} />
+          {content.ui.followInstagram}
+        </a>
       </div>
       <div className="newsletter">
         <h3>{content.social.newsletterTitle}</h3>
@@ -1362,19 +1362,6 @@ function SocialContact({ content }) {
   );
 }
 
-function FloatingSocial({ content }) {
-  return (
-    <div className="floating-social" aria-label="Contacto rápido">
-      <a href={content.brand.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
-        <Instagram size={18} />
-      </a>
-      <a href={`mailto:${content.brand.email}`} aria-label="Correo">
-        <Mail size={18} />
-      </a>
-    </div>
-  );
-}
-
 function Footer({ content, setView }) {
   return (
     <footer className="mega-footer">
@@ -1384,17 +1371,6 @@ function Footer({ content, setView }) {
           <span>{content.brand.name}</span>
         </a>
         <p>{content.brand.tagline}</p>
-      </div>
-      <div className="footer-social">
-        <span>{content.social.title}</span>
-        <div>
-          <a href={content.brand.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
-            <Instagram size={18} />
-          </a>
-          <a href={`mailto:${content.brand.email}`} aria-label="Correo">
-            <Mail size={18} />
-          </a>
-        </div>
       </div>
       <div className="footer-columns">
         {Object.values(content.footerLinks).map((group) => (
@@ -1424,12 +1400,7 @@ function Footer({ content, setView }) {
       </div>
       <div className="footer-bottom">
         <span>© 2026 {content.brand.legalName}</span>
-        <div>
-          <CreditCard size={18} />
-          <span>Visa</span>
-          <span>Mastercard</span>
-          <span>Amex</span>
-        </div>
+        <span className="footer-payment">Pago seguro con tarjeta de crédito y débito</span>
       </div>
     </footer>
   );
@@ -1969,7 +1940,6 @@ export default function App() {
         <InfoPageView content={activeContent} pageKey={view} setView={changeView} openOptions={openProductDetail} />
       )}
       <Footer content={activeContent} setView={changeView} />
-      <FloatingSocial content={activeContent} />
       <PromoPopup setView={changeView} />
     </>
   );
