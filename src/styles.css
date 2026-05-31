@@ -2747,7 +2747,7 @@ button.order-line {
   .category-grid,
   .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 16px;
   }
 
   .product-spotlight {
@@ -2785,11 +2785,11 @@ button.order-line {
 
   .catalog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 16px;
   }
 
   .catalog-categories {
-    gap: 12px;
+    gap: 16px;
     margin-bottom: 60px;
   }
 
@@ -3039,7 +3039,7 @@ button.order-line {
   .category-grid,
   .product-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 16px;
   }
 
   .product-spotlight {
@@ -3071,7 +3071,7 @@ button.order-line {
 
   .catalog-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 16px;
   }
 
   .catalog-toolbar {

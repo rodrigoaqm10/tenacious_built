@@ -1381,7 +1381,7 @@ function InfoPageView({ content, pageKey, setView, openOptions }) {
   );
 }
 
-function OrderDetailView({ order, onBack }) {
+function OrderDetailView({ order, onBack, onHome }) {
   if (!order) return null;
 
   const status = order.fulfillmentStatus === "FULFILLED" ? "✓ Enviado" 
@@ -1455,9 +1455,7 @@ function OrderDetailView({ order, onBack }) {
           <button className="button primary" type="button" onClick={onBack}>
             Volver a mi cuenta
           </button>
-          <button className="button secondary" type="button" onClick={() => {
-            window.location.hash = "#catalog";
-          }}>
+          <button className="button secondary" type="button" onClick={onHome}>
             Seguir comprando
             <ArrowRight size={18} />
           </button>
@@ -1603,20 +1601,39 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const syncViewFromHash = () => {
-      if (window.location.hash === "#catalog") setView("catalog");
-      if (window.location.hash === "#checkout") setView("checkout");
-    };
+    // Sync initial view from URL hash
+    const hash = window.location.hash.replace("#", "");
+    if (hash === "catalog" || hash === "checkout") {
+      setView(hash);
+    }
 
-    syncViewFromHash();
-    window.addEventListener("hashchange", syncViewFromHash);
-    return () => window.removeEventListener("hashchange", syncViewFromHash);
+    // Replace initial state so popstate works from the start
+    window.history.replaceState({ view: view || "home" }, "");
+  }, []);
+
+  // Listen for browser back/forward button
+  useEffect(() => {
+    function handlePopState(event) {
+      const state = event.state;
+      if (state && state.view) {
+        if (state.view === "catalog") setCatalogKey((k) => k + 1);
+        setView(state.view);
+        setActivePanel(null);
+      } else {
+        setView("home");
+        setActivePanel(null);
+      }
+    }
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
   useEffect(() => {
     function handleViewOrder() {
       setSelectedOrder(window.__selectedOrder);
       setView("order-detail");
+      window.history.pushState({ view: "order-detail" }, "", "#order-detail");
     }
     window.addEventListener("viewOrder", handleViewOrder);
     return () => window.removeEventListener("viewOrder", handleViewOrder);
@@ -1648,6 +1665,9 @@ export default function App() {
   function changeView(newView) {
     if (newView === "catalog") setCatalogKey((k) => k + 1);
     setView(newView);
+    // Push to browser history so back button works
+    const url = newView === "home" ? "/" : `#${newView}`;
+    window.history.pushState({ view: newView }, "", url);
   }
 
   function openProductDetail(product) {
@@ -1706,7 +1726,7 @@ export default function App() {
         <CatalogView key={catalogKey} content={activeContent} openOptions={openProductDetail} setView={changeView} />
       )}
       {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} updateCartItem={updateCartItem} setView={changeView} />}
-      {view === "order-detail" && <OrderDetailView order={selectedOrder} onBack={() => { changeView("home"); setActivePanel("account"); }} />}
+      {view === "order-detail" && <OrderDetailView order={selectedOrder} onBack={() => { changeView("home"); setActivePanel("account"); }} onHome={() => changeView("home")} />}
       {view === "product" && selectedProduct && (
         <ProductDetailView
           content={activeContent}
