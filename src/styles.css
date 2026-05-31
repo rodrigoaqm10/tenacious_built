@@ -1988,19 +1988,20 @@ p {
   gap: 10px;
   width: 100%;
   padding: 14px 20px;
-  background: rgba(212, 160, 185, 0.1);
-  border: 1px solid rgba(212, 160, 185, 0.25);
+  background: var(--rose);
+  border: none;
   border-radius: 12px;
-  color: var(--rose-soft);
+  color: #2a0f1c;
   font-size: 0.9rem;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
   transition: background 180ms var(--ease), transform 180ms var(--ease);
+  min-height: 48px;
 }
 
 .newsletter-bell-btn:hover {
-  background: rgba(212, 160, 185, 0.18);
+  background: var(--rose-soft);
   transform: translateY(-1px);
 }
 
