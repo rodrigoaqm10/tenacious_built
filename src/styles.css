@@ -16,6 +16,16 @@
   --radius: 14px;
 }
 
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -162,6 +172,13 @@ body {
 img {
   display: block;
   width: 100%;
+  content-visibility: auto;
+}
+
+/* Smooth image loading */
+img[loading="lazy"] {
+  opacity: 1;
+  transition: opacity 300ms var(--ease);
 }
 
 a {
@@ -388,6 +405,21 @@ button {
   box-shadow: -16px 0 60px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(24px);
   animation: slideInRight 320ms var(--ease);
+}
+
+.panel-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 29;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 200ms ease;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideInRight {
@@ -744,8 +776,13 @@ p {
 
 .button:hover,
 .button:focus-visible {
-  transform: scale(1.02);
-  box-shadow: 0 0 16px rgba(212, 160, 185, 0.1);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 20px rgba(212, 160, 185, 0.15);
+}
+
+.button:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 80ms;
 }
 
 .button.primary {
@@ -756,6 +793,7 @@ p {
 
 .button.primary:hover {
   background: var(--rose-soft);
+  box-shadow: 0 6px 24px rgba(212, 160, 185, 0.25);
 }
 
 .button.secondary {
@@ -767,6 +805,7 @@ p {
 .button.secondary:hover,
 .button.secondary:focus-visible {
   border-color: rgba(212, 160, 185, 0.5);
+  background: rgba(212, 160, 185, 0.04);
 }
 
 .hero-media {
@@ -1047,10 +1086,11 @@ p {
 
 .category-card:hover,
 .product-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-4px) scale(1.01);
   box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(212, 160, 185, 0.1);
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(212, 160, 185, 0.12);
 }
 
 .category-card img {

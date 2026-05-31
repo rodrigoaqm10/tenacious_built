@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   ArrowRight,
   CreditCard,
-  Globe2,
   Instagram,
   Languages,
   Mail,
@@ -300,10 +299,12 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
   const cartTotal = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <aside className="action-panel" aria-live="polite">
-      <div className="panel-header">
-        <h2>
-          {activePanel === "search" && content.ui.search}
+    <>
+      <div className="panel-overlay" onClick={() => setActivePanel(null)} aria-hidden="true" />
+      <aside className="action-panel" aria-live="polite">
+        <div className="panel-header">
+          <h2>
+            {activePanel === "search" && content.ui.search}
           {activePanel === "account" && content.ui.accountTitle}
           {activePanel === "cart" && content.ui.cartTitle}
         </h2>
@@ -332,7 +333,7 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
               .slice(0, 4)
               .map((product) => (
                 <a key={product.name} href="#women" onClick={() => setActivePanel(null)}>
-                  <img src={product.image} alt={product.name} />
+                  <img src={product.image} alt={product.name} loading="lazy" />
                   <span>{product.name}</span>
                 </a>
               ))}
@@ -386,6 +387,7 @@ function ActionPanel({ content, activePanel, setActivePanel, cart, removeFromCar
         </div>
       )}
     </aside>
+    </>
   );
 }
 
@@ -508,7 +510,7 @@ function ProductGrid({ content, openOptions, setView }) {
         {content.products.slice(0, 4).map((product) => (
           <article className="product-card" key={product.name}>
             <button className="product-image" type="button" onClick={() => openOptions(product)}>
-              <img src={product.image} alt={product.name} />
+              <img src={product.image} alt={product.name} loading="lazy" />
               <span>{product.badge}</span>
             </button>
             <div className="product-info">
@@ -673,7 +675,7 @@ function CatalogView({ content, openOptions, setView }) {
             {products.map((product) => (
               <article className="product-card" key={product.name}>
                 <button className="product-image" type="button" onClick={() => openOptions(product)}>
-                  <img src={product.image} alt={product.name} />
+                  <img src={product.image} alt={product.name} loading="lazy" />
                   <span>{product.badge}</span>
                 </button>
                 <div className="product-info">
@@ -1293,7 +1295,7 @@ function InfoPageView({ content, pageKey, setView, openOptions }) {
             {content.products.slice(0, 4).map((product) => (
               <article className="product-card" key={product.name}>
                 <button className="product-image" type="button" onClick={() => openOptions(product)}>
-                  <img src={product.image} alt={product.name} />
+                  <img src={product.image} alt={product.name} loading="lazy" />
                   <span>{product.badge}</span>
                 </button>
                 <div className="product-info">
