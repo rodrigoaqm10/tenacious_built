@@ -882,6 +882,8 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState("");
   const [imageIndex, setImageIndex] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   useEffect(() => {
     setSize("");
@@ -903,16 +905,6 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
 
   function prevImage() {
     setImageIndex((prev) => (prev - 1 + images.length) % images.length);
-  }
-
-  function getSizeChartImage() {
-    if (product.sizeChart) return product.sizeChart;
-    const productType = (product.type || "").toLowerCase();
-    if (productType.includes("short")) return `${import.meta.env.BASE_URL}images/medidas-short.jpeg`;
-    if (productType.includes("sostén") || productType.includes("sosten") || productType.includes("bra")) return `${import.meta.env.BASE_URL}images/medidas-sosten.jpeg`;
-    if (productType.includes("top deportivo") || productType.includes("sport")) return `${import.meta.env.BASE_URL}images/medidas-top-deportivo.jpeg`;
-    if (productType.includes("top")) return `${import.meta.env.BASE_URL}images/medidas-top.jpeg`;
-    return `${import.meta.env.BASE_URL}images/medidas-top.jpeg`;
   }
 
   function addProduct() {
@@ -937,7 +929,16 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
         </button>
       </section>
       <section className="product-detail-layout">
-        <div className="product-detail-gallery">
+        <div
+          className="product-detail-gallery"
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+          onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
+          onTouchEnd={() => {
+            const diff = touchStartX.current - touchEndX.current;
+            if (diff > 50) nextImage();
+            if (diff < -50) prevImage();
+          }}
+        >
           <img
             src={images[imageIndex]}
             alt={product.name}
@@ -1014,10 +1015,7 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
             <ShoppingBag size={18} />
           </button>
 
-          <div className="product-detail-sizechart">
-            <h3>Guía de tallas</h3>
-            <img src={getSizeChartImage()} alt="Guía de tallas" />
-          </div>
+
         </div>
       </section>
     </main>
