@@ -1562,12 +1562,19 @@ export default function App() {
   const [language, setLanguage] = useState("es");
   const [view, setView] = useState(() => {
     const hash = window.location.hash.replace("#", "");
-    const validViews = ["catalog", "checkout", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
-    return validViews.includes(hash) ? hash : "home";
+    const allViews = ["catalog", "checkout", "product", "order-detail", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
+    return allViews.includes(hash) ? hash : "home";
   });
   const [catalogKey, setCatalogKey] = useState(0);
   const [activePanel, setActivePanel] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem("tenacious_selected_product");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [cart, setCart] = useState(() => {
     try {
@@ -1597,6 +1604,19 @@ export default function App() {
       // ignore storage errors
     }
   }, [cart]);
+
+  // Persist selected product for refresh
+  useEffect(() => {
+    try {
+      if (selectedProduct) {
+        sessionStorage.setItem("tenacious_selected_product", JSON.stringify(selectedProduct));
+      } else {
+        sessionStorage.removeItem("tenacious_selected_product");
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, [selectedProduct]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -1708,7 +1728,7 @@ export default function App() {
 
   // Safety: redirect to valid view if current view requires missing state
   useEffect(() => {
-    if (view === "product" && !selectedProduct) {
+    if (view === "product" && !selectedProduct && !productsLoading) {
       setView("catalog");
       setCatalogKey((k) => k + 1);
       window.history.replaceState({ view: "catalog" }, "", "#catalog");
@@ -1717,7 +1737,7 @@ export default function App() {
       setView("home");
       window.history.replaceState({ view: "home" }, "", "/");
     }
-  }, [view, selectedProduct, selectedOrder]);
+  }, [view, selectedProduct, selectedOrder, productsLoading]);
 
   function openProductDetail(product) {
     setSelectedProduct(product);
