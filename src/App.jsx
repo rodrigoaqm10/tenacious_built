@@ -1603,14 +1603,23 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Sync initial view from URL hash
+    // Sync initial view from URL hash on page load/refresh
     const hash = window.location.hash.replace("#", "");
-    if (hash === "catalog" || hash === "checkout") {
+    const validViews = ["catalog", "checkout", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
+    
+    if (validViews.includes(hash)) {
       setView(hash);
+      if (hash === "catalog") setCatalogKey((k) => k + 1);
+    } else {
+      // For views that need state (product, order-detail) or unknown hashes, go to home
+      setView("home");
+      if (window.location.hash) {
+        window.history.replaceState({ view: "home" }, "", "/");
+      }
     }
 
     // Replace initial state so popstate works from the start
-    window.history.replaceState({ view: view || "home" }, "");
+    window.history.replaceState({ view: hash && validViews.includes(hash) ? hash : "home" }, "");
   }, []);
 
   // Listen for browser back/forward button
@@ -1618,8 +1627,16 @@ export default function App() {
     function handlePopState(event) {
       const state = event.state;
       if (state && state.view) {
-        if (state.view === "catalog") setCatalogKey((k) => k + 1);
-        setView(state.view);
+        // Views that require state data - if we don't have it, go home
+        if (state.view === "product" && !selectedProduct) {
+          setView("catalog");
+          setCatalogKey((k) => k + 1);
+        } else if (state.view === "order-detail" && !selectedOrder) {
+          setView("home");
+        } else {
+          if (state.view === "catalog") setCatalogKey((k) => k + 1);
+          setView(state.view);
+        }
         setActivePanel(null);
       } else {
         setView("home");
@@ -1629,7 +1646,7 @@ export default function App() {
 
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
+  }, [selectedProduct, selectedOrder]);
 
   useEffect(() => {
     function handleViewOrder() {
@@ -1671,6 +1688,19 @@ export default function App() {
     const url = newView === "home" ? "/" : `#${newView}`;
     window.history.pushState({ view: newView }, "", url);
   }
+
+  // Safety: redirect to valid view if current view requires missing state
+  useEffect(() => {
+    if (view === "product" && !selectedProduct) {
+      setView("catalog");
+      setCatalogKey((k) => k + 1);
+      window.history.replaceState({ view: "catalog" }, "", "#catalog");
+    }
+    if (view === "order-detail" && !selectedOrder) {
+      setView("home");
+      window.history.replaceState({ view: "home" }, "", "/");
+    }
+  }, [view, selectedProduct, selectedOrder]);
 
   function openProductDetail(product) {
     setSelectedProduct(product);
@@ -1728,7 +1758,7 @@ export default function App() {
         <CatalogView key={catalogKey} content={activeContent} openOptions={openProductDetail} setView={changeView} />
       )}
       {view === "checkout" && <CheckoutView content={activeContent} cart={cart} removeFromCart={removeFromCart} updateCartItem={updateCartItem} setView={changeView} />}
-      {view === "order-detail" && <OrderDetailView order={selectedOrder} onBack={() => { changeView("home"); setActivePanel("account"); }} onHome={() => changeView("home")} />}
+      {view === "order-detail" && selectedOrder && <OrderDetailView order={selectedOrder} onBack={() => { changeView("home"); setActivePanel("account"); }} onHome={() => changeView("home")} />}
       {view === "product" && selectedProduct && (
         <ProductDetailView
           content={activeContent}
