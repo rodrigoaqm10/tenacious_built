@@ -1198,9 +1198,22 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
   );
 }
 
-function MenComingSoon({ content, setActivePanel }) {
+function ComingSoonSection({ setActivePanel }) {
+  const [data, setData] = useState(null);
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    shopifyFetch(`{ page(handle: "coming-soon") { title body } }`)
+      .then((res) => {
+        if (res?.page?.body) {
+          setData({ title: res.page.title, description: res.page.body.replace(/<[^>]*>/g, "") });
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  if (!data) return null;
 
   async function handleNotify() {
     if (!isLoggedIn()) {
@@ -1224,15 +1237,15 @@ function MenComingSoon({ content, setActivePanel }) {
   return (
     <section className="men-band reveal" id="men">
       <div>
-        <span className="eyebrow">{content.ui.comingSoon}</span>
-        <h2>{content.menComingSoon.title}</h2>
-        <p>{content.menComingSoon.description}</p>
+        <span className="eyebrow">Disponible pronto</span>
+        <h2>{data.title}</h2>
+        <p>{data.description}</p>
       </div>
       {subscribed ? (
         <span className="men-band-confirmed">✓ Te avisaremos cuando esté disponible</span>
       ) : (
         <button className="button secondary" type="button" onClick={handleNotify} disabled={loading}>
-          {loading ? "Suscribiendo..." : content.menComingSoon.cta}
+          {loading ? "Suscribiendo..." : "Avisarme del drop"}
         </button>
       )}
     </section>
@@ -2031,7 +2044,7 @@ export default function App() {
           <CategoryGrid content={activeContent} />
           <ProductGrid content={activeContent} openOptions={openProductDetail} setView={changeView} />
           <StyleTiles content={activeContent} setView={changeView} />
-          <MenComingSoon content={activeContent} setActivePanel={setActivePanel} />
+          <ComingSoonSection setActivePanel={setActivePanel} />
           <SocialContact content={activeContent} />
         </main>
       )}
