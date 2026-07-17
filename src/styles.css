@@ -1228,8 +1228,9 @@ p {
 
 .category-card img {
   aspect-ratio: 4 / 5;
-  object-fit: cover;
-  filter: saturate(0.82);
+  object-fit: contain;
+  padding: 16px;
+  background: #fafafa;
   transition: transform 520ms var(--ease);
 }
 
@@ -1324,8 +1325,10 @@ p {
 
 .catalog-category-card img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: 180px;
+  object-fit: contain;
+  padding: 16px;
+  background: #fafafa;
 }
 
 .catalog-category-card div {
@@ -1502,13 +1505,14 @@ p {
   width: 100%;
   padding: 0;
   text-align: left;
-  background: var(--panel-soft);
+  background: #fafafa;
   overflow: hidden;
 }
 
 .product-image img {
   aspect-ratio: 3 / 4;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 8px;
   transition: transform 520ms var(--ease);
 }
 
@@ -3197,7 +3201,7 @@ button.order-line {
   }
 
   .catalog-category-card img {
-    height: 120px;
+    height: 140px;
   }
 
   .men-band,
@@ -3442,7 +3446,7 @@ button.order-line {
 
   .product-card .product-image img {
     aspect-ratio: 3/4;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .product-info {
@@ -3514,7 +3518,7 @@ button.order-line {
   }
 
   .category-card img {
-    aspect-ratio: 4/3;
+    aspect-ratio: 1;
     height: auto;
   }
 
@@ -3586,7 +3590,7 @@ button.order-line {
   }
 
   .catalog-category-card img {
-    height: 100px;
+    height: 120px;
   }
 
   .men-band {
