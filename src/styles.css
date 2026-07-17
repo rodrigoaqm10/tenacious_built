@@ -2309,6 +2309,62 @@ p {
   gap: 16px;
 }
 
+.embajadoras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.embajadora-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 280ms var(--ease), box-shadow 280ms var(--ease);
+}
+
+.embajadora-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+}
+
+.embajadora-card img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+
+.embajadora-info {
+  padding: 18px;
+}
+
+.embajadora-info h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.embajadora-info p {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .embajadoras-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .embajadora-info {
+    padding: 12px;
+  }
+
+  .embajadora-info h3 {
+    font-size: 0.9rem;
+  }
+}
+
 .contact-card {
   display: flex;
   align-items: center;

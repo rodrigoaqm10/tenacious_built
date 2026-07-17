@@ -222,3 +222,34 @@ export async function getProducts() {
   const data = await shopifyFetch(PRODUCTS_QUERY);
   return data.products.nodes.map(transformShopifyProduct).filter(Boolean);
 }
+
+// Obtener posts de un blog (para embajadoras)
+export async function getBlogPosts(blogHandle) {
+  const query = `
+    query BlogPosts($handle: String!) {
+      blog(handle: $handle) {
+        title
+        articles(first: 20) {
+          nodes {
+            id
+            title
+            content
+            excerpt
+            image {
+              url
+              altText
+            }
+            publishedAt
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const data = await shopifyFetch(query, { handle: blogHandle });
+    return data?.blog?.articles?.nodes || [];
+  } catch {
+    return [];
+  }
+}

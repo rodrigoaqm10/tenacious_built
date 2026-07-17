@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { contentByLanguage } from "./data/siteContent";
 import { useShopifyProducts } from "./lib/useShopifyProducts";
-import { createCheckout, shopifyFetch } from "./lib/shopify";
+import { createCheckout, shopifyFetch, getBlogPosts } from "./lib/shopify";
 import { createCustomer, loginCustomer, getCustomerInfo, logout, isLoggedIn } from "./lib/auth";
 import { subscribeNewsletter } from "./lib/newsletter";
 
@@ -1436,6 +1436,55 @@ function ContactView({ content, setView }) {
   );
 }
 
+function EmbajadorasView({ setView }) {
+  const [embajadoras, setEmbajadoras] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getBlogPosts("embajadoras").then((posts) => {
+      setEmbajadoras(posts);
+      setLoading(false);
+    });
+  }, []);
+
+  return (
+    <main className="info-page">
+      <section className="catalog-hero">
+        <button className="text-button back-button" type="button" onClick={() => setView("home")}>
+          ← Home
+        </button>
+        <span className="eyebrow">Comunidad</span>
+        <h1>Embajadoras</h1>
+        <p>Mujeres reales que representan la fuerza y actitud Tenacious.</p>
+      </section>
+      <section className="info-content">
+        {loading ? (
+          <div style={{ textAlign: "center", padding: "40px 0" }}>
+            <div className="loading-spinner" />
+            <p style={{ color: "var(--muted)", marginTop: "16px" }}>Cargando...</p>
+          </div>
+        ) : embajadoras.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "40px 0" }}>
+            <p style={{ color: "var(--muted)" }}>Próximamente se anunciarán nuestras embajadoras.</p>
+          </div>
+        ) : (
+          <div className="embajadoras-grid">
+            {embajadoras.map((emb) => (
+              <article className="embajadora-card" key={emb.id}>
+                {emb.image?.url && <img src={emb.image.url} alt={emb.title} loading="lazy" />}
+                <div className="embajadora-info">
+                  <h3>{emb.title}</h3>
+                  <p>{emb.excerpt || emb.content?.replace(/<[^>]*>/g, "").slice(0, 120)}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+    </main>
+  );
+}
+
 function InfoPageView({ content, pageKey, setView, openOptions }) {
   const page = content.pages[pageKey];
 
@@ -1754,7 +1803,7 @@ export default function App() {
   const [language, setLanguage] = useState("es");
   const [view, setView] = useState(() => {
     const hash = window.location.hash.replace("#", "");
-    const allViews = ["catalog", "checkout", "product", "order-detail", "contact", "about", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
+    const allViews = ["catalog", "checkout", "product", "order-detail", "contact", "embajadoras", "about", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
     return allViews.includes(hash) ? hash : "home";
   });
   const [catalogKey, setCatalogKey] = useState(0);
@@ -2003,6 +2052,7 @@ export default function App() {
         />
       )}
       {view === "contact" && <ContactView content={activeContent} setView={changeView} />}
+      {view === "embajadoras" && <EmbajadorasView setView={changeView} />}
       {["about", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
         <InfoPageView content={activeContent} pageKey={view} setView={changeView} openOptions={openProductDetail} />
       )}
