@@ -309,6 +309,43 @@ Las etiquetas (tags) controlan el badge que aparece en la esquina de cada produc
 
 ---
 
+## 15. AGREGAR EMBAJADORAS
+
+Las embajadoras se administran desde el blog de Shopify. Cada embajadora es un artículo del blog.
+
+### Paso a paso:
+
+1. Ve a **Contenido** → **Artículos del blog** (en el menú izquierdo)
+2. Haz clic en **"Crear artículo del blog"**
+3. Configura:
+
+| Campo | Qué poner | Ejemplo |
+|-------|-----------|---------|
+| Blog | Selecciona **"embajadoras"** | embajadoras |
+| Título | Nombre de la embajadora | "María López" |
+| Contenido | Bio corta | "Atleta fitness y amante del entrenamiento funcional..." |
+| Imagen (barra derecha) | Foto de la embajadora | Subir imagen |
+
+4. En **Visibilidad** → selecciona **"Visible"**
+5. ⚠️ Si te sale error de fecha: haz clic en el lápiz (✏️) al lado de la fecha y cámbiala a hoy o bórrala
+6. Haz clic en **"Guardar"**
+7. La embajadora aparece automáticamente en: www.tenaciousbuilt.cl/#embajadoras
+
+### Para quitar una embajadora:
+- Edita el artículo y cámbialo a **"Oculto"**
+- O elimina el artículo directamente
+
+### Para agregar más embajadoras:
+- Simplemente crea más artículos en el blog "embajadoras"
+- Cada artículo = una embajadora nueva en la web
+
+### Notas:
+- El blog debe llamarse exactamente **"embajadoras"** (en minúscula)
+- Si no hay artículos publicados, la página muestra "Próximamente se anunciarán nuestras embajadoras"
+- La imagen destacada es la foto que se ve en la card
+
+---
+
 ## TIPS IMPORTANTES
 
 ✅ **Siempre pon el Tipo de producto** (Shorts, Tops, Sostenes)
