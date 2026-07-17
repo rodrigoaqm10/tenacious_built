@@ -518,7 +518,7 @@ function FeatureStrip({ content }) {
 function ProductSpotlight({ content, setView }) {
   return (
     <section className="product-spotlight reveal">
-      <div className="spotlight-copy">
+      <div className="spotlight-full">
         <span className="eyebrow">{content.spotlight.eyebrow}</span>
         <h2>{content.spotlight.title}</h2>
         <p>{content.spotlight.description}</p>
@@ -531,10 +531,6 @@ function ProductSpotlight({ content, setView }) {
           {content.ui.catalog}
           <ArrowRight size={18} />
         </button>
-      </div>
-      <div className="spotlight-media">
-        {content.spotlight.images?.[0] && <img src={content.spotlight.images[0]} alt="Colección" />}
-        {content.spotlight.images?.[1] && <img src={content.spotlight.images[1]} alt="Colección" />}
       </div>
     </section>
   );

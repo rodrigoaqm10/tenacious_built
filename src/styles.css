@@ -1013,69 +1013,55 @@ p {
 
 .product-spotlight {
   width: min(100% - 32px, var(--max));
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  gap: 18px;
-  align-items: stretch;
   margin: 86px auto 0;
-  padding: 18px;
+  padding: 64px 32px;
   border: 1px solid var(--line);
   border-radius: 20px;
   background:
-    radial-gradient(ellipse at 18% 0%, rgba(212, 160, 185, 0.05), transparent 40%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.005)),
+    radial-gradient(ellipse at 50% 0%, rgba(212, 160, 185, 0.06), transparent 50%),
     var(--panel);
+  text-align: center;
 }
 
-.spotlight-copy,
-.spotlight-media {
-  position: relative;
-  overflow: hidden;
-  border-radius: 18px;
+.spotlight-full {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 }
 
-.spotlight-copy {
-  display: grid;
-  align-content: center;
-  justify-items: start;
-  padding: clamp(24px, 4vw, 58px);
-  overflow: visible;
+.spotlight-full .eyebrow {
+  margin-bottom: 16px;
 }
 
-.spotlight-copy::before,
-.spotlight-media::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: 40%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
-  animation: sheen 12s var(--ease) infinite;
-  pointer-events: none;
-}
-
-.spotlight-copy h2 {
-  max-width: 640px;
+.spotlight-full h2 {
+  max-width: 600px;
   margin-bottom: 18px;
-  font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
   font-weight: 700;
   background: linear-gradient(180deg, #fff, #b9adb5);
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
-  overflow-wrap: anywhere;
 }
 
-.spotlight-copy p {
-  max-width: 560px;
-  font-size: 1.05rem;
+.spotlight-full p {
+  max-width: 500px;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 .spotlight-features {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
-  margin: 12px 0 30px;
+  margin: 24px 0 32px;
 }
 
 .spotlight-features span {
@@ -1086,36 +1072,6 @@ p {
   color: var(--rose-soft);
   font-size: 0.8rem;
   font-weight: 600;
-}
-
-.spotlight-media {
-  display: grid;
-  grid-template-columns: 1fr 0.78fr;
-  gap: 12px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.025);
-  border-radius: 18px;
-}
-
-.spotlight-media img {
-  height: 100%;
-  min-height: 560px;
-  object-fit: contain;
-  object-position: center;
-  border-radius: 12px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  padding: 20px;
-  transition: transform 700ms var(--ease);
-}
-
-.spotlight-media img:nth-child(2) {
-  align-self: end;
-  height: 82%;
-}
-
-.spotlight-media:hover img {
-  transform: scale(1.035);
 }
 
 .stat-strip div {
@@ -3154,24 +3110,9 @@ button.order-line {
 
   .product-spotlight {
     min-height: auto;
-    grid-template-columns: 1fr;
+    padding: 40px 20px;
     margin-top: 48px;
-    padding: 14px;
     border-radius: 16px;
-  }
-
-  .spotlight-copy {
-    padding: 24px;
-  }
-
-  .spotlight-media {
-    padding: 8px;
-    gap: 8px;
-  }
-
-  .spotlight-media img {
-    min-height: 240px;
-    border-radius: 10px;
   }
 
   .catalog-layout,
@@ -3476,29 +3417,12 @@ button.order-line {
 
   .product-spotlight {
     margin-top: 40px;
-    padding: 10px;
+    padding: 32px 16px;
     border-radius: 14px;
   }
 
-  .spotlight-copy {
-    padding: 20px;
-  }
-
-  .spotlight-copy h2 {
-    font-size: 1.2rem;
-  }
-
-  .spotlight-media {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    padding: 6px;
-  }
-
-  .spotlight-media img,
-  .spotlight-media img:nth-child(2) {
-    min-height: 180px;
-    height: 200px;
-    border-radius: 8px;
+  .spotlight-full h2 {
+    font-size: 1.3rem;
   }
 
   .catalog-hero {
