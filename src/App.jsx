@@ -1198,7 +1198,7 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
   );
 }
 
-function ComingSoonSection({ setActivePanel }) {
+function ComingSoonSection({ setActivePanel, setView }) {
   const [data, setData] = useState(null);
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -1241,14 +1241,79 @@ function ComingSoonSection({ setActivePanel }) {
         <h2>{data.title}</h2>
         <p>{data.description}</p>
       </div>
-      {subscribed ? (
-        <span className="men-band-confirmed">✓ Te avisaremos cuando esté disponible</span>
-      ) : (
-        <button className="button secondary" type="button" onClick={handleNotify} disabled={loading}>
-          {loading ? "Suscribiendo..." : "Avisarme del drop"}
+      <div className="coming-soon-actions">
+        {subscribed ? (
+          <span className="men-band-confirmed">✓ Te avisaremos cuando esté disponible</span>
+        ) : (
+          <button className="button secondary" type="button" onClick={handleNotify} disabled={loading}>
+            {loading ? "Suscribiendo..." : "Avisarme del drop"}
+          </button>
+        )}
+        <button className="button primary" type="button" onClick={() => setView("coming-soon")}>
+          Ver más
+          <ArrowRight size={16} />
         </button>
-      )}
+      </div>
     </section>
+  );
+}
+
+function ComingSoonView({ setView, setActivePanel }) {
+  const [data, setData] = useState(null);
+  const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    shopifyFetch(`{ page(handle: "coming-soon") { title body } }`)
+      .then((res) => {
+        if (res?.page?.body) {
+          setData({ title: res.page.title, description: res.page.body.replace(/<[^>]*>/g, "") });
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  async function handleNotify() {
+    if (!isLoggedIn()) {
+      setActivePanel("account");
+      return;
+    }
+    setLoading(true);
+    try {
+      const customerInfo = await getCustomerInfo();
+      if (customerInfo?.email) {
+        await subscribeNewsletter(customerInfo.email);
+      }
+      setSubscribed(true);
+    } catch {
+      setSubscribed(true);
+    }
+    setLoading(false);
+  }
+
+  return (
+    <main className="info-page">
+      <section className="catalog-hero">
+        <button className="text-button back-button" type="button" onClick={() => setView("home")}>
+          ← Home
+        </button>
+        <span className="eyebrow">Disponible pronto</span>
+        <h1>{data?.title || "Coming Soon"}</h1>
+        <p>{data?.description || ""}</p>
+      </section>
+      <section className="info-content">
+        <div style={{ textAlign: "center", padding: "20px 0" }}>
+          {subscribed ? (
+            <span className="men-band-confirmed" style={{ display: "inline-block" }}>✓ Te avisaremos cuando esté disponible</span>
+          ) : (
+            <button className="button primary" type="button" onClick={handleNotify} disabled={loading}>
+              {loading ? "Suscribiendo..." : "Avisarme cuando esté disponible"}
+              <Bell size={18} />
+            </button>
+          )}
+        </div>
+      </section>
+    </main>
   );
 }
 
@@ -1816,7 +1881,7 @@ export default function App() {
   const [language, setLanguage] = useState("es");
   const [view, setView] = useState(() => {
     const hash = window.location.hash.replace("#", "");
-    const allViews = ["catalog", "checkout", "product", "order-detail", "contact", "embajadoras", "about", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
+    const allViews = ["catalog", "checkout", "product", "order-detail", "contact", "embajadoras", "coming-soon", "about", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
     return allViews.includes(hash) ? hash : "home";
   });
   const [catalogKey, setCatalogKey] = useState(0);
@@ -2044,7 +2109,7 @@ export default function App() {
           <CategoryGrid content={activeContent} />
           <ProductGrid content={activeContent} openOptions={openProductDetail} setView={changeView} />
           <StyleTiles content={activeContent} setView={changeView} />
-          <ComingSoonSection setActivePanel={setActivePanel} />
+          <ComingSoonSection setActivePanel={setActivePanel} setView={changeView} />
           <SocialContact content={activeContent} />
         </main>
       )}
@@ -2066,6 +2131,7 @@ export default function App() {
       )}
       {view === "contact" && <ContactView content={activeContent} setView={changeView} />}
       {view === "embajadoras" && <EmbajadorasView setView={changeView} />}
+      {view === "coming-soon" && <ComingSoonView setView={changeView} setActivePanel={setActivePanel} />}
       {["about", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
         <InfoPageView content={activeContent} pageKey={view} setView={changeView} openOptions={openProductDetail} />
       )}
