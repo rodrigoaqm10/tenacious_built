@@ -182,6 +182,7 @@ export const contentByLanguage = {
         links: [
           { label: "Catálogo mujer", view: "catalog" },
           { label: "Top ventas", view: "top-sellers" },
+          { label: "Nuestra historia", view: "about" },
           { label: "Próximo drop hombre", view: "men-drop" },
         ],
       },
@@ -210,6 +211,28 @@ export const contentByLanguage = {
       },
     },
     pages: {
+      about: {
+        title: "Nuestra historia",
+        intro: "Más que ropa deportiva. Una marca creada desde la pasión por el entrenamiento y la confianza en cada mujer.",
+        sections: [
+          {
+            subtitle: "Cómo nació Tenacious Built",
+            text: "Tenacious nació de una idea simple: crear prendas deportivas que realmente acompañen a la mujer que entrena con fuerza y determinación. No queríamos una marca más de ropa fitness. Queríamos algo que representara actitud, calidad y presencia.",
+          },
+          {
+            subtitle: "Nuestro propósito",
+            text: "Creemos que vestir bien para entrenar no es vanidad — es intención. Cada prenda está pensada para que te sientas segura, cómoda y con la confianza de dar todo en cada repetición. Diseñamos para la mujer que no se conforma, que entrena con propósito y vive con fuerza.",
+          },
+          {
+            subtitle: "Lo que nos mueve",
+            text: "Nos mueve ver mujeres que se sienten bien consigo mismas, que entrenan por salud, por fuerza, por disciplina. Tenacious Built es para ellas — para las que se levantan temprano, las que no paran, las que construyen su mejor versión día a día.",
+          },
+          {
+            subtitle: "Calidad sobre cantidad",
+            text: "Trabajamos con telas técnicas, costuras planas y calce pensado para el movimiento real. No lanzamos colecciones masivas — preferimos pocas prendas bien hechas que muchas sin identidad. Cada pieza lleva nuestro sello: resistencia, comodidad y diseño limpio.",
+          },
+        ],
+      },
       faq: {
         title: "Preguntas frecuentes",
         sections: [
@@ -567,6 +590,7 @@ export const contentByLanguage = {
         links: [
           { label: "Women's catalog", view: "catalog" },
           { label: "Top sellers", view: "top-sellers" },
+          { label: "Our story", view: "about" },
           { label: "Men's next drop", view: "men-drop" },
         ],
       },
@@ -595,6 +619,28 @@ export const contentByLanguage = {
       },
     },
     pages: {
+      about: {
+        title: "Our story",
+        intro: "More than sportswear. A brand born from passion for training and confidence in every woman.",
+        sections: [
+          {
+            subtitle: "How Tenacious Built was born",
+            text: "Tenacious was born from a simple idea: create sportswear that truly supports women who train with strength and determination. We didn't want just another fitness brand. We wanted something that represents attitude, quality and presence.",
+          },
+          {
+            subtitle: "Our purpose",
+            text: "We believe dressing well for training isn't vanity — it's intention. Every garment is designed to make you feel secure, comfortable and confident to give everything in every rep. We design for women who don't settle, who train with purpose and live with strength.",
+          },
+          {
+            subtitle: "What drives us",
+            text: "We're driven by seeing women who feel good about themselves, who train for health, strength and discipline. Tenacious Built is for them — for those who wake up early, who don't stop, who build their best version every day.",
+          },
+          {
+            subtitle: "Quality over quantity",
+            text: "We work with technical fabrics, flat seams and fit designed for real movement. We don't launch massive collections — we prefer few well-made pieces over many without identity. Each piece carries our seal: resistance, comfort and clean design.",
+          },
+        ],
+      },
       faq: {
         title: "Frequently asked questions",
         sections: [

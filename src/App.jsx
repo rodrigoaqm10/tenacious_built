@@ -1754,7 +1754,7 @@ export default function App() {
   const [language, setLanguage] = useState("es");
   const [view, setView] = useState(() => {
     const hash = window.location.hash.replace("#", "");
-    const allViews = ["catalog", "checkout", "product", "order-detail", "contact", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
+    const allViews = ["catalog", "checkout", "product", "order-detail", "contact", "about", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"];
     return allViews.includes(hash) ? hash : "home";
   });
   const [catalogKey, setCatalogKey] = useState(0);
@@ -2003,7 +2003,7 @@ export default function App() {
         />
       )}
       {view === "contact" && <ContactView content={activeContent} setView={changeView} />}
-      {["faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
+      {["about", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
         <InfoPageView content={activeContent} pageKey={view} setView={changeView} openOptions={openProductDetail} />
       )}
       <Footer content={activeContent} setView={changeView} />
