@@ -38,6 +38,7 @@ export const contentByLanguage = {
       { label: "Catálogo", view: "catalog" },
       { label: "Colecciones", href: "#collections" },
       { label: "Top ventas", href: "#women" },
+      { label: "Coming Soon", href: "#men" },
       { label: "Contacto", view: "contact" },
     ],
     ui: {
@@ -446,6 +447,7 @@ export const contentByLanguage = {
       { label: "Catalog", view: "catalog" },
       { label: "Collections", href: "#collections" },
       { label: "Top sellers", href: "#women" },
+      { label: "Coming Soon", href: "#men" },
       { label: "Contact", view: "contact" },
     ],
     ui: {
