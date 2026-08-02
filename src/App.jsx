@@ -1268,7 +1268,7 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
   );
 }
 
-function ComingSoonSection({ setActivePanel, setView }) {
+function ComingSoonSection({ setActivePanel, setView, content }) {
   const [data, setData] = useState(null);
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -1307,20 +1307,20 @@ function ComingSoonSection({ setActivePanel, setView }) {
   return (
     <section className="men-band reveal" id="men">
       <div>
-        <span className="eyebrow">Disponible pronto</span>
+        <span className="eyebrow">{content.ui.comingSoon}</span>
         <h2>{data.title}</h2>
         <p>{data.description}</p>
       </div>
       <div className="coming-soon-actions">
         {subscribed ? (
-          <span className="men-band-confirmed">✓ Te avisaremos cuando esté disponible</span>
+          <span className="men-band-confirmed">✓ {content.comingSoon?.subscribed || "Te avisaremos cuando esté disponible"}</span>
         ) : (
           <button className="button secondary" type="button" onClick={handleNotify} disabled={loading}>
-            {loading ? "Suscribiendo..." : "Avisarme del drop"}
+            {loading ? "..." : content.comingSoon?.cta || "Avisarme del drop"}
           </button>
         )}
         <button className="button primary" type="button" onClick={() => setView("coming-soon")}>
-          Ver más
+          {content.comingSoon?.viewMore || "Ver más"}
           <ArrowRight size={16} />
         </button>
       </div>
@@ -1328,7 +1328,7 @@ function ComingSoonSection({ setActivePanel, setView }) {
   );
 }
 
-function ComingSoonView({ setView, setActivePanel }) {
+function ComingSoonView({ setView, setActivePanel, content }) {
   const [data, setData] = useState(null);
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -2179,7 +2179,7 @@ export default function App() {
           <CategoryGrid content={activeContent} />
           <ProductGrid content={activeContent} openOptions={openProductDetail} setView={changeView} />
           <StyleTiles content={activeContent} setView={changeView} />
-          <ComingSoonSection setActivePanel={setActivePanel} setView={changeView} />
+          <ComingSoonSection setActivePanel={setActivePanel} setView={changeView} content={activeContent} />
           <SocialContact content={activeContent} />
         </main>
       )}
@@ -2201,7 +2201,7 @@ export default function App() {
       )}
       {view === "contact" && <ContactView content={activeContent} setView={changeView} />}
       {view === "embajadoras" && <EmbajadorasView setView={changeView} />}
-      {view === "coming-soon" && <ComingSoonView setView={changeView} setActivePanel={setActivePanel} />}
+      {view === "coming-soon" && <ComingSoonView setView={changeView} setActivePanel={setActivePanel} content={activeContent} />}
       {["about", "faq", "exchanges", "size-guide", "privacy", "terms", "shipping", "top-sellers", "men-drop"].includes(view) && (
         <InfoPageView content={activeContent} pageKey={view} setView={changeView} openOptions={openProductDetail} />
       )}

@@ -185,6 +185,11 @@ export const contentByLanguage = {
       description: "Estamos para ayudarte. Escríbenos por cualquiera de estos canales.",
       emailLabel: "Correo",
     },
+    comingSoon: {
+      cta: "Avisarme del drop",
+      viewMore: "Ver más",
+      subscribed: "Te avisaremos cuando esté disponible",
+    },
     footerLinks: {
       store: {
         title: "Tenacious Built",
@@ -602,6 +607,11 @@ export const contentByLanguage = {
       title: "Contact",
       description: "We're here to help. Reach us through any of these channels.",
       emailLabel: "Email",
+    },
+    comingSoon: {
+      cta: "Notify me",
+      viewMore: "Learn more",
+      subscribed: "We'll notify you when it's available",
     },
     footerLinks: {
       store: {
