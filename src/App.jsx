@@ -1066,12 +1066,6 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
         setError("Esta combinación está agotada. Prueba con otro color o talla.");
         return;
       }
-
-      if (selectedVariant && selectedVariant.quantityAvailable != null && quantity > selectedVariant.quantityAvailable) {
-        setError(`Solo quedan ${selectedVariant.quantityAvailable} unidades disponibles.`);
-        setQuantity(selectedVariant.quantityAvailable);
-        return;
-      }
     }
 
     onAddToCart({ ...product, size, color, quantity });
@@ -1105,8 +1099,9 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
       const sizeMatch = opts?.talla === size || opts?.size === size || opts?.["tamaño"] === size;
       return colorMatch && sizeMatch;
     });
-    if (!selectedVariant || selectedVariant.quantityAvailable == null) return 99;
-    return selectedVariant.quantityAvailable;
+    if (!selectedVariant) return 99;
+    if (!selectedVariant.availableForSale) return 0;
+    return 99;
   }
 
   const isAvailable = isCurrentSelectionAvailable();
@@ -1242,9 +1237,6 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
               </button>
             </div>
           </div>
-          {maxQty > 0 && maxQty <= 5 && size && color && isAvailable && (
-            <p className="stock-warning">⚡ Quedan solo {maxQty} unidades</p>
-          )}
 
           {error && <p className="option-error">{error}</p>}
 

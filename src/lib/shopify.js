@@ -57,7 +57,6 @@ export const PRODUCTS_QUERY = `
             id
             title
             availableForSale
-            quantityAvailable
             image {
               url
             }
