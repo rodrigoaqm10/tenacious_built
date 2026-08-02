@@ -1066,6 +1066,12 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
         setError("Esta combinación está agotada. Prueba con otro color o talla.");
         return;
       }
+
+      if (selectedVariant && selectedVariant.quantityAvailable != null && quantity > selectedVariant.quantityAvailable) {
+        setError(`Solo quedan ${selectedVariant.quantityAvailable} unidades disponibles.`);
+        setQuantity(selectedVariant.quantityAvailable);
+        return;
+      }
     }
 
     onAddToCart({ ...product, size, color, quantity });
@@ -1087,7 +1093,24 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
     return selectedVariant.availableForSale;
   }
 
+  // Get max quantity for selected variant
+  function getMaxQuantity() {
+    if (!size || !color || !product.variants) return 99;
+    const selectedVariant = product.variants.find((v) => {
+      const opts = v.selectedOptions?.reduce((acc, opt) => {
+        acc[opt.name.toLowerCase()] = opt.value;
+        return acc;
+      }, {});
+      const colorMatch = opts?.color === color || opts?.colour === color;
+      const sizeMatch = opts?.talla === size || opts?.size === size || opts?.["tamaño"] === size;
+      return colorMatch && sizeMatch;
+    });
+    if (!selectedVariant || selectedVariant.quantityAvailable == null) return 99;
+    return selectedVariant.quantityAvailable;
+  }
+
   const isAvailable = isCurrentSelectionAvailable();
+  const maxQty = getMaxQuantity();
 
   return (
     <main className="product-detail-page">
@@ -1214,11 +1237,14 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
                 <Minus size={16} />
               </button>
               <strong>{quantity}</strong>
-              <button type="button" aria-label="Aumentar" onClick={() => setQuantity(quantity + 1)}>
+              <button type="button" aria-label="Aumentar" onClick={() => setQuantity(Math.min(maxQty, quantity + 1))} disabled={quantity >= maxQty}>
                 <Plus size={16} />
               </button>
             </div>
           </div>
+          {maxQty > 0 && maxQty <= 5 && size && color && isAvailable && (
+            <p className="stock-warning">⚡ Quedan solo {maxQty} unidades</p>
+          )}
 
           {error && <p className="option-error">{error}</p>}
 

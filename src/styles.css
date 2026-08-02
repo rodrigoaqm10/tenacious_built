@@ -1749,6 +1749,17 @@ p {
   text-align: center;
 }
 
+.stock-warning {
+  padding: 8px 12px;
+  background: rgba(255, 200, 50, 0.08);
+  border: 1px solid rgba(255, 200, 50, 0.2);
+  border-radius: 8px;
+  color: #ffd666;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0;
+}
+
 .button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
