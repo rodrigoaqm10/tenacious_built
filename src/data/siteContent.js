@@ -2,7 +2,7 @@ const assetPath = (path) => `${import.meta.env.BASE_URL}${path}`;
 
 const sharedImages = {
   logo: assetPath("images/tenacious-logo-pink.png"),
-  hero: assetPath("images/heroHd.png"),
+  hero: assetPath("images/heroHd2.png"),
   categories: [
     assetPath("images/short-negro-1.jpeg"),
     assetPath("images/sosten-negro-2.jpeg"),
