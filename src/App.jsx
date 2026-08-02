@@ -2180,7 +2180,6 @@ export default function App() {
           <ProductGrid content={activeContent} openOptions={openProductDetail} setView={changeView} />
           <StyleTiles content={activeContent} setView={changeView} />
           <ComingSoonSection setActivePanel={setActivePanel} setView={changeView} content={activeContent} />
-          <SocialContact content={activeContent} />
         </main>
       )}
       {view === "catalog" && (
