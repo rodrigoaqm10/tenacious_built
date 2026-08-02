@@ -1066,6 +1066,12 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
         setError("Esta combinación está agotada. Prueba con otro color o talla.");
         return;
       }
+
+      if (selectedVariant && selectedVariant.quantityAvailable != null && quantity > selectedVariant.quantityAvailable) {
+        setError(`Solo quedan ${selectedVariant.quantityAvailable} unidades disponibles.`);
+        setQuantity(selectedVariant.quantityAvailable);
+        return;
+      }
     }
 
     onAddToCart({ ...product, size, color, quantity });
@@ -1089,7 +1095,7 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
 
   // Get max quantity for selected variant
   function getMaxQuantity() {
-    if (!size || !color || !product.variants) return 99;
+    if (!size || !color || !product.variants) return 10;
     const selectedVariant = product.variants.find((v) => {
       const opts = v.selectedOptions?.reduce((acc, opt) => {
         acc[opt.name.toLowerCase()] = opt.value;
@@ -1099,9 +1105,12 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
       const sizeMatch = opts?.talla === size || opts?.size === size || opts?.["tamaño"] === size;
       return colorMatch && sizeMatch;
     });
-    if (!selectedVariant) return 99;
+    if (!selectedVariant) return 10;
     if (!selectedVariant.availableForSale) return 0;
-    return 99;
+    if (selectedVariant.quantityAvailable != null && selectedVariant.quantityAvailable > 0) {
+      return selectedVariant.quantityAvailable;
+    }
+    return 10;
   }
 
   const isAvailable = isCurrentSelectionAvailable();
@@ -1237,6 +1246,9 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
               </button>
             </div>
           </div>
+          {maxQty > 0 && maxQty <= 5 && size && color && isAvailable && (
+            <p className="stock-warning">⚡ Quedan solo {maxQty} unidades</p>
+          )}
 
           {error && <p className="option-error">{error}</p>}
 

@@ -57,6 +57,7 @@ export const PRODUCTS_QUERY = `
             id
             title
             availableForSale
+            quantityAvailable
             image {
               url
             }
@@ -219,8 +220,20 @@ export function transformShopifyProduct(product) {
 
 // Obtener productos transformados
 export async function getProducts() {
-  const data = await shopifyFetch(PRODUCTS_QUERY);
-  return data.products.nodes.map(transformShopifyProduct).filter(Boolean);
+  try {
+    const data = await shopifyFetch(PRODUCTS_QUERY);
+    return data.products.nodes.map(transformShopifyProduct).filter(Boolean);
+  } catch (err) {
+    // If quantityAvailable fails, retry without it
+    const fallbackQuery = PRODUCTS_QUERY.replace("quantityAvailable\n", "");
+    try {
+      const data = await shopifyFetch(fallbackQuery);
+      return data.products.nodes.map(transformShopifyProduct).filter(Boolean);
+    } catch {
+      console.warn("Failed to fetch products:", err);
+      return [];
+    }
+  }
 }
 
 // Obtener posts de un blog (para embajadoras)
