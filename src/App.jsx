@@ -1496,7 +1496,7 @@ function Footer({ content, setView }) {
     <footer className="mega-footer">
       <div className="footer-brand-panel">
         <a className="footer-logo" href="#top" onClick={() => setView("home")}>
-          <img src={content.brand.logo} alt="Tenacious" />
+          <img src={content.brand.logo} alt="Tenacious Built" />
           <span>{content.brand.name}</span>
         </a>
         <p>{content.brand.tagline}</p>

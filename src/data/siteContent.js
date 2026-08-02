@@ -142,7 +142,7 @@ export const contentByLanguage = {
     ],
     productSection: {
       eyebrow: "Mujer",
-      title: "Lo último en Tenacious.",
+      title: "Lo último en Tenacious Built.",
       description:
         "Prendas seleccionadas para entrenar fuerte, moverte cómoda y mantener una presencia limpia dentro y fuera del gym.",
       tabs: ["Top ventas", "Novedades", "Shorts", "Tops"],
@@ -178,7 +178,7 @@ export const contentByLanguage = {
     },
     footerLinks: {
       store: {
-        title: "Tenacious",
+        title: "Tenacious Built",
         links: [
           { label: "Catálogo mujer", view: "catalog" },
           { label: "Top ventas", view: "top-sellers" },
@@ -551,7 +551,7 @@ export const contentByLanguage = {
     ],
     productSection: {
       eyebrow: "Women",
-      title: "Latest at Tenacious.",
+      title: "Latest at Tenacious Built.",
       description:
         "Selected pieces to train hard, move comfortably and keep a clean presence inside and outside the gym.",
       tabs: ["Top sellers", "New arrivals", "Shorts", "Tops"],
@@ -587,7 +587,7 @@ export const contentByLanguage = {
     },
     footerLinks: {
       store: {
-        title: "Tenacious",
+        title: "Tenacious Built",
         links: [
           { label: "Women's catalog", view: "catalog" },
           { label: "Top sellers", view: "top-sellers" },
