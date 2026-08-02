@@ -1395,7 +1395,7 @@ function StyleTiles({ content, setView }) {
         <div className="style-tile-overlay" />
         <div className="style-tile-content">
           <span className="eyebrow">Top seller</span>
-          <h2>Entrena con estilo, rinde con fuerza.</h2>
+          <h2>{content.styleTiles?.tile1 || "Entrena con estilo, rinde con fuerza."}</h2>
           <button className="button primary" type="button" onClick={() => setView("catalog")}>
             {content.hero.primaryCta}
             <ArrowRight size={18} />
@@ -1406,7 +1406,7 @@ function StyleTiles({ content, setView }) {
         <div className="style-tile-overlay" />
         <div className="style-tile-content">
           <span className="eyebrow">New drop</span>
-          <h2>Diseño que acompaña cada repetición.</h2>
+          <h2>{content.styleTiles?.tile2 || "Diseño que acompaña cada repetición."}</h2>
           <button className="button secondary" type="button" onClick={() => setView("catalog")}>
             {content.hero.secondaryCta}
           </button>
@@ -1559,8 +1559,8 @@ function ContactView({ content, setView }) {
           ← Home
         </button>
         <span className="eyebrow">{content.social.eyebrow}</span>
-        <h1>Contacto</h1>
-        <p>Estamos para ayudarte. Escríbenos por cualquiera de estos canales.</p>
+        <h1>{content.contact?.title || "Contacto"}</h1>
+        <p>{content.contact?.description || "Estamos para ayudarte. Escríbenos por cualquiera de estos canales."}</p>
       </section>
       <section className="info-content">
         <div className="contact-cards">
@@ -1574,7 +1574,7 @@ function ContactView({ content, setView }) {
           <a className="contact-card" href={`mailto:${content.brand.email}`}>
             <Mail size={22} />
             <div>
-              <strong>Correo</strong>
+              <strong>{content.contact?.emailLabel || "Correo"}</strong>
               <span>{content.brand.email}</span>
             </div>
           </a>

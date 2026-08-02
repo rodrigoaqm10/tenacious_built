@@ -29,7 +29,7 @@ export const contentByLanguage = {
       tagline: "Creada para cada repetición.",
       logoText: "T",
       logo: sharedImages.logo,
-      announcement: "Sitio oficial Tenacious | Envíos a todo Chile | Cambios simples",
+      announcement: "Sitio oficial Tenacious Built | Envíos a todo Chile | Cambios simples",
       instagram: "https://www.instagram.com/tenacious_built?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
       email: "tenaciousbuilt@gmail.com",
     },
@@ -108,6 +108,10 @@ export const contentByLanguage = {
       images: sharedImages.spotlight,
     },
     styleTileImages: sharedImages.styleTiles,
+    styleTiles: {
+      tile1: "Entrena con estilo, rinde con fuerza.",
+      tile2: "Diseño que acompaña cada repetición.",
+    },
     stats: [
       { value: "4-way", label: "elasticidad" },
       { value: "24/7", label: "comodidad" },
@@ -175,6 +179,11 @@ export const contentByLanguage = {
         "Drops, novedades, contenido de entrenamiento y primeras vistas de la línea masculina.",
       newsletterTitle: "Recibe el próximo drop",
       newsletterCopy: "Sé la primera en saber cuando lleguen nuevos colores, tallas y colecciones.",
+    },
+    contact: {
+      title: "Contacto",
+      description: "Estamos para ayudarte. Escríbenos por cualquiera de estos canales.",
+      emailLabel: "Correo",
     },
     footerLinks: {
       store: {
@@ -438,7 +447,7 @@ export const contentByLanguage = {
       tagline: "Built for every rep.",
       logoText: "T",
       logo: sharedImages.logo,
-      announcement: "Official Tenacious site | Chile-wide shipping | Easy exchanges",
+      announcement: "Official Tenacious Built site | Chile-wide shipping | Easy exchanges",
       instagram: "https://www.instagram.com/tenacious_built?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
       email: "tenaciousbuilt@gmail.com",
     },
@@ -517,6 +526,10 @@ export const contentByLanguage = {
       images: sharedImages.spotlight,
     },
     styleTileImages: sharedImages.styleTiles,
+    styleTiles: {
+      tile1: "Train with style, perform with strength.",
+      tile2: "Design that supports every rep.",
+    },
     stats: [
       { value: "4-way", label: "stretch" },
       { value: "24/7", label: "comfort" },
@@ -584,6 +597,11 @@ export const contentByLanguage = {
         "Drops, new arrivals, training content and first looks at the men's line.",
       newsletterTitle: "Get the next drop",
       newsletterCopy: "Be the first to know when new colors, sizes and collections arrive.",
+    },
+    contact: {
+      title: "Contact",
+      description: "We're here to help. Reach us through any of these channels.",
+      emailLabel: "Email",
     },
     footerLinks: {
       store: {
