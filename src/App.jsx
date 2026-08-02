@@ -1050,8 +1050,44 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
       return;
     }
 
+    // Check if selected variant is available
+    if (product.variants) {
+      const selectedVariant = product.variants.find((v) => {
+        const opts = v.selectedOptions?.reduce((acc, opt) => {
+          acc[opt.name.toLowerCase()] = opt.value;
+          return acc;
+        }, {});
+        const colorMatch = opts?.color === color || opts?.colour === color;
+        const sizeMatch = opts?.talla === size || opts?.size === size || opts?.["tamaño"] === size;
+        return colorMatch && sizeMatch;
+      });
+
+      if (selectedVariant && !selectedVariant.availableForSale) {
+        setError("Esta combinación está agotada. Prueba con otro color o talla.");
+        return;
+      }
+    }
+
     onAddToCart({ ...product, size, color, quantity });
   }
+
+  // Check if current selection is available
+  function isCurrentSelectionAvailable() {
+    if (!size || !color || !product.variants) return true;
+    const selectedVariant = product.variants.find((v) => {
+      const opts = v.selectedOptions?.reduce((acc, opt) => {
+        acc[opt.name.toLowerCase()] = opt.value;
+        return acc;
+      }, {});
+      const colorMatch = opts?.color === color || opts?.colour === color;
+      const sizeMatch = opts?.talla === size || opts?.size === size || opts?.["tamaño"] === size;
+      return colorMatch && sizeMatch;
+    });
+    if (!selectedVariant) return true;
+    return selectedVariant.availableForSale;
+  }
+
+  const isAvailable = isCurrentSelectionAvailable();
 
   return (
     <main className="product-detail-page">
@@ -1186,8 +1222,12 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
 
           {error && <p className="option-error">{error}</p>}
 
-          <button className="button primary" type="button" onClick={addProduct}>
-            {content.ui.addToCart}
+          {!isAvailable && size && color && (
+            <p className="out-of-stock-msg">⚠️ Agotado en {color} / {size}</p>
+          )}
+
+          <button className="button primary" type="button" onClick={addProduct} disabled={!isAvailable && size && color}>
+            {!isAvailable && size && color ? "Agotado" : content.ui.addToCart}
             <ShoppingBag size={18} />
           </button>
 
