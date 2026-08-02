@@ -94,8 +94,8 @@ export const contentByLanguage = {
       eyebrow: "Vestuario deportivo femenino",
       title: "Fuerza, ajuste y presencia para entrenar sin pausa.",
       description:
-        "Prendas técnicas, cómodas y versátiles para entrenar, moverte y vestir con intención dentro y fuera del gimnasio.",
-      primaryCta: "Comprar mujer",
+        "Más que ropa deportiva. El reflejo de una mujer que convirtió sus desafíos en fuerza y su disciplina en poder.",
+      primaryCta: "Comprar ahora",
       secondaryCta: "Ver colecciones",
       image: sharedImages.hero,
     },
@@ -245,6 +245,14 @@ export const contentByLanguage = {
           {
             subtitle: "Calidad sobre cantidad",
             text: "Trabajamos con telas técnicas, costuras planas y calce pensado para el movimiento real. No lanzamos colecciones masivas — preferimos pocas prendas bien hechas que muchas sin identidad. Cada pieza lleva nuestro sello: resistencia, comodidad y diseño limpio.",
+          },
+          {
+            subtitle: "Nuestra misión",
+            text: "Crear prendas que hagan sentir a cada persona fuerte, capaz e imparable.",
+          },
+          {
+            subtitle: "Nuestra visión",
+            text: "Ser una marca deportiva mundial, reconocida por representar fuerza, confianza y superación.",
           },
         ],
       },
@@ -517,8 +525,8 @@ export const contentByLanguage = {
       eyebrow: "Women's training wear",
       title: "Strength, fit and presence for every session.",
       description:
-        "Technical, comfortable and versatile pieces made for training, movement and intentional everyday styling.",
-      primaryCta: "Shop women",
+        "More than sportswear. The reflection of a woman who turned her challenges into strength and her discipline into power.",
+      primaryCta: "Shop now",
       secondaryCta: "View collections",
       image: sharedImages.hero,
     },
@@ -668,6 +676,14 @@ export const contentByLanguage = {
           {
             subtitle: "Quality over quantity",
             text: "We work with technical fabrics, flat seams and fit designed for real movement. We don't launch massive collections — we prefer few well-made pieces over many without identity. Each piece carries our seal: resistance, comfort and clean design.",
+          },
+          {
+            subtitle: "Our mission",
+            text: "Create garments that make every person feel strong, capable and unstoppable.",
+          },
+          {
+            subtitle: "Our vision",
+            text: "Be a world-class sports brand, recognized for representing strength, confidence and overcoming.",
           },
         ],
       },
