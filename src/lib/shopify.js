@@ -46,7 +46,7 @@ export const PRODUCTS_QUERY = `
           url
           altText
         }
-        images(first: 10) {
+        images(first: 25) {
           nodes {
             url
             altText
