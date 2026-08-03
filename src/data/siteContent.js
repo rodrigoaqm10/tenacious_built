@@ -228,23 +228,23 @@ export const contentByLanguage = {
     pages: {
       about: {
         title: "Nuestra historia",
-        intro: "Más que ropa deportiva. Una marca creada desde la pasión por el entrenamiento y la confianza en cada mujer.",
+        intro: "Tenacious Built nació de una historia de dos personas, pero fue creado para representar a miles.",
         sections: [
           {
             subtitle: "Cómo nació Tenacious Built",
-            text: "Tenacious nació de una idea simple: crear prendas deportivas que realmente acompañen a la mujer que entrena con fuerza y determinación. No queríamos una marca más de ropa fitness. Queríamos algo que representara actitud, calidad y presencia.",
+            text: "Todo comenzó con un tatuaje. No era un diseño cualquiera; era la unión de nuestros nombres, Tomas y Barbara. Un símbolo que representaba nuestro compromiso, nuestros sueños y la vida que queríamos construir juntos.\n\nCon el tiempo entendimos que ese símbolo no debía quedarse solo en nuestra historia. Queríamos transformarlo en algo que inspirara a otras personas. No queríamos crear simplemente una marca de ropa deportiva; queríamos crear un recordatorio de que todos somos capaces de superar nuestros propios límites.",
           },
           {
-            subtitle: "Nuestro propósito",
-            text: "Creemos que vestir bien para entrenar no es vanidad — es intención. Cada prenda está pensada para que te sientas segura, cómoda y con la confianza de dar todo en cada repetición. Diseñamos para la mujer que no se conforma, que entrena con propósito y vive con fuerza.",
+            subtitle: "El significado detrás del nombre",
+            text: "Así nació la idea de darle un nuevo significado a nuestras iniciales.\n\nLa T de Tomas se convirtió en Tenacious: la perseverancia de quien decide seguir adelante, incluso cuando el camino se vuelve difícil.\n\nLa B de Barbara se convirtió en Built: la convicción de que la mejor versión de una persona no nace, sino que se construye con disciplina, esfuerzo y constancia.\n\nCuando unimos esas dos palabras descubrimos que no habíamos encontrado solamente un nombre. Habíamos encontrado una filosofía.",
           },
           {
-            subtitle: "Lo que nos mueve",
-            text: "Nos mueve ver mujeres que se sienten bien consigo mismas, que entrenan por salud, por fuerza, por disciplina. Tenacious Built es para ellas — para las que se levantan temprano, las que no paran, las que construyen su mejor versión día a día.",
+            subtitle: "29 de enero de 2026",
+            text: "El 29 de enero de 2026 nació oficialmente Tenacious Built.\n\nDesde ese día, la marca dejó de ser solo nuestra. Comenzó a pertenecer a quienes entrenan, a quienes recién empiezan, a quienes persiguen un sueño, a quienes luchan en silencio y a todos los que entienden que la verdadera fuerza no está en no caer, sino en volver a levantarse.",
           },
           {
-            subtitle: "Calidad sobre cantidad",
-            text: "Trabajamos con telas técnicas, costuras planas y calce pensado para el movimiento real. No lanzamos colecciones masivas — preferimos pocas prendas bien hechas que muchas sin identidad. Cada pieza lleva nuestro sello: resistencia, comodidad y diseño limpio.",
+            subtitle: "Ya eres parte",
+            text: "Porque al final, todos estamos construyendo algo: un cuerpo, una mente, un propósito o una vida.\n\nY si hoy elegiste no rendirte, seguir avanzando y construir la mejor versión de ti mismo… Ya eres parte de Tenacious Built.",
           },
           {
             subtitle: "Nuestra misión",
@@ -659,23 +659,23 @@ export const contentByLanguage = {
     pages: {
       about: {
         title: "Our story",
-        intro: "More than sportswear. A brand born from passion for training and confidence in every woman.",
+        intro: "Tenacious Built was born from the story of two people, but it was created to represent thousands.",
         sections: [
           {
             subtitle: "How Tenacious Built was born",
-            text: "Tenacious was born from a simple idea: create sportswear that truly supports women who train with strength and determination. We didn't want just another fitness brand. We wanted something that represents attitude, quality and presence.",
+            text: "It all started with a tattoo. It wasn't just any design; it was the union of our names, Tomas and Barbara. A symbol that represented our commitment, our dreams, and the life we wanted to build together.\n\nOver time, we understood that this symbol shouldn't remain just part of our story. We wanted to transform it into something that would inspire others. We didn't want to simply create a sportswear brand; we wanted to create a reminder that we are all capable of surpassing our own limits.",
           },
           {
-            subtitle: "Our purpose",
-            text: "We believe dressing well for training isn't vanity — it's intention. Every garment is designed to make you feel secure, comfortable and confident to give everything in every rep. We design for women who don't settle, who train with purpose and live with strength.",
+            subtitle: "The meaning behind the name",
+            text: "That's how the idea of giving new meaning to our initials was born.\n\nThe T from Tomas became Tenacious: the perseverance of someone who decides to keep going, even when the path gets tough.\n\nThe B from Barbara became Built: the conviction that the best version of a person isn't born — it's built with discipline, effort, and consistency.\n\nWhen we put those two words together, we discovered we hadn't just found a name. We had found a philosophy.",
           },
           {
-            subtitle: "What drives us",
-            text: "We're driven by seeing women who feel good about themselves, who train for health, strength and discipline. Tenacious Built is for them — for those who wake up early, who don't stop, who build their best version every day.",
+            subtitle: "January 29, 2026",
+            text: "On January 29, 2026, Tenacious Built was officially born.\n\nFrom that day on, the brand was no longer just ours. It began to belong to those who train, to those just starting out, to those chasing a dream, to those who fight in silence, and to everyone who understands that true strength isn't about never falling — it's about getting back up.",
           },
           {
-            subtitle: "Quality over quantity",
-            text: "We work with technical fabrics, flat seams and fit designed for real movement. We don't launch massive collections — we prefer few well-made pieces over many without identity. Each piece carries our seal: resistance, comfort and clean design.",
+            subtitle: "You're already part of it",
+            text: "Because in the end, we're all building something: a body, a mind, a purpose, or a life.\n\nAnd if today you chose not to give up, to keep moving forward, and to build the best version of yourself… You're already part of Tenacious Built.",
           },
           {
             subtitle: "Our mission",
