@@ -167,7 +167,7 @@ function inferCategory(product) {
     { keywords: ["t-shirt", "tshirt", "camiseta", "polera", "remera", "tee", "manga corta"], category: "T-Shirts" },
     { keywords: ["top", "crop"], category: "Tops" },
     { keywords: ["breastplate", "sosten", "sostén", "bra", "sports bra", "sujetador", "bralette", "sujetadores"], category: "Breastplates" },
-    { keywords: ["set", "conjunto", "combo", "pack"], category: "Sets" },
+    { keywords: ["set", "conjunto", "combo", "pack"], category: "Conjuntos" },
     { keywords: ["hoodie", "buzo", "chaqueta", "jacket", "sweater"], category: "Buzos" },
     { keywords: ["accesorio", "bolso", "gorra", "banda", "muñequera"], category: "Accesorios" },
   ];

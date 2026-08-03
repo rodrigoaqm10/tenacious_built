@@ -107,10 +107,10 @@ export const contentByLanguage = {
       features: ["Soporte cómodo", "Texturas suaves", "Calce seguro"],
       images: sharedImages.spotlight,
     },
-    styleTileImages: sharedImages.styleTiles,
+    styleTileImages: [sharedImages.styleTiles[0], assetPath("images/conjunto.png")],
     styleTiles: {
       tile1: "Entrena con estilo, rinde con fuerza.",
-      tile2: "Diseño que acompaña cada repetición.",
+      tile2: "Conjuntos que combinan fuerza y estilo.",
     },
     stats: [
       { value: "4-way", label: "elasticidad" },
@@ -134,9 +134,9 @@ export const contentByLanguage = {
         image: sharedImages.categories[0],
       },
       {
-        title: "Breastplates",
-        description: "Soporte medio para entrenamientos intensos.",
-        image: sharedImages.categories[1],
+        title: "Conjuntos",
+        description: "Combinaciones perfectas para entrenar completa.",
+        image: assetPath("images/conjunto.png"),
       },
       {
         title: "T-Shirts",
@@ -538,10 +538,10 @@ export const contentByLanguage = {
       features: ["Comfort support", "Soft textures", "Secure fit"],
       images: sharedImages.spotlight,
     },
-    styleTileImages: sharedImages.styleTiles,
+    styleTileImages: [sharedImages.styleTiles[0], assetPath("images/conjunto.png")],
     styleTiles: {
       tile1: "Train with style, perform with strength.",
-      tile2: "Design that supports every rep.",
+      tile2: "Sets that combine strength and style.",
     },
     stats: [
       { value: "4-way", label: "stretch" },
@@ -565,9 +565,9 @@ export const contentByLanguage = {
         image: sharedImages.categories[0],
       },
       {
-        title: "Sports Bras",
-        description: "Medium support for intense training.",
-        image: sharedImages.categories[1],
+        title: "Sets",
+        description: "Perfect combinations to train head to toe.",
+        image: assetPath("images/conjunto.png"),
       },
       {
         title: "Tops",
