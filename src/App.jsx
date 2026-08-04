@@ -507,7 +507,7 @@ function FeatureStrip({ content }) {
   return (
     <section className="feature-strip" aria-label="Beneficios de compra">
       <div>
-        {[...content.featureStrip, ...content.featureStrip, ...content.featureStrip, ...content.featureStrip].map((item, index) => (
+        {Array(10).fill(content.featureStrip).flat().map((item, index) => (
           <span key={`${item}-${index}`}>{item}</span>
         ))}
       </div>
