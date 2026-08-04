@@ -122,7 +122,6 @@ export const contentByLanguage = {
       title: "Compra por entrenamiento.",
     },
     featureStrip: [
-      "Cambios fáciles",
       "Despacho a todo Chile",
       "Pago seguro",
       "Atención por Instagram",
@@ -553,7 +552,6 @@ export const contentByLanguage = {
       title: "Shop by training style.",
     },
     featureStrip: [
-      "Easy exchanges",
       "Chile-wide shipping",
       "Secure payment",
       "Instagram support",

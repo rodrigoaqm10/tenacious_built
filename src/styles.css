@@ -1001,7 +1001,7 @@ p {
   align-items: center;
   gap: 42px;
   padding: 16px 0;
-  animation: marquee 24s linear infinite;
+  animation: marquee 30s linear infinite;
 }
 
 .feature-strip span {
