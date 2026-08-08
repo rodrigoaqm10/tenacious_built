@@ -9,7 +9,7 @@ const sharedImages = {
     assetPath("images/top-negro-3.jpeg"),
   ],
   spotlight: [
-    assetPath("images/foto-nueva-main-2.png"),
+    assetPath("images/sosten-azul.jpeg"),
     assetPath("images/top-deportivo-negro.jpeg"),
   ],
   styleTiles: [
@@ -107,7 +107,7 @@ export const contentByLanguage = {
       features: ["Soporte cómodo", "Texturas suaves", "Calce seguro"],
       images: sharedImages.spotlight,
     },
-    styleTileImages: [assetPath("images/foto-nueva-main-1.png"), assetPath("images/conjunto.png")],
+    styleTileImages: sharedImages.styleTiles,
     styleTiles: {
       tile1: "Entrena con estilo, rinde con fuerza.",
       tile2: "Conjuntos que combinan fuerza y estilo.",
@@ -537,7 +537,7 @@ export const contentByLanguage = {
       features: ["Comfort support", "Soft textures", "Secure fit"],
       images: sharedImages.spotlight,
     },
-    styleTileImages: [assetPath("images/foto-nueva-main-1.png"), assetPath("images/conjunto.png")],
+    styleTileImages: sharedImages.styleTiles,
     styleTiles: {
       tile1: "Train with style, perform with strength.",
       tile2: "Sets that combine strength and style.",
