@@ -1031,12 +1031,10 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
   }, [product]);
 
   function nextImage() {
-    setImgLoaded(false);
     setImageIndex((prev) => (prev + 1) % images.length);
   }
 
   function prevImage() {
-    setImgLoaded(false);
     setImageIndex((prev) => (prev - 1 + images.length) % images.length);
   }
 

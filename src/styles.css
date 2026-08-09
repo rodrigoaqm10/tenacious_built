@@ -3037,7 +3037,7 @@ button.order-line {
   object-fit: cover;
   user-select: none;
   -webkit-user-drag: none;
-  transition: opacity 200ms ease;
+  transition: opacity 250ms ease;
 }
 
 .product-detail-gallery .gallery-controls {
@@ -3113,6 +3113,7 @@ button.order-line {
   object-fit: contain;
   border-radius: 8px;
   cursor: default;
+  transition: opacity 200ms ease;
 }
 
 .lightbox-close {
