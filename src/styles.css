@@ -3099,16 +3099,17 @@ button.order-line {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(0, 0, 0, 0.97);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: zoom-out;
+  padding: 60px 20px;
 }
 
 .lightbox-overlay img {
   max-width: 90vw;
-  max-height: 90vh;
+  max-height: 75vh;
   object-fit: contain;
   border-radius: 8px;
   cursor: default;
@@ -3116,12 +3117,35 @@ button.order-line {
 
 .lightbox-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.1);
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.15);
   border: none;
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 180ms ease;
+  z-index: 10;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -3130,52 +3154,32 @@ button.order-line {
   align-items: center;
   justify-content: center;
   transition: background 180ms ease;
-}
-
-.lightbox-close:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.lightbox-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: #fff;
-  font-size: 2.5rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 180ms ease;
+  z-index: 10;
 }
 
 .lightbox-arrow:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .lightbox-arrow-left {
-  left: 20px;
+  left: 12px;
 }
 
 .lightbox-arrow-right {
-  right: 20px;
+  right: 12px;
 }
 
 .lightbox-counter {
   position: absolute;
-  bottom: 24px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 6px 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 16px;
   border-radius: 20px;
+  z-index: 10;
 }
 
 .product-detail-info {
