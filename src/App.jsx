@@ -1003,6 +1003,7 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState("");
   const [imageIndex, setImageIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
@@ -1138,6 +1139,8 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
             src={images[imageIndex]}
             alt={product.name}
             onLoad={() => setImgLoaded(true)}
+            onClick={() => setLightboxOpen(true)}
+            style={{ cursor: "zoom-in" }}
           />
           {images.length > 1 && (
             <>
@@ -1153,6 +1156,33 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
             </>
           )}
         </div>
+        {lightboxOpen && (
+          <div className="lightbox-overlay" onClick={() => setLightboxOpen(false)}>
+            <button className="lightbox-close" type="button" onClick={() => setLightboxOpen(false)} aria-label="Cerrar">✕</button>
+            <img
+              src={images[imageIndex]}
+              alt={product.name}
+              onClick={(e) => e.stopPropagation()}
+            />
+            {images.length > 1 && (
+              <>
+                <button
+                  className="lightbox-arrow lightbox-arrow-left"
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                  aria-label="Anterior"
+                >‹</button>
+                <button
+                  className="lightbox-arrow lightbox-arrow-right"
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                  aria-label="Siguiente"
+                >›</button>
+                <div className="lightbox-counter">{imageIndex + 1} / {images.length}</div>
+              </>
+            )}
+          </div>
+        )}
         <div className="product-detail-info">
           <span className="eyebrow">{product.type}</span>
           <h1>{product.name}</h1>
