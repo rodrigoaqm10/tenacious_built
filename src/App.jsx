@@ -1021,6 +1021,7 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
 
   const images = product.images || [product.image];
   const [imgLoaded, setImgLoaded] = useState(true);
+  const isAnimating = useRef(false);
 
   // Preload all images
   useEffect(() => {
@@ -1031,11 +1032,17 @@ function ProductDetailView({ content, product, onBack, onAddToCart }) {
   }, [product]);
 
   function nextImage() {
+    if (isAnimating.current) return;
+    isAnimating.current = true;
     setImageIndex((prev) => (prev + 1) % images.length);
+    setTimeout(() => { isAnimating.current = false; }, 350);
   }
 
   function prevImage() {
+    if (isAnimating.current) return;
+    isAnimating.current = true;
     setImageIndex((prev) => (prev - 1 + images.length) % images.length);
+    setTimeout(() => { isAnimating.current = false; }, 350);
   }
 
   function addProduct() {

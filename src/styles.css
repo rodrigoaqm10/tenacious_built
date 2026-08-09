@@ -3037,7 +3037,7 @@ button.order-line {
   object-fit: cover;
   user-select: none;
   -webkit-user-drag: none;
-  transition: opacity 250ms ease;
+  transition: opacity 300ms ease;
 }
 
 .product-detail-gallery .gallery-controls {
